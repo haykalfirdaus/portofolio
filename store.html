@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Aeroblast Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="brand-icon">⚡</span>
+                <span class="brand-text">Aeroblast Network</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="store.html" class="nav-link active">Services</a></li>
+                <li><a href="booking.html" class="nav-link">Booking</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Our Services</h1>
+            <p class="page-subtitle">Choose from our professional packages tailored to your needs</p>
+        </div>
+    </section>
+
+    <!-- Services Catalog -->
+    <section class="catalog-section">
+        <div class="container">
+            <!-- Promotion Services Category -->
+            <div class="category-block">
+                <h2 class="category-title">
+                    <span class="category-icon">📱</span>
+                    Promotion Services
+                </h2>
+                <div class="products-grid">
+                    <!-- TikTok Promotion -->
+                    <div class="product-card">
+                        <div class="product-badge">Popular</div>
+                        <div class="product-icon">🎵</div>
+                        <h3 class="product-name">TikTok Promotion Package</h3>
+                        <p class="product-description">Boost your TikTok content with targeted promotion to reach wider audiences and increase engagement.</p>
+                        <div class="product-price">Rp 75,000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok Promotion Package', 'Rp 75,000')">Order Now</button>
+                    </div>
+
+                    <!-- YouTube Promotion -->
+                    <div class="product-card">
+                        <div class="product-badge">Trending</div>
+                        <div class="product-icon">▶️</div>
+                        <h3 class="product-name">YouTube Promotion Package</h3>
+                        <p class="product-description">Grow your YouTube channel with professional promotion strategies and audience targeting.</p>
+                        <div class="product-price">Rp 75,000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('YouTube Promotion Package', 'Rp 75,000')">Order Now</button>
+                    </div>
+
+                    <!-- Combo Package -->
+                    <div class="product-card featured">
+                        <div class="product-badge">Best Value</div>
+                        <div class="product-icon">🚀</div>
+                        <h3 class="product-name">TikTok + YouTube Combo</h3>
+                        <p class="product-description">Maximum reach with combined promotion on both TikTok and YouTube platforms.</p>
+                        <div class="product-price">Rp 120,000</div>
+                        <div class="product-save">Save Rp 30,000!</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok + YouTube Combo Package', 'Rp 120,000')">Order Now</button>
+                    </div>
+
+                    <!-- Owning Content -->
+                    <div class="product-card">
+                        <div class="product-icon">📹</div>
+                        <h3 class="product-name">Owning Content</h3>
+                        <p class="product-description">Custom content creation service with full ownership rights for your brand or channel.</p>
+                        <div class="product-price">Rp 40,000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Owning Content Service', 'Rp 40,000')">Order Now</button>
+                    </div>
+
+                    <!-- Live Service -->
+                    <div class="product-card">
+                        <div class="product-icon">🔴</div>
+                        <h3 class="product-name">Live Service</h3>
+                        <p class="product-description">Professional live streaming support and management for your events or content.</p>
+                        <div class="product-price">Rp 20,000<span class="price-unit">/hour</span></div>
+                        <button class="btn btn-order" onclick="openOrderForm('Live Service (Per Hour)', 'Rp 20,000/hour')">Order Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Setup & Development Category -->
+            <div class="category-block">
+                <h2 class="category-title">
+                    <span class="category-icon">⚙️</span>
+                    Setup & Development
+                </h2>
+                <div class="products-grid">
+                    <!-- Minecraft Server Setup -->
+                    <div class="product-card">
+                        <div class="product-icon">🎮</div>
+                        <h3 class="product-name">Minecraft Server Setup</h3>
+                        <p class="product-description">Complete Minecraft server configuration, plugin installation, and custom development.</p>
+                        <div class="product-price-note">Price depends on setup type</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Minecraft Server Setup', 'Custom Quote')">Get Quote</button>
+                    </div>
+
+                    <!-- Website Development -->
+                    <div class="product-card">
+                        <div class="product-icon">💻</div>
+                        <h3 class="product-name">Website Development</h3>
+                        <p class="product-description">Modern, responsive websites with clean design and professional functionality.</p>
+                        <div class="product-price-note">Price depends on complexity</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Website Development', 'Custom Quote')">Get Quote</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form Popup Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeOrderForm()">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Order Details</h2>
+                <p class="modal-subtitle">Fill in your information to complete the order</p>
+            </div>
+            <form class="order-form" id="orderForm">
+                <div class="form-group">
+                    <label class="form-label">Selected Service</label>
+                    <input type="text" class="form-input" id="serviceName" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Price</label>
+                    <input type="text" class="form-input" id="servicePrice" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Name *</label>
+                    <input type="text" class="form-input" id="customerName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="customerEmail" placeholder="your@email.com (optional)">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Additional Notes</label>
+                    <textarea class="form-textarea" id="orderNotes" rows="4" placeholder="Any specific requirements or questions?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-submit">
+                    <span class="btn-icon">💬</span>
+                    Send Order via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">Aeroblast Network</h3>
+                    <p class="footer-description">Professional Minecraft server management and digital services provider.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="store.html">Services</a></li>
+                        <li><a href="booking.html">Booking Schedule</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://wa.me/628123731343" target="_blank">WhatsApp</a></li>
+                        <li><a href="mailto:fadilhaririharis69@gmail.com">Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-tos">
+                    <h4 class="tos-title">Terms of Service (TOS)</h4>
+                    <ul class="tos-list">
+                        <li><strong>No Refund Policy:</strong> No refunds after the buyer agrees to the service concept.</li>
+                        <!-- SUGGESTED ADDITIONAL TOS POINTS:
+                        <li><strong>Service Delivery:</strong> Estimated delivery times are approximate and may vary based on project complexity and current workload.</li>
+                        <li><strong>Payment Terms:</strong> Full or partial payment must be received before work commences. Payment plans may be available for larger projects upon request.</li>
+                        <li><strong>Client Responsibility:</strong> Clients must provide all necessary materials, information, and feedback in a timely manner to avoid project delays.</li>
+                        <li><strong>Intellectual Property:</strong> Upon full payment, clients receive full rights to the delivered work. Work-in-progress materials remain property of the service provider until completion.</li>
+                        -->
+                    </ul>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2026 Aeroblast Network. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
