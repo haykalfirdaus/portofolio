@@ -155,7 +155,7 @@ const fullyBookedDates = [
     '2024-12-25',  // Example: Christmas
     '2024-12-31',  // Example: New Year's Eve
     '2025-01-01',  // Example: New Year's Day
-    '2026-04-21',
+    '2026-04-23',
 ];
 
 // Calendar state
