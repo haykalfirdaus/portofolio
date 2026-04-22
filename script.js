@@ -2,22 +2,22 @@
 // THEME TOGGLE FUNCTIONALITY
 // ========================================
 
-// Initialize theme from localStorage or default to light
+// Inisialisasi tema dari localStorage atau default ke light
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
     
-    // Apply saved theme
+    // Terapkan tema yang tersimpan
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
     
-    // Theme toggle click handler
+    // Event listener untuk toggle tema
     if (themeToggle) {
         themeToggle.addEventListener('click', function() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             
-            // Apply new theme
+            // Terapkan tema baru
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Update theme icon based on current theme
+// Update icon tema berdasarkan tema saat ini
 function updateThemeIcon(theme) {
     const themeIcon = document.querySelector('.theme-icon');
     if (themeIcon) {
@@ -34,29 +34,81 @@ function updateThemeIcon(theme) {
 }
 
 // ========================================
+// HAMBURGER MENU FUNCTIONALITY
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Tutup menu saat link diklik
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Tutup menu saat klik di luar
+        document.addEventListener('click', function(e) {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    }
+});
+
+// ========================================
+// SMOOTH SCROLL TO TOP FUNCTIONALITY
+// ========================================
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// ========================================
 // ORDER FORM POPUP FUNCTIONALITY
 // ========================================
 
-// Open order form modal with service details
+// Buka form pemesanan dengan detail layanan
 function openOrderForm(serviceName, servicePrice) {
     const modal = document.getElementById('orderModal');
     const serviceNameInput = document.getElementById('serviceName');
     const servicePriceInput = document.getElementById('servicePrice');
+    const bookingDate = document.getElementById('bookingDate');
     
     if (modal && serviceNameInput && servicePriceInput) {
         serviceNameInput.value = serviceName;
         servicePriceInput.value = servicePrice;
+        
+        // Set minimum date ke hari ini
+        if (bookingDate) {
+            const today = new Date().toISOString().split('T')[0];
+            bookingDate.setAttribute('min', today);
+        }
+        
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        document.body.style.overflow = 'hidden'; // Cegah scroll background
     }
 }
 
-// Close order form modal
+// Tutup form pemesanan
 function closeOrderForm() {
     const modal = document.getElementById('orderModal');
     if (modal) {
         modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
+        document.body.style.overflow = ''; // Kembalikan scroll
         
         // Reset form
         const form = document.getElementById('orderForm');
@@ -66,7 +118,7 @@ function closeOrderForm() {
     }
 }
 
-// Handle order form submission
+// Handle submit form pemesanan
 document.addEventListener('DOMContentLoaded', function() {
     const orderForm = document.getElementById('orderForm');
     
@@ -74,50 +126,65 @@ document.addEventListener('DOMContentLoaded', function() {
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form values
+            // Ambil nilai dari form
             const serviceName = document.getElementById('serviceName').value;
             const servicePrice = document.getElementById('servicePrice').value;
             const customerName = document.getElementById('customerName').value;
-            const customerEmail = document.getElementById('customerEmail').value;
+            const bookingDate = document.getElementById('bookingDate').value;
             const orderNotes = document.getElementById('orderNotes').value;
+            const discountCode = document.getElementById('discountCode').value;
             
-            // Validate required fields
+            // Validasi field wajib
             if (!customerName.trim()) {
-                alert('Please enter your name');
+                alert('Mohon isi nama lengkap Anda');
                 return;
             }
             
-            // Build WhatsApp message
-            let message = `Hello! I would like to order:\n\n`;
-            message += `📦 Service: ${serviceName}\n`;
-            message += `💰 Price: ${servicePrice}\n`;
-            message += `👤 Name: ${customerName}\n`;
+            if (!bookingDate) {
+                alert('Mohon pilih tanggal booking');
+                return;
+            }
             
-            if (customerEmail.trim()) {
-                message += `📧 Email: ${customerEmail}\n`;
+            // Format tanggal untuk pesan WhatsApp
+            const formattedDate = new Date(bookingDate).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Buat pesan WhatsApp
+            let message = `Halo! Saya ingin memesan layanan:\n\n`;
+            message += `📦 Layanan: ${serviceName}\n`;
+            message += `💰 Harga: ${servicePrice}\n`;
+            message += `👤 Nama: ${customerName}\n`;
+            message += `📅 Tanggal Booking: ${formattedDate}\n`;
+            
+            if (discountCode.trim()) {
+                message += `🎁 Kode Diskon: ${discountCode}\n`;
             }
             
             if (orderNotes.trim()) {
-                message += `\n📝 Notes:\n${orderNotes}\n`;
+                message += `\n📝 Catatan:\n${orderNotes}\n`;
             }
             
-            message += `\nPlease provide more details about this service. Thank you!`;
+            message += `\nMohon konfirmasi ketersediaan dan detail pembayaran. Terima kasih!`;
             
-            // URL encode the message
+            // URL encode pesan
             const encodedMessage = encodeURIComponent(message);
             
-            // Redirect to WhatsApp
+            // Redirect ke WhatsApp
             const whatsappUrl = `https://wa.me/628123731343?text=${encodedMessage}`;
             window.open(whatsappUrl, '_blank');
             
-            // Close modal after brief delay
+            // Tutup modal setelah delay singkat
             setTimeout(() => {
                 closeOrderForm();
             }, 500);
         });
     }
     
-    // Close modal when clicking outside
+    // Tutup modal saat klik di luar
     const modal = document.getElementById('orderModal');
     if (modal) {
         modal.addEventListener('click', function(e) {
@@ -133,42 +200,82 @@ document.addEventListener('DOMContentLoaded', function() {
 // ========================================
 
 /**
- * IMPORTANT: HOW TO MARK DATES AS FULLY BOOKED
+ * ============================================================================
+ * PANDUAN MENAMBAHKAN DATA BOOKING BARU
+ * ============================================================================
  * 
- * To mark a date as fully booked, simply add the date string to the array below.
- * Date format: 'YYYY-MM-DD' (e.g., '2024-12-25' for December 25, 2024)
+ * Untuk menambahkan booking baru ke kalender, cukup tambahkan objek baru
+ * ke dalam array 'bookingData' di bawah ini.
  * 
- * Example:
- * const fullyBookedDates = [
- *     '2024-12-25',  // Christmas
- *     '2024-12-31',  // New Year's Eve
- *     '2025-01-01',  // New Year's Day
- *     '2025-01-15',  // Custom booked date
+ * FORMAT OBJEK BOOKING:
+ * {
+ *     tanggal: 'YYYY-MM-DD',      // Format: Tahun-Bulan-Tanggal (contoh: '2024-12-25')
+ *     nama_klien: 'Nama Klien',   // Nama lengkap klien
+ *     paket_layanan: 'Nama Paket' // Nama paket yang dipesan
+ * }
+ * 
+ * CONTOH CARA MENAMBAHKAN BOOKING BARU:
+ * 
+ * 1. Scroll ke bagian 'bookingData' di bawah
+ * 2. Tambahkan koma (,) setelah objek terakhir
+ * 3. Tambahkan objek baru dengan format di atas
+ * 
+ * CONTOH:
+ * const bookingData = [
+ *     {
+ *         tanggal: '2024-12-25',
+ *         nama_klien: 'Budi Santoso',
+ *         paket_layanan: 'TikTok + YouTube Combo (2 Revisi)'
+ *     },
+ *     {
+ *         tanggal: '2024-12-26',
+ *         nama_klien: 'Andi Wijaya',
+ *         paket_layanan: 'Setup Server Minecraft'
+ *     },
+ *     // Tambahkan objek baru di sini dengan format yang sama
+ *     {
+ *         tanggal: '2024-12-27',
+ *         nama_klien: 'Siti Nurhaliza',
+ *         paket_layanan: 'Jasa Pembuatan Website'
+ *     }
  * ];
  * 
- * The calendar will automatically display these dates in red with an X mark.
+ * PENTING:
+ * - Pastikan tanggal dalam format 'YYYY-MM-DD' (contoh: '2024-12-31')
+ * - Gunakan tanda kutip (') untuk semua nilai string
+ * - Jangan lupa tanda koma (,) antara setiap objek
+ * - Tanggal yang sama hanya bisa ada SATU booking
+ * 
+ * ============================================================================
  */
 
-const fullyBookedDates = [
-    // Add your fully booked dates here in 'YYYY-MM-DD' format
-    // Example dates (you can delete these and add your own):
-    '2024-12-25',  // Example: Christmas
-    '2024-12-31',  // Example: New Year's Eve
-    '2025-01-01',  // Example: New Year's Day
-    '2026-04-23',
+const bookingData = [
+    // Contoh data booking - Anda bisa menghapus ini dan menambahkan data sendiri
+    {
+        tanggal: '2026-03-08',
+        nama_klien: 'aeroblast',
+        paket_layanan: 'TikTok (2 Revisi)'
+    },
+    // TAMBAHKAN BOOKING BARU DI BAWAH INI
+    // Format:
+    // {
+    //     tanggal: 'YYYY-MM-DD',
+    //     nama_klien: 'Nama Lengkap',
+    //     paket_layanan: 'Nama Paket'
+    // },
 ];
 
-// Calendar state
+// State kalender
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 
-// Initialize calendar
+// Inisialisasi kalender
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('calendarDays')) {
         renderCalendar(currentMonth, currentYear);
         
-        // Previous month button
+        // Tombol bulan sebelumnya
         const prevBtn = document.getElementById('prevMonth');
         if (prevBtn) {
             prevBtn.addEventListener('click', function() {
@@ -181,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Next month button
+        // Tombol bulan berikutnya
         const nextBtn = document.getElementById('nextMonth');
         if (nextBtn) {
             nextBtn.addEventListener('click', function() {
@@ -196,72 +303,131 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Render calendar for given month and year
+// Render kalender untuk bulan dan tahun tertentu
 function renderCalendar(month, year) {
     const calendarDays = document.getElementById('calendarDays');
     const currentMonthElement = document.getElementById('currentMonth');
     
     if (!calendarDays || !currentMonthElement) return;
     
-    // Clear previous calendar
+    // Bersihkan kalender sebelumnya
     calendarDays.innerHTML = '';
     
-    // Update month/year display
+    // Update tampilan bulan/tahun
     const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ];
     currentMonthElement.textContent = `${monthNames[month]} ${year}`;
     
-    // Get first day of month and number of days
+    // Dapatkan hari pertama bulan dan jumlah hari dalam bulan
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
-    // Get today's date for comparison
+    // Dapatkan tanggal hari ini untuk perbandingan
     const today = new Date();
     const todayDate = today.getDate();
     const todayMonth = today.getMonth();
     const todayYear = today.getFullYear();
     
-    // Add empty cells for days before month starts
+    // Tambahkan sel kosong untuk hari sebelum bulan dimulai
     for (let i = 0; i < firstDay; i++) {
         const emptyDay = document.createElement('div');
         emptyDay.classList.add('calendar-day', 'empty');
         calendarDays.appendChild(emptyDay);
     }
     
-    // Add days of the month
+    // Tambahkan hari-hari dalam bulan
     for (let day = 1; day <= daysInMonth; day++) {
         const dayElement = document.createElement('div');
         dayElement.classList.add('calendar-day');
         dayElement.textContent = day;
         
-        // Create date string for checking if booked
+        // Buat string tanggal untuk pengecekan booking
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         
-        // Check if this date is today
+        // Cek apakah tanggal ini ada dalam data booking
+        const booking = bookingData.find(b => b.tanggal === dateString);
+        
+        // Cek apakah ini hari ini
         if (day === todayDate && month === todayMonth && year === todayYear) {
             dayElement.classList.add('today');
         }
-        // Check if this date is fully booked
-        else if (fullyBookedDates.includes(dateString)) {
+        // Cek apakah tanggal ini sudah dibooking
+        else if (booking) {
             dayElement.classList.add('booked');
-            dayElement.title = 'Fully Booked';
+            dayElement.title = 'Klik untuk lihat detail';
+            
+            // Tambahkan event listener untuk menampilkan modal detail
+            dayElement.addEventListener('click', function() {
+                showBookingDetail(dateString, booking);
+            });
         }
-        // Check if date is in the past
+        // Cek apakah tanggal sudah lewat
         else if (new Date(year, month, day) < new Date(todayYear, todayMonth, todayDate)) {
-            dayElement.classList.add('booked');
-            dayElement.title = 'Past Date';
+            // Tanggal masa lalu yang tidak ada booking tetap ditampilkan netral
+            dayElement.classList.add('available');
+            dayElement.style.opacity = '0.5';
+            dayElement.title = 'Tanggal sudah lewat';
         }
-        // Otherwise, it's available
+        // Jika tidak, tanggal tersedia
         else {
             dayElement.classList.add('available');
-            dayElement.title = 'Available for Booking';
+            dayElement.title = 'Tersedia untuk booking';
         }
         
         calendarDays.appendChild(dayElement);
     }
 }
+
+// Tampilkan detail booking dalam modal
+function showBookingDetail(dateString, booking) {
+    const modal = document.getElementById('bookingDetailModal');
+    const modalDate = document.getElementById('modalDate');
+    const clientName = document.getElementById('clientName');
+    const packageName = document.getElementById('packageName');
+    
+    if (modal && modalDate && clientName && packageName) {
+        // Format tanggal untuk tampilan
+        const date = new Date(dateString + 'T00:00:00');
+        const formattedDate = date.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // Set data ke modal
+        modalDate.textContent = formattedDate;
+        clientName.textContent = booking.nama_klien;
+        packageName.textContent = booking.paket_layanan;
+        
+        // Tampilkan modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Tutup modal detail booking
+function closeBookingDetail() {
+    const modal = document.getElementById('bookingDetailModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Tutup modal saat klik di luar
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('bookingDetailModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeBookingDetail();
+            }
+        });
+    }
+});
 
 // ========================================
 // SMOOTH SCROLL FOR ANCHOR LINKS
@@ -274,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             
-            // Don't prevent default for empty anchors
+            // Jangan prevent default untuk anchor kosong
             if (href === '#' || href === '') return;
             
             const target = document.querySelector(href);
@@ -306,4 +472,22 @@ window.addEventListener('scroll', function() {
     }
     
     lastScroll = currentScroll;
+});
+
+// ========================================
+// FORM INPUT ANIMATIONS
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('.form-input, .form-textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    });
 });
