@@ -1,38 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Schedule - Aeroblast Network</title>
+    <title>Jadwal Booking - Haykal Service</title>
+    <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">
-                <span class="brand-icon">⚡</span>
-                <span class="brand-text">Aeroblast Network</span>
+            <div class="nav-brand" onclick="scrollToTop()">
+                <img src="https://haykal.web.id/porto.png" alt="Logo" class="brand-logo">
+                <span class="brand-text">Haykal Service</span>
             </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="store.html" class="nav-link">Services</a></li>
-                <li><a href="booking.html" class="nav-link active">Booking</a></li>
-            </ul>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
+            
+            <!-- Hamburger Menu -->
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Beranda</a></li>
+                    <li><a href="store.html" class="nav-link">Layanan</a></li>
+                    <li><a href="booking.html" class="nav-link active">Jadwal</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Booking Schedule</h1>
-            <p class="page-subtitle">Check availability and plan your service booking</p>
+            <h1 class="page-title">Jadwal Booking</h1>
+            <p class="page-subtitle">Cek ketersediaan dan rencanakan pemesanan Anda</p>
         </div>
     </section>
 
@@ -41,18 +52,19 @@
         <div class="container">
             <div class="booking-info">
                 <div class="info-card">
-                    <h3>📅 How to Book</h3>
+                    <h3>📅 Cara Booking</h3>
                     <ol class="info-list">
-                        <li>Check the calendar below for available dates</li>
-                        <li>Red dates are fully booked</li>
-                        <li>Green dates are available for booking</li>
-                        <li>Contact us via WhatsApp to confirm your booking</li>
+                        <li>Periksa kalender di bawah untuk tanggal yang tersedia</li>
+                        <li>Tanggal merah menunjukkan sudah penuh/terisi</li>
+                        <li>Tanggal hijau menunjukkan tersedia untuk booking</li>
+                        <li>Klik tanggal merah untuk melihat detail booking</li>
+                        <li>Hubungi kami via WhatsApp untuk konfirmasi booking Anda</li>
                     </ol>
                 </div>
                 <div class="info-card">
-                    <h3>⏰ Operating Hours</h3>
+                    <h3>⏰ Jam Operasional</h3>
                     <p class="hours-display">18:00 - 21:00 WITA</p>
-                    <p class="hours-note">Monday - Sunday</p>
+                    <p class="hours-note">Senin - Minggu</p>
                     <a href="https://wa.me/628123731343" class="btn btn-primary" target="_blank">
                         <span class="btn-icon">💬</span>
                         Book via WhatsApp
@@ -64,17 +76,17 @@
             <div class="calendar-container">
                 <div class="calendar-header">
                     <button class="calendar-nav" id="prevMonth">&larr;</button>
-                    <h2 class="calendar-month" id="currentMonth">April 2026</h2>
+                    <h2 class="calendar-month" id="currentMonth">Januari 2026</h2>
                     <button class="calendar-nav" id="nextMonth">&rarr;</button>
                 </div>
                 <div class="calendar-weekdays">
-                    <div class="weekday">Sun</div>
-                    <div class="weekday">Mon</div>
-                    <div class="weekday">Tue</div>
-                    <div class="weekday">Wed</div>
-                    <div class="weekday">Thu</div>
-                    <div class="weekday">Fri</div>
-                    <div class="weekday">Sat</div>
+                    <div class="weekday">Min</div>
+                    <div class="weekday">Sen</div>
+                    <div class="weekday">Sel</div>
+                    <div class="weekday">Rab</div>
+                    <div class="weekday">Kam</div>
+                    <div class="weekday">Jum</div>
+                    <div class="weekday">Sab</div>
                 </div>
                 <div class="calendar-days" id="calendarDays">
                     <!-- Calendar days will be generated by JavaScript -->
@@ -85,59 +97,81 @@
             <div class="calendar-legend">
                 <div class="legend-item">
                     <span class="legend-color available"></span>
-                    <span>Available</span>
+                    <span>Tersedia</span>
                 </div>
                 <div class="legend-item">
                     <span class="legend-color booked"></span>
-                    <span>Fully Booked</span>
+                    <span>Penuh / Terisi</span>
                 </div>
                 <div class="legend-item">
                     <span class="legend-color today"></span>
-                    <span>Today</span>
+                    <span>Hari Ini</span>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Booking Detail Modal -->
+    <div class="modal-overlay" id="bookingDetailModal">
+        <div class="modal-container booking-modal">
+            <button class="modal-close" onclick="closeBookingDetail()">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Detail Booking</h2>
+                <p class="modal-subtitle" id="modalDate">20 April 2026</p>
+            </div>
+            <div class="booking-detail-content">
+                <div class="detail-item">
+                    <div class="detail-label">👤 Nama Klien:</div>
+                    <div class="detail-value" id="clientName">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">📦 Paket Layanan:</div>
+                    <div class="detail-value" id="packageName">-</div>
+                </div>
+                <div class="detail-status">
+                    <span class="status-badge">✅ Sudah Terbooking</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3 class="footer-title">Aeroblast Network</h3>
-                    <p class="footer-description">Professional Minecraft server management and digital services provider.</p>
+                    <h3 class="footer-title">Haykal Service</h3>
+                    <p class="footer-description">Penyedia jasa digital profesional untuk promosi media sosial, pengembangan web, dan desain grafis.</p>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Quick Links</h4>
+                    <h4 class="footer-heading">Navigasi Cepat</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="store.html">Services</a></li>
-                        <li><a href="booking.html">Booking Schedule</a></li>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="store.html">Layanan</a></li>
+                        <li><a href="booking.html">Jadwal Booking</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Contact</h4>
+                    <h4 class="footer-heading">Kontak</h4>
                     <ul class="footer-links">
                         <li><a href="https://wa.me/628123731343" target="_blank">WhatsApp</a></li>
-                        <li><a href="mailto:fadilhaririharis69@gmail.com">Email</a></li>
+                        <li>Mataram, Nusa Tenggara Barat</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div class="footer-tos">
-                    <h4 class="tos-title">Terms of Service (TOS)</h4>
+                    <h4 class="tos-title">Syarat & Ketentuan (TOS)</h4>
                     <ul class="tos-list">
-                        <li><strong>No Refund Policy:</strong> No refunds after the buyer agrees to the service concept.</li>
-                        <!-- SUGGESTED ADDITIONAL TOS POINTS:
-                        <li><strong>Service Delivery:</strong> Estimated delivery times are approximate and may vary based on project complexity and current workload.</li>
-                        <li><strong>Payment Terms:</strong> Full or partial payment must be received before work commences. Payment plans may be available for larger projects upon request.</li>
-                        <li><strong>Client Responsibility:</strong> Clients must provide all necessary materials, information, and feedback in a timely manner to avoid project delays.</li>
-                        <li><strong>Intellectual Property:</strong> Upon full payment, clients receive full rights to the delivered work. Work-in-progress materials remain property of the service provider until completion.</li>
-                        -->
+                        <li><strong>Kebijakan Tidak Ada Refund:</strong> Tidak ada pengembalian dana setelah pembeli menyetujui konsep layanan.</li>
+                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek dan beban kerja saat ini.</li>
+                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai. Skema pembayaran dapat diatur untuk proyek besar.</li>
+                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi, informasi, dan feedback yang diperlukan secara tepat waktu untuk menghindari keterlambatan proyek.</li>
+                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja. Materi work-in-progress tetap menjadi properti penyedia layanan hingga selesai.</li>
                     </ul>
                 </div>
                 <div class="footer-copyright">
-                    <p>&copy; 2026 Aeroblast Network. All rights reserved.</p>
+                    <p>&copy; 2026 Haykal Service. Semua hak cipta dilindungi.</p>
                 </div>
             </div>
         </div>
