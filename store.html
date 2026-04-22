@@ -1,38 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services - Aeroblast Network</title>
+    <title>Layanan - Haykal Service</title>
+    <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">
-                <span class="brand-icon">⚡</span>
-                <span class="brand-text">Aeroblast Network</span>
+            <div class="nav-brand" onclick="scrollToTop()">
+                <img src="https://haykal.web.id/porto.png" alt="Logo" class="brand-logo">
+                <span class="brand-text">Haykal Service</span>
             </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="store.html" class="nav-link active">Services</a></li>
-                <li><a href="booking.html" class="nav-link">Booking</a></li>
-            </ul>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
+            
+            <!-- Hamburger Menu -->
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Beranda</a></li>
+                    <li><a href="store.html" class="nav-link active">Layanan</a></li>
+                    <li><a href="booking.html" class="nav-link">Jadwal</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Our Services</h1>
-            <p class="page-subtitle">Choose from our professional packages tailored to your needs</p>
+            <h1 class="page-title">Layanan Kami</h1>
+            <p class="page-subtitle">Pilih paket yang sesuai dengan kebutuhan Anda</p>
         </div>
     </section>
 
@@ -43,56 +54,107 @@
             <div class="category-block">
                 <h2 class="category-title">
                     <span class="category-icon">📱</span>
-                    Promotion Services
+                    Jasa Promosi Media Sosial
                 </h2>
+                
+                <!-- Tanpa Revisi -->
+                <h3 class="subcategory-title">Paket Tanpa Revisi</h3>
                 <div class="products-grid">
-                    <!-- TikTok Promotion -->
                     <div class="product-card">
-                        <div class="product-badge">Popular</div>
+                        <div class="product-badge">Populer</div>
                         <div class="product-icon">🎵</div>
-                        <h3 class="product-name">TikTok Promotion Package</h3>
-                        <p class="product-description">Boost your TikTok content with targeted promotion to reach wider audiences and increase engagement.</p>
-                        <div class="product-price">Rp 75,000</div>
-                        <button class="btn btn-order" onclick="openOrderForm('TikTok Promotion Package', 'Rp 75,000')">Order Now</button>
+                        <h3 class="product-name">TikTok (Tanpa Revisi)</h3>
+                        <p class="product-description">Promosi konten TikTok Anda dengan jangkauan maksimal tanpa revisi.</p>
+                        <div class="product-price">Rp 50.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok (Tanpa Revisi)', 'Rp 50.000')">Pesan Sekarang</button>
                     </div>
 
-                    <!-- YouTube Promotion -->
                     <div class="product-card">
-                        <div class="product-badge">Trending</div>
                         <div class="product-icon">▶️</div>
-                        <h3 class="product-name">YouTube Promotion Package</h3>
-                        <p class="product-description">Grow your YouTube channel with professional promotion strategies and audience targeting.</p>
-                        <div class="product-price">Rp 75,000</div>
-                        <button class="btn btn-order" onclick="openOrderForm('YouTube Promotion Package', 'Rp 75,000')">Order Now</button>
+                        <h3 class="product-name">YouTube (Tanpa Revisi)</h3>
+                        <p class="product-description">Tingkatkan subscriber dan views YouTube Anda tanpa revisi.</p>
+                        <div class="product-price">Rp 50.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('YouTube (Tanpa Revisi)', 'Rp 50.000')">Pesan Sekarang</button>
                     </div>
 
-                    <!-- Combo Package -->
+                    <div class="product-card featured">
+                        <div class="product-badge">Hemat</div>
+                        <div class="product-icon">🚀</div>
+                        <h3 class="product-name">TikTok + YouTube (Tanpa Revisi)</h3>
+                        <p class="product-description">Paket combo untuk promosi maksimal di kedua platform tanpa revisi.</p>
+                        <div class="product-price">Rp 90.000</div>
+                        <div class="product-save">Hemat Rp 10.000!</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok + YouTube Combo (Tanpa Revisi)', 'Rp 90.000')">Pesan Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Dengan 2 Revisi -->
+                <h3 class="subcategory-title">Paket dengan 2 Revisi</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-badge">Rekomendasi</div>
+                        <div class="product-icon">🎵</div>
+                        <h3 class="product-name">TikTok (2 Revisi)</h3>
+                        <p class="product-description">Promosi TikTok dengan kesempatan 2x revisi untuk hasil optimal.</p>
+                        <div class="product-price">Rp 65.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok (2 Revisi)', 'Rp 65.000')">Pesan Sekarang</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge">Rekomendasi</div>
+                        <div class="product-icon">▶️</div>
+                        <h3 class="product-name">YouTube (2 Revisi)</h3>
+                        <p class="product-description">Promosi YouTube dengan kesempatan 2x revisi untuk hasil maksimal.</p>
+                        <div class="product-price">Rp 65.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('YouTube (2 Revisi)', 'Rp 65.000')">Pesan Sekarang</button>
+                    </div>
+
                     <div class="product-card featured">
                         <div class="product-badge">Best Value</div>
                         <div class="product-icon">🚀</div>
-                        <h3 class="product-name">TikTok + YouTube Combo</h3>
-                        <p class="product-description">Maximum reach with combined promotion on both TikTok and YouTube platforms.</p>
-                        <div class="product-price">Rp 120,000</div>
-                        <div class="product-save">Save Rp 30,000!</div>
-                        <button class="btn btn-order" onclick="openOrderForm('TikTok + YouTube Combo Package', 'Rp 120,000')">Order Now</button>
+                        <h3 class="product-name">TikTok + YouTube (2 Revisi)</h3>
+                        <p class="product-description">Paket premium combo dengan 2x revisi untuk kedua platform.</p>
+                        <div class="product-price">Rp 105.000</div>
+                        <div class="product-save">Hemat Rp 25.000!</div>
+                        <button class="btn btn-order" onclick="openOrderForm('TikTok + YouTube Combo (2 Revisi)', 'Rp 105.000')">Pesan Sekarang</button>
                     </div>
+                </div>
 
-                    <!-- Owning Content -->
+                <!-- Owning Content -->
+                <h3 class="subcategory-title">Layanan Konten</h3>
+                <div class="products-grid">
                     <div class="product-card">
                         <div class="product-icon">📹</div>
                         <h3 class="product-name">Owning Content</h3>
-                        <p class="product-description">Custom content creation service with full ownership rights for your brand or channel.</p>
-                        <div class="product-price">Rp 40,000</div>
-                        <button class="btn btn-order" onclick="openOrderForm('Owning Content Service', 'Rp 40,000')">Order Now</button>
+                        <p class="product-description">Layanan pembuatan konten eksklusif dengan hak kepemilikan penuh untuk brand Anda.</p>
+                        <div class="product-price">Rp 20.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Owning Content', 'Rp 20.000')">Pesan Sekarang</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add-on Services -->
+            <div class="category-block">
+                <h2 class="category-title">
+                    <span class="category-icon">⚡</span>
+                    Layanan Tambahan
+                </h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-badge">Prioritas</div>
+                        <div class="product-icon">⏭️</div>
+                        <h3 class="product-name">Skip Antrian</h3>
+                        <p class="product-description">Dapatkan prioritas pengerjaan dan lewati antrian untuk hasil lebih cepat.</p>
+                        <div class="product-price">Rp 20.000</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Skip Antrian (Add-on)', 'Rp 20.000')">Pesan Sekarang</button>
                     </div>
 
-                    <!-- Live Service -->
                     <div class="product-card">
-                        <div class="product-icon">🔴</div>
-                        <h3 class="product-name">Live Service</h3>
-                        <p class="product-description">Professional live streaming support and management for your events or content.</p>
-                        <div class="product-price">Rp 20,000<span class="price-unit">/hour</span></div>
-                        <button class="btn btn-order" onclick="openOrderForm('Live Service (Per Hour)', 'Rp 20,000/hour')">Order Now</button>
+                        <div class="product-icon">✏️</div>
+                        <h3 class="product-name">Revisi Ekstra</h3>
+                        <p class="product-description">Tambahan revisi di luar paket untuk penyempurnaan hasil kerja.</p>
+                        <div class="product-price">Rp 10.000<span class="price-unit">/revisi</span></div>
+                        <button class="btn btn-order" onclick="openOrderForm('Revisi Ekstra (Per Revisi)', 'Rp 10.000/revisi')">Pesan Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -101,25 +163,23 @@
             <div class="category-block">
                 <h2 class="category-title">
                     <span class="category-icon">⚙️</span>
-                    Setup & Development
+                    Setup & Pengembangan
                 </h2>
                 <div class="products-grid">
-                    <!-- Minecraft Server Setup -->
                     <div class="product-card">
                         <div class="product-icon">🎮</div>
-                        <h3 class="product-name">Minecraft Server Setup</h3>
-                        <p class="product-description">Complete Minecraft server configuration, plugin installation, and custom development.</p>
-                        <div class="product-price-note">Price depends on setup type</div>
-                        <button class="btn btn-order" onclick="openOrderForm('Minecraft Server Setup', 'Custom Quote')">Get Quote</button>
+                        <h3 class="product-name">Setup Server Minecraft</h3>
+                        <p class="product-description">Konfigurasi server Minecraft lengkap, instalasi plugin, dan pengembangan custom sesuai kebutuhan.</p>
+                        <div class="product-price-note">Harga menyesuaikan tipe setup</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Setup Server Minecraft', 'Harga Custom')">Minta Penawaran</button>
                     </div>
 
-                    <!-- Website Development -->
                     <div class="product-card">
                         <div class="product-icon">💻</div>
-                        <h3 class="product-name">Website Development</h3>
-                        <p class="product-description">Modern, responsive websites with clean design and professional functionality.</p>
-                        <div class="product-price-note">Price depends on complexity</div>
-                        <button class="btn btn-order" onclick="openOrderForm('Website Development', 'Custom Quote')">Get Quote</button>
+                        <h3 class="product-name">Jasa Pembuatan Website</h3>
+                        <p class="product-description">Website modern, responsif, dan profesional dengan desain custom sesuai kebutuhan bisnis Anda.</p>
+                        <div class="product-price-note">Harga menyesuaikan tingkat kerumitan</div>
+                        <button class="btn btn-order" onclick="openOrderForm('Jasa Pembuatan Website', 'Harga Custom')">Minta Penawaran</button>
                     </div>
                 </div>
             </div>
@@ -131,33 +191,41 @@
         <div class="modal-container">
             <button class="modal-close" onclick="closeOrderForm()">&times;</button>
             <div class="modal-header">
-                <h2 class="modal-title">Order Details</h2>
-                <p class="modal-subtitle">Fill in your information to complete the order</p>
+                <h2 class="modal-title">Form Pemesanan</h2>
+                <p class="modal-subtitle">Isi data Anda untuk melanjutkan pemesanan</p>
             </div>
             <form class="order-form" id="orderForm">
                 <div class="form-group">
-                    <label class="form-label">Selected Service</label>
+                    <label class="form-label">Layanan yang Dipilih</label>
                     <input type="text" class="form-input" id="serviceName" readonly>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Price</label>
+                    <label class="form-label">Harga</label>
                     <input type="text" class="form-input" id="servicePrice" readonly>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Your Name *</label>
-                    <input type="text" class="form-input" id="customerName" required placeholder="Enter your full name">
+                    <label class="form-label">Nama Lengkap *</label>
+                    <input type="text" class="form-input" id="customerName" required placeholder="Masukkan nama lengkap Anda">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="customerEmail" placeholder="your@email.com (optional)">
+                    <label class="form-label">Pilihan Tanggal Booking *</label>
+                    <input type="date" class="form-input" id="bookingDate" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Additional Notes</label>
-                    <textarea class="form-textarea" id="orderNotes" rows="4" placeholder="Any specific requirements or questions?"></textarea>
+                    <label class="form-label">Catatan / Note</label>
+                    <textarea class="form-textarea" id="orderNotes" rows="4" placeholder="Informasi tambahan atau permintaan khusus..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kode Diskon (Opsional)</label>
+                    <div class="discount-input-wrapper">
+                        <input type="text" class="form-input" id="discountCode" placeholder="Masukkan kode diskon jika ada">
+                        <span class="discount-icon">🎁</span>
+                    </div>
+                    <small class="form-hint">Gunakan kode diskon untuk mendapatkan potongan harga khusus</small>
                 </div>
                 <button type="submit" class="btn btn-submit">
                     <span class="btn-icon">💬</span>
-                    Send Order via WhatsApp
+                    Kirim Pesanan via WhatsApp
                 </button>
             </form>
         </div>
@@ -168,40 +236,38 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3 class="footer-title">Aeroblast Network</h3>
-                    <p class="footer-description">Professional Minecraft server management and digital services provider.</p>
+                    <h3 class="footer-title">Haykal Service</h3>
+                    <p class="footer-description">Penyedia jasa digital profesional untuk promosi media sosial, pengembangan web, dan desain grafis.</p>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Quick Links</h4>
+                    <h4 class="footer-heading">Navigasi Cepat</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="store.html">Services</a></li>
-                        <li><a href="booking.html">Booking Schedule</a></li>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="store.html">Layanan</a></li>
+                        <li><a href="booking.html">Jadwal Booking</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Contact</h4>
+                    <h4 class="footer-heading">Kontak</h4>
                     <ul class="footer-links">
                         <li><a href="https://wa.me/628123731343" target="_blank">WhatsApp</a></li>
-                        <li><a href="mailto:fadilhaririharis69@gmail.com">Email</a></li>
+                        <li>Mataram, Nusa Tenggara Barat</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div class="footer-tos">
-                    <h4 class="tos-title">Terms of Service (TOS)</h4>
+                    <h4 class="tos-title">Syarat & Ketentuan (TOS)</h4>
                     <ul class="tos-list">
-                        <li><strong>No Refund Policy:</strong> No refunds after the buyer agrees to the service concept.</li>
-                        <!-- SUGGESTED ADDITIONAL TOS POINTS:
-                        <li><strong>Service Delivery:</strong> Estimated delivery times are approximate and may vary based on project complexity and current workload.</li>
-                        <li><strong>Payment Terms:</strong> Full or partial payment must be received before work commences. Payment plans may be available for larger projects upon request.</li>
-                        <li><strong>Client Responsibility:</strong> Clients must provide all necessary materials, information, and feedback in a timely manner to avoid project delays.</li>
-                        <li><strong>Intellectual Property:</strong> Upon full payment, clients receive full rights to the delivered work. Work-in-progress materials remain property of the service provider until completion.</li>
-                        -->
+                        <li><strong>Kebijakan Tidak Ada Refund:</strong> Tidak ada pengembalian dana setelah pembeli menyetujui konsep layanan.</li>
+                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek dan beban kerja saat ini.</li>
+                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai. Skema pembayaran dapat diatur untuk proyek besar.</li>
+                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi, informasi, dan feedback yang diperlukan secara tepat waktu untuk menghindari keterlambatan proyek.</li>
+                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja. Materi work-in-progress tetap menjadi properti penyedia layanan hingga selesai.</li>
                     </ul>
                 </div>
                 <div class="footer-copyright">
-                    <p>&copy; 2026 Aeroblast Network. All rights reserved.</p>
+                    <p>&copy; 2026 Haykal Service. Semua hak cipta dilindungi.</p>
                 </div>
             </div>
         </div>
