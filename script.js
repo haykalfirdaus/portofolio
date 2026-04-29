@@ -256,6 +256,11 @@ const bookingData = [
         nama_klien: 'aeroblast',
         paket_layanan: 'TikTok (2 Revisi)'
     },
+    {
+        tanggal: '2026-03-29',
+        nama_klien: 'aeroblast',
+        paket_layanan: 'TikTok + Youtube (tanpa revisi)'
+    },
     // TAMBAHKAN BOOKING BARU DI BAWAH INI
     // Format:
     // {
