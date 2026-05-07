@@ -1357,9 +1357,8 @@ input, select, textarea { font: inherit; color: inherit; }
     flex-shrink: 0;
 }
 
-/* error 404 page not found*
 /* =========================================
-   STYLE KHUSUS HALAMAN 404 (PAGE NOT FOUND)
+   STYLE KHUSUS HALAMAN 404 (TERINTEGRASI TEMA)
    ========================================= */
 
 .error-container {
@@ -1367,63 +1366,40 @@ input, select, textarea { font: inherit; color: inherit; }
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Memastikan konten selalu di tengah layar */
     text-align: center;
-    padding: 20px;
+    padding: 28px;
+    position: relative;
+    z-index: 10;
 }
 
 .error-container h1 {
-    font-size: 120px;
+    font-family: var(--font-display);
+    font-size: clamp(80px, 15vw, 140px); /* Ukuran dinamis, otomatis mengecil di HP */
+    line-height: 1;
     margin: 0;
-    color: #e60000;
-    text-shadow: 0 0 20px rgba(230, 0, 0, 0.6); /* Efek Neon Glow */
-    letter-spacing: 5px;
+    color: var(--red-500);
+    text-shadow: 0 0 40px var(--neon-glow); /* Menggunakan efek neon dari tema */
+    letter-spacing: 2px;
 }
 
 .error-container h2 {
-    font-size: 24px;
-    margin: 10px 0;
+    color: var(--white);
+    margin: 16px 0 10px;
 }
 
 .error-container p {
-    color: #aaaaaa;
+    color: var(--muted);
     margin-bottom: 40px;
     max-width: 500px;
+    font-size: 1.05rem;
 }
 
-.btn-grup {
+.error-btn-grup {
     display: flex;
-    gap: 15px;
+    gap: 16px;
     justify-content: center;
-}
-
-.btn-kembali {
-    background-color: transparent;
-    color: #e60000;
-    border: 2px solid #e60000;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-kembali:hover {
-    background-color: #e60000;
-    color: #ffffff;
-    box-shadow: 0 0 15px #e60000;
-}
-
-/* Responsif untuk layar HP */
-@media (max-width: 600px) {
-    .error-container h1 {
-        font-size: 80px;
-    }
-    .btn-grup {
-        flex-direction: column;
-    }
+    flex-wrap: wrap; /* Otomatis turun ke bawah kalau di HP */
 }
 
 /* -------------------- A11y: reduced motion -------------------- */
