@@ -6,35 +6,27 @@
     <title>Layanan - Haykal Service</title>
     <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="description" content="Daftar layanan dan harga Haykal Service - Promosi Media Sosial, Setup Server, Web Development">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand" onclick="scrollToTop()">
                 <img src="https://haykal.web.id/porto.png" alt="Logo" class="brand-logo">
                 <span class="brand-text">Haykal Service</span>
             </div>
-            
-            <!-- Hamburger Menu -->
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            
             <div class="nav-menu" id="navMenu">
                 <ul class="nav-links">
                     <li><a href="index.html" class="nav-link">Beranda</a></li>
                     <li><a href="store.html" class="nav-link active">Layanan</a></li>
                     <li><a href="booking.html" class="nav-link">Jadwal</a></li>
                 </ul>
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
-                    <span class="theme-icon">🌙</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -51,15 +43,14 @@
     <section class="catalog-section">
         <div class="container">
             <!-- Promotion Services Category -->
-            <div class="category-block">
+            <div class="category-block reveal">
                 <h2 class="category-title">
                     <span class="category-icon">📱</span>
                     Jasa Promosi Media Sosial
                 </h2>
-                
-                <!-- Tanpa Revisi -->
+
                 <h3 class="subcategory-title">Paket Tanpa Revisi</h3>
-                <div class="products-grid">
+                <div class="products-grid reveal-stagger">
                     <div class="product-card">
                         <div class="product-badge">Populer</div>
                         <div class="product-icon">🎵</div>
@@ -88,9 +79,8 @@
                     </div>
                 </div>
 
-                <!-- Dengan 2 Revisi -->
                 <h3 class="subcategory-title">Paket dengan 2 Revisi</h3>
-                <div class="products-grid">
+                <div class="products-grid reveal-stagger">
                     <div class="product-card">
                         <div class="product-badge">Rekomendasi</div>
                         <div class="product-icon">🎵</div>
@@ -120,7 +110,6 @@
                     </div>
                 </div>
 
-                <!-- Owning Content -->
                 <h3 class="subcategory-title">Layanan Konten</h3>
                 <div class="products-grid">
                     <div class="product-card">
@@ -134,12 +123,12 @@
             </div>
 
             <!-- Add-on Services -->
-            <div class="category-block">
+            <div class="category-block reveal">
                 <h2 class="category-title">
                     <span class="category-icon">⚡</span>
                     Layanan Tambahan
                 </h2>
-                <div class="products-grid">
+                <div class="products-grid reveal-stagger">
                     <div class="product-card">
                         <div class="product-badge">Prioritas</div>
                         <div class="product-icon">⏭️</div>
@@ -159,13 +148,13 @@
                 </div>
             </div>
 
-            <!-- Setup & Development Category -->
-            <div class="category-block">
+            <!-- Setup & Development -->
+            <div class="category-block reveal">
                 <h2 class="category-title">
                     <span class="category-icon">⚙️</span>
                     Setup & Pengembangan
                 </h2>
-                <div class="products-grid">
+                <div class="products-grid reveal-stagger">
                     <div class="product-card">
                         <div class="product-icon">🎮</div>
                         <h3 class="product-name">Setup Server Minecraft</h3>
@@ -186,7 +175,7 @@
         </div>
     </section>
 
-    <!-- Order Form Popup Modal -->
+    <!-- Order Form Modal -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-container">
             <button class="modal-close" onclick="closeOrderForm()">&times;</button>
@@ -238,20 +227,35 @@
                 <div class="footer-section">
                     <h3 class="footer-title">Haykal Service</h3>
                     <p class="footer-description">Penyedia jasa digital profesional untuk promosi media sosial, pengembangan web, dan desain grafis.</p>
+                    <div class="footer-social">
+                        <a href="https://wa.me/628123731343" class="social-icon" target="_blank" title="WhatsApp">💬</a>
+                        <a href="#" class="social-icon" title="Instagram">📸</a>
+                        <a href="#" class="social-icon" title="GitHub">🐱</a>
+                    </div>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Navigasi Cepat</h4>
+                    <h4 class="footer-heading">Navigasi</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Beranda</a></li>
                         <li><a href="store.html">Layanan</a></li>
-                        <li><a href="booking.html">Jadwal Booking</a></li>
+                        <li><a href="booking.html">Jadwal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="store.html">Promosi Sosmed</a></li>
+                        <li><a href="store.html">Setup Server MC</a></li>
+                        <li><a href="store.html">Web Development</a></li>
+                        <li><a href="store.html">Desain Grafis</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4 class="footer-heading">Kontak</h4>
                     <ul class="footer-links">
                         <li><a href="https://wa.me/628123731343" target="_blank">WhatsApp</a></li>
-                        <li>Mataram, Nusa Tenggara Barat</li>
+                        <li>Mataram, NTB</li>
+                        <li>Jam: 18:00-21:00 WITA</li>
                     </ul>
                 </div>
             </div>
@@ -260,14 +264,14 @@
                     <h4 class="tos-title">Syarat & Ketentuan (TOS)</h4>
                     <ul class="tos-list">
                         <li><strong>Kebijakan Tidak Ada Refund:</strong> Tidak ada pengembalian dana setelah pembeli menyetujui konsep layanan.</li>
-                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek dan beban kerja saat ini.</li>
-                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai. Skema pembayaran dapat diatur untuk proyek besar.</li>
-                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi, informasi, dan feedback yang diperlukan secara tepat waktu untuk menghindari keterlambatan proyek.</li>
-                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja. Materi work-in-progress tetap menjadi properti penyedia layanan hingga selesai.</li>
+                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek.</li>
+                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai.</li>
+                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi dan feedback yang diperlukan secara tepat waktu.</li>
+                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja.</li>
                     </ul>
                 </div>
                 <div class="footer-copyright">
-                    <p>&copy; 2026 Haykal Service. Semua hak cipta dilindungi.</p>
+                    <p>&copy; 2026 Haykal Service. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
