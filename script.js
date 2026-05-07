@@ -9,7 +9,7 @@
     // Format tanggal: 'YYYY-MM-DD'
     const scheduleData = [
         { tanggal: '2026-04-8', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)' },
-        { tanggal: '2026-05-07', nama_klien: 'cloudsmpt', paket_layanan: 'TikTok (Tanpa Revisi)' },
+        { tanggal: '2026-05-07', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)' },
         { tanggal: '2026-04-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website' },
     ];
 
@@ -315,7 +315,51 @@
             });
         });
     }
+    function initCustomSelect() {
+    const wrap = document.getElementById('pkgSelectWrap');
+    const display = document.getElementById('pkgDisplay');
+    const displayText = document.getElementById('pkgDisplayText');
+    const dropdown = document.getElementById('pkgDropdown');
+    const hiddenInput = document.getElementById('bk-package');
+    if (!wrap || !display || !dropdown) return;
 
+    function openDrop() {
+        display.classList.add('open');
+        dropdown.classList.add('open');
+        display.setAttribute('aria-expanded', 'true');
+    }
+    function closeDrop() {
+        display.classList.remove('open');
+        dropdown.classList.remove('open');
+        display.setAttribute('aria-expanded', 'false');
+    }
+    function toggle() {
+        if (dropdown.classList.contains('open')) closeDrop(); else openDrop();
+    }
+
+    display.addEventListener('click', toggle);
+    display.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        if (e.key === 'Escape') closeDrop();
+    });
+
+    dropdown.querySelectorAll('.custom-select-option').forEach(function(opt) {
+        opt.addEventListener('click', function() {
+            const val = opt.getAttribute('data-value');
+            const pkg = opt.getAttribute('data-pkg');
+            hiddenInput.value = val;
+            displayText.textContent = pkg;
+            displayText.classList.remove('custom-select-placeholder');
+            dropdown.querySelectorAll('.custom-select-option').forEach(function(o) { o.classList.remove('selected'); });
+            opt.classList.add('selected');
+            closeDrop();
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!wrap.contains(e.target)) closeDrop();
+    });
+}
     // -------- Init --------
     document.addEventListener('DOMContentLoaded', function () {
         initHamburger();
@@ -324,5 +368,6 @@
         initBookingForm();
         renderSchedule();
         initSmoothScroll();
+        initCustomSelect();
     });
 })();
