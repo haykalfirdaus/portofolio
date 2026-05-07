@@ -3,38 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haykal Service - Jasa Promosi & Pengembangan Digital</title>
+    <title>Haykal Service - Jasa Digital Profesional</title>
     <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="description" content="Haykal Service - Penyedia Jasa Promosi Media Sosial, Pengembangan Website & Desain Grafis Profesional">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand" onclick="scrollToTop()">
                 <img src="https://haykal.web.id/porto.png" alt="Logo" class="brand-logo">
                 <span class="brand-text">Haykal Service</span>
             </div>
-            
-            <!-- Hamburger Menu -->
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            
             <div class="nav-menu" id="navMenu">
                 <ul class="nav-links">
                     <li><a href="index.html" class="nav-link active">Beranda</a></li>
                     <li><a href="store.html" class="nav-link">Layanan</a></li>
                     <li><a href="booking.html" class="nav-link">Jadwal</a></li>
                 </ul>
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
-                    <span class="theme-icon">🌙</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -43,34 +35,78 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
+                <div class="hero-avatar-wrapper">
+                    <div class="hero-avatar-ring">
+                        <img src="https://haykal.web.id/porto.png" alt="Haykal" class="hero-avatar">
+                    </div>
+                    <div class="tech-icons">
+                        <div class="tech-icon" title="HTML5">H5</div>
+                        <div class="tech-icon" title="CSS3">CS</div>
+                        <div class="tech-icon" title="JavaScript">JS</div>
+                        <div class="tech-icon" title="React">Re</div>
+                        <div class="tech-icon" title="Python">Py</div>
+                    </div>
+                </div>
                 <div class="hero-badge">Penyedia Jasa Digital Profesional</div>
                 <h1 class="hero-title">
-                    Halo! Saya <span class="gradient-text">Haykal</span>
+                    Welcome to My <span class="gold-text">Creative Workspace</span>
                 </h1>
                 <p class="hero-subtitle">Pelajar di MAN 2 Mataram</p>
                 <p class="hero-description">
-                    Pengelola <strong>Haykal Service</strong> • Admin <strong>Aeroblast Network</strong><br>
-                    Spesialis dalam Jasa Promosi Media Sosial, Pengembangan Website & Desain Grafis
+                    Pengelola <strong>Haykal Service</strong> &bull; Admin <strong>Aeroblast Network</strong><br>
+                    Spesialis dalam Jasa Promosi Media Sosial, Pengembangan Website &amp; Desain Grafis
                 </p>
                 <div class="hero-cta">
-                    <a href="https://wa.me/628123731343" class="btn btn-primary" target="_blank">
+                    <a href="https://wa.me/628123731343" class="btn btn-gold" target="_blank">
                         <span class="btn-icon">💬</span>
                         Hubungi via WhatsApp
                     </a>
-                    <a href="store.html" class="btn btn-secondary">
+                    <a href="store.html" class="btn btn-outline">
                         <span class="btn-icon">🛍️</span>
                         Lihat Layanan
                     </a>
+                </div>
+                <div class="hero-performance-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    OPTIMIZED FOR LIGHTNING-FAST LOADING &amp; ALL-DEVICE RESPONSIVENESS
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Overview -->
-    <section class="services-overview">
+    <!-- Stats Section -->
+    <section class="stats-section">
         <div class="container">
-            <h2 class="section-title">Layanan Kami</h2>
-            <div class="services-grid">
+            <div class="stats-grid reveal-stagger">
+                <div class="stat-card">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-number" data-target="20">0<span>+</span></div>
+                    <div class="stat-label">Klien Total</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">📦</span>
+                    <div class="stat-number" data-target="50">0<span>+</span></div>
+                    <div class="stat-label">Proyek Terkirim</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">⏳</span>
+                    <div class="stat-number" data-target="3">0<span>+</span></div>
+                    <div class="stat-label">Tahun Pengalaman</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">What I Can Do For You</div>
+                <h2 class="section-title">Layanan <span class="gold-text">Profesional</span></h2>
+                <p class="section-subtitle">Solusi digital lengkap untuk kebutuhan promosi, pengembangan, dan desain Anda</p>
+            </div>
+
+            <div class="services-grid reveal-stagger">
                 <div class="service-card">
                     <div class="service-icon">📱</div>
                     <h3>Promosi Media Sosial</h3>
@@ -92,28 +128,232 @@
                     <p>Desain visual menarik, logo, dan material branding yang membuat proyek Anda menonjol.</p>
                 </div>
             </div>
+
+            <!-- CMS Featured Card -->
+            <div class="cms-card reveal">
+                <div class="cms-card-inner">
+                    <div class="cms-info">
+                        <div class="cms-badge">Featured Service</div>
+                        <h3>Custom CMS Solutions</h3>
+                        <p>Sistem manajemen konten yang dibangun khusus untuk kebutuhan bisnis Anda. Dashboard modern, performa tinggi, dan mudah dikelola.</p>
+                        <a href="https://wa.me/628123731343?text=Halo%2C%20saya%20tertarik%20dengan%20Custom%20CMS%20Solutions" class="btn btn-gold" target="_blank">
+                            <span class="btn-icon">🚀</span>
+                            Minta Penawaran
+                        </a>
+                    </div>
+                    <div class="cms-preview">
+                        <div class="cms-preview-mockup">
+                            <div class="mockup-titlebar">
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header"></div>
+                                <div class="mockup-sidebar">
+                                    <div class="mockup-nav">
+                                        <div class="mockup-nav-item active"></div>
+                                        <div class="mockup-nav-item"></div>
+                                        <div class="mockup-nav-item"></div>
+                                        <div class="mockup-nav-item"></div>
+                                    </div>
+                                    <div class="mockup-main">
+                                        <div class="mockup-chart"></div>
+                                        <div class="mockup-rows">
+                                            <div class="mockup-row"></div>
+                                            <div class="mockup-row"></div>
+                                            <div class="mockup-row"></div>
+                                            <div class="mockup-row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="workflow-section" id="workflow">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">How We Work</div>
+                <h2 class="section-title">Alur Kerja <span class="gold-text">Proyek</span></h2>
+                <p class="section-subtitle">Proses terstruktur untuk hasil yang optimal</p>
+            </div>
+
+            <div class="workflow-list reveal">
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">1</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Konsultasi & Analisis</h4>
+                        <p>Memahami kebutuhan, visi, dan tujuan proyek Anda secara mendalam melalui diskusi awal.</p>
+                    </div>
+                </div>
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">2</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Perencanaan & Strategi</h4>
+                        <p>Menyusun rencana kerja, timeline, dan strategi terbaik untuk mencapai hasil yang diinginkan.</p>
+                    </div>
+                </div>
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">3</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Desain & Prototyping</h4>
+                        <p>Membuat konsep visual dan prototype yang dapat ditinjau sebelum masuk tahap pengembangan.</p>
+                    </div>
+                </div>
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">4</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Development & Testing</h4>
+                        <p>Proses pengembangan dengan standar kualitas tinggi disertai pengujian menyeluruh.</p>
+                    </div>
+                </div>
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">5</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Delivery & Deployment</h4>
+                        <p>Penyerahan hasil kerja final dan deployment ke lingkungan produksi.</p>
+                    </div>
+                </div>
+                <div class="workflow-item">
+                    <div class="workflow-number-col">
+                        <div class="workflow-number">6</div>
+                        <div class="workflow-line"></div>
+                    </div>
+                    <div class="workflow-content">
+                        <h4>Continuous Optimization</h4>
+                        <p>Ensuring Peak Performance Across All Devices &mdash; Optimized Code, Asset Efficiency, Responsive Tuning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="journey-section" id="journey">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">My Journey</div>
+                <h2 class="section-title">Perjalanan <span class="gold-text">Saya</span></h2>
+                <p class="section-subtitle">Riwayat edukasi dan pengalaman profesional</p>
+            </div>
+
+            <div class="journey-grid reveal-stagger">
+                <div class="journey-card">
+                    <div class="journey-card-header">
+                        <div class="journey-icon">🎓</div>
+                        <h3>Edukasi</h3>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-year">2024-Now</div>
+                        <div class="journey-detail">
+                            <h4>MAN 2 Mataram</h4>
+                            <p>Pelajar aktif dengan minat di bidang teknologi dan pemrograman</p>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-year">2023</div>
+                        <div class="journey-detail">
+                            <h4>Belajar Otodidak</h4>
+                            <p>Memulai perjalanan belajar web development dan desain grafis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="journey-card">
+                    <div class="journey-card-header">
+                        <div class="journey-icon">💼</div>
+                        <h3>Pengalaman</h3>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-year">2024-Now</div>
+                        <div class="journey-detail">
+                            <h4>Haykal Service</h4>
+                            <p>Founder &amp; pengelola jasa digital profesional</p>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-year">2024-Now</div>
+                        <div class="journey-detail">
+                            <h4>Aeroblast Network</h4>
+                            <p>Admin dan developer server Minecraft community</p>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-year">2023</div>
+                        <div class="journey-detail">
+                            <h4>Freelance Projects</h4>
+                            <p>Proyek-proyek awal di bidang promosi dan web development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact-section">
+    <section class="contact-section" id="contact">
         <div class="container">
-            <div class="contact-card">
-                <h2>Mari Bekerja Sama</h2>
-                <div class="operational-hours">
-                    <div class="hours-icon">⏰</div>
-                    <div class="hours-info">
-                        <div class="hours-label">Jam Operasional</div>
-                        <div class="hours-time">18:00 - 21:00 WITA</div>
-                        <div class="hours-note">Senin - Minggu</div>
+            <div class="section-header">
+                <div class="section-badge">Get In Touch</div>
+                <h2 class="section-title">Mari Bekerja <span class="gold-text">Sama</span></h2>
+                <p class="section-subtitle">Hubungi saya untuk mendiskusikan proyek Anda</p>
+            </div>
+
+            <div class="contact-card reveal">
+                <div class="contact-hours">
+                    <div class="contact-hours-icon">⏰</div>
+                    <div class="contact-hours-info">
+                        <div class="contact-hours-label">Jam Operasional</div>
+                        <div class="contact-hours-time">18:00 - 21:00 WITA</div>
+                        <div class="contact-hours-note">Senin - Minggu</div>
                     </div>
                 </div>
-                <div class="contact-buttons">
-                    <a href="https://wa.me/628123731343" class="btn btn-primary btn-large" target="_blank">
-                        <span class="btn-icon">💬</span>
-                        Hubungi via WhatsApp
-                    </a>
-                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-input" id="contactName" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="contactEmail" placeholder="email@contoh.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Subjek</label>
+                        <input type="text" class="form-input" id="contactSubject" placeholder="Tentang apa?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pesan</label>
+                        <textarea class="form-textarea" id="contactMessage" placeholder="Ceritakan kebutuhan proyek Anda..." rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-teal btn-submit">
+                        <span class="btn-icon">📩</span>
+                        Kirim Pesan via WhatsApp
+                    </button>
+                </form>
             </div>
         </div>
     </section>
@@ -124,21 +364,36 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3 class="footer-title">Haykal Service</h3>
-                    <p class="footer-description">Penyedia jasa digital profesional untuk promosi media sosial, pengembangan web, dan desain grafis.</p>
+                    <p class="footer-description">Penyedia jasa digital profesional untuk promosi media sosial, pengembangan web, dan desain grafis. Kualitas terjamin dengan harga terjangkau.</p>
+                    <div class="footer-social">
+                        <a href="https://wa.me/628123731343" class="social-icon" target="_blank" title="WhatsApp">💬</a>
+                        <a href="#" class="social-icon" title="Instagram">📸</a>
+                        <a href="#" class="social-icon" title="GitHub">🐱</a>
+                    </div>
                 </div>
                 <div class="footer-section">
-                    <h4 class="footer-heading">Navigasi Cepat</h4>
+                    <h4 class="footer-heading">Navigasi</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Beranda</a></li>
                         <li><a href="store.html">Layanan</a></li>
-                        <li><a href="booking.html">Jadwal Booking</a></li>
+                        <li><a href="booking.html">Jadwal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="store.html">Promosi Sosmed</a></li>
+                        <li><a href="store.html">Setup Server MC</a></li>
+                        <li><a href="store.html">Web Development</a></li>
+                        <li><a href="store.html">Desain Grafis</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4 class="footer-heading">Kontak</h4>
                     <ul class="footer-links">
                         <li><a href="https://wa.me/628123731343" target="_blank">WhatsApp</a></li>
-                        <li>Mataram, Nusa Tenggara Barat</li>
+                        <li>Mataram, NTB</li>
+                        <li>Jam: 18:00-21:00 WITA</li>
                     </ul>
                 </div>
             </div>
@@ -147,14 +402,14 @@
                     <h4 class="tos-title">Syarat & Ketentuan (TOS)</h4>
                     <ul class="tos-list">
                         <li><strong>Kebijakan Tidak Ada Refund:</strong> Tidak ada pengembalian dana setelah pembeli menyetujui konsep layanan.</li>
-                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek dan beban kerja saat ini.</li>
-                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai. Skema pembayaran dapat diatur untuk proyek besar.</li>
-                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi, informasi, dan feedback yang diperlukan secara tepat waktu untuk menghindari keterlambatan proyek.</li>
-                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja. Materi work-in-progress tetap menjadi properti penyedia layanan hingga selesai.</li>
+                        <li><strong>Waktu Pengerjaan:</strong> Estimasi waktu penyelesaian bersifat perkiraan dan dapat bervariasi tergantung kompleksitas proyek.</li>
+                        <li><strong>Ketentuan Pembayaran:</strong> Pembayaran penuh atau DP harus diterima sebelum pekerjaan dimulai.</li>
+                        <li><strong>Tanggung Jawab Klien:</strong> Klien wajib menyediakan semua materi dan feedback yang diperlukan secara tepat waktu.</li>
+                        <li><strong>Hak Kekayaan Intelektual:</strong> Setelah pembayaran lunas, klien mendapatkan hak penuh atas hasil kerja.</li>
                     </ul>
                 </div>
                 <div class="footer-copyright">
-                    <p>&copy; 2026 Haykal Service. Semua hak cipta dilindungi.</p>
+                    <p>&copy; 2026 Haykal Service. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
