@@ -1357,6 +1357,75 @@ input, select, textarea { font: inherit; color: inherit; }
     flex-shrink: 0;
 }
 
+/* error 404 page not found*
+/* =========================================
+   STYLE KHUSUS HALAMAN 404 (PAGE NOT FOUND)
+   ========================================= */
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.error-container h1 {
+    font-size: 120px;
+    margin: 0;
+    color: #e60000;
+    text-shadow: 0 0 20px rgba(230, 0, 0, 0.6); /* Efek Neon Glow */
+    letter-spacing: 5px;
+}
+
+.error-container h2 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.error-container p {
+    color: #aaaaaa;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+.btn-grup {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-kembali {
+    background-color: transparent;
+    color: #e60000;
+    border: 2px solid #e60000;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-kembali:hover {
+    background-color: #e60000;
+    color: #ffffff;
+    box-shadow: 0 0 15px #e60000;
+}
+
+/* Responsif untuk layar HP */
+@media (max-width: 600px) {
+    .error-container h1 {
+        font-size: 80px;
+    }
+    .btn-grup {
+        flex-direction: column;
+    }
+}
+
 /* -------------------- A11y: reduced motion -------------------- */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
