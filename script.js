@@ -8,16 +8,9 @@
     // -------- Booking schedule data (past + future) ---------
     // Format tanggal: 'YYYY-MM-DD'
     const scheduleData = [
-        { tanggal: '2026-01-12', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)' },
-        { tanggal: '2026-02-04', nama_klien: 'minesive',  paket_layanan: 'YouTube (2 Revisi)' },
-        { tanggal: '2026-03-08', nama_klien: 'aeroblast', paket_layanan: 'TikTok (2 Revisi)' },
-        { tanggal: '2026-03-29', nama_klien: 'aeroblast', paket_layanan: 'TikTok + YouTube (Tanpa Revisi)' },
-        { tanggal: '2026-04-17', nama_klien: 'kalwi',     paket_layanan: 'Owning Content' },
-        { tanggal: '2026-05-09', nama_klien: 'ell anak emak', paket_layanan: 'TikTok + YouTube (2 Revisi)' },
-        { tanggal: '2026-05-22', nama_klien: 'potatosmp', paket_layanan: 'Setup Server Minecraft' },
-        { tanggal: '2026-06-14', nama_klien: 'arqonara',  paket_layanan: 'Jasa Pembuatan Website' },
-        { tanggal: '2026-07-03', nama_klien: 'minesive',  paket_layanan: 'TikTok (2 Revisi)' },
-        { tanggal: '2026-08-19', nama_klien: 'kalwi',     paket_layanan: 'YouTube (Tanpa Revisi)' }
+        { tanggal: '2026-04-8', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)' },
+        { tanggal: '2026-05-07', nama_klien: 'cloudsmpt', paket_layanan: 'TikTok (Tanpa Revisi)' },
+        { tanggal: '2026-04-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website' },
     ];
 
     const WA_NUMBER = '628123731343';
