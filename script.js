@@ -257,13 +257,14 @@
         const sorted = scheduleData.slice().sort(function (a, b) {
             return parseDate(a.tanggal) - parseDate(b.tanggal);
         });
-
+        // BARU: Memotong array dan hanya mengambil 3 data paling akhir (terbaru)
+        const jadwalTerbaru = sorted.slice(-3);
         // Reference point: now (used only to mark visual "is-past" styling, never as text).
         const now = new Date();
         now.setHours(0, 0, 0, 0);
 
         const fragment = document.createDocumentFragment();
-sorted.forEach(function (entry) {
+jadwalTerbaru.forEach(function (entry) {
             const d = parseDate(entry.tanggal);
             
             // 1. Tentukan Teks dan Warna (Class) berdasarkan status
