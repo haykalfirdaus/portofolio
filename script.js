@@ -1,443 +1,335 @@
-// ========================================
-// HAYKAL SERVICE - PREMIUM DARK PORTFOLIO
-// ========================================
+/* ============================================================
+   HAYKAL SERVICE - Single Page Portfolio
+   ============================================================ */
 
-// ============================================================================
-// 📅 DATA BOOKING - TAMBAHKAN DATA KLIEN YANG SUDAH BOOKING DI SINI
-// ============================================================================
-//
-// CARA MENAMBAHKAN BOOKING BARU:
-//   1. Scroll ke array 'bookingData' di bawah ini
-//   2. Copy template di bawah, lalu paste sebelum tanda '];'
-//   3. Isi tanggal, nama klien, dan paket layanan
-//   4. Simpan file, lalu refresh halaman booking.html
-//
-// TEMPLATE (copy-paste ini lalu isi datanya):
-//
-//     {
-//         tanggal: 'YYYY-MM-DD',
-//         nama_klien: 'Nama Lengkap Klien',
-//         paket_layanan: 'Nama Paket Layanan'
-//     },
-//
-// CONTOH:
-//
-//     {
-//         tanggal: '2026-06-15',
-//         nama_klien: 'Budi Santoso',
-//         paket_layanan: 'TikTok + YouTube Combo (2 Revisi)'
-//     },
-//     {
-//         tanggal: '2026-06-20',
-//         nama_klien: 'Andi Wijaya',
-//         paket_layanan: 'Setup Server Minecraft'
-//     },
-//
-// PENTING:
-//   - Format tanggal HARUS 'YYYY-MM-DD' (contoh: '2026-12-31')
-//   - Gunakan tanda kutip (') untuk semua nilai
-//   - Jangan lupa tanda koma (,) setelah tanda kurung kurawal tutup (})
-//   - Satu tanggal hanya bisa punya SATU booking
-//
-// ============================================================================
+(function () {
+    'use strict';
 
-// ========================================
-// HAMBURGER MENU
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    }
-});
-
-// ========================================
-// NAVBAR SCROLL EFFECT
-// ========================================
-window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (navbar) {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-});
-
-// ========================================
-// SMOOTH SCROLL TO TOP
-// ========================================
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ========================================
-// SCROLL REVEAL ANIMATIONS
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
-
-    const revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-});
-
-// ========================================
-// COUNTER ANIMATION (Stats)
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
-
-    if (statNumbers.length === 0) return;
-
-    let animated = false;
-
-    const counterObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !animated) {
-                animated = true;
-                statNumbers.forEach(num => {
-                    const target = parseInt(num.getAttribute('data-target'));
-                    const suffix = num.querySelector('span') ? num.querySelector('span').textContent : '';
-                    let current = 0;
-                    const increment = target / 40;
-                    const duration = 1500;
-                    const stepTime = duration / 40;
-
-                    const timer = setInterval(function() {
-                        current += increment;
-                        if (current >= target) {
-                            current = target;
-                            clearInterval(timer);
-                        }
-                        num.textContent = Math.floor(current);
-                        if (suffix) {
-                            const span = document.createElement('span');
-                            span.textContent = suffix;
-                            num.appendChild(span);
-                        }
-                    }, stepTime);
-                });
-            }
-        });
-    }, { threshold: 0.3 });
-
-    const statsSection = document.querySelector('.stats-section');
-    if (statsSection) {
-        counterObserver.observe(statsSection);
-    }
-});
-
-// ========================================
-// CONTACT FORM (WhatsApp)
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
-
-            if (!name.trim() || !subject.trim() || !message.trim()) {
-                alert('Mohon isi semua field yang wajib');
-                return;
-            }
-
-            let waMessage = `Halo! Saya ingin menghubungi Anda.\n\n`;
-            waMessage += `👤 Nama: ${name}\n`;
-            if (email.trim()) waMessage += `📧 Email: ${email}\n`;
-            waMessage += `📋 Subjek: ${subject}\n`;
-            waMessage += `\n📝 Pesan:\n${message}\n`;
-            waMessage += `\nTerima kasih!`;
-
-            const encodedMessage = encodeURIComponent(waMessage);
-            window.open(`https://wa.me/628123731343?text=${encodedMessage}`, '_blank');
-        });
-    }
-});
-
-// ========================================
-// ORDER FORM POPUP
-// ========================================
-function openOrderForm(serviceName, servicePrice) {
-    const modal = document.getElementById('orderModal');
-    const serviceNameInput = document.getElementById('serviceName');
-    const servicePriceInput = document.getElementById('servicePrice');
-    const bookingDate = document.getElementById('bookingDate');
-
-    if (modal && serviceNameInput && servicePriceInput) {
-        serviceNameInput.value = serviceName;
-        servicePriceInput.value = servicePrice;
-
-        if (bookingDate) {
-            const today = new Date().toISOString().split('T')[0];
-            bookingDate.setAttribute('min', today);
-        }
-
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeOrderForm() {
-    const modal = document.getElementById('orderModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-        const form = document.getElementById('orderForm');
-        if (form) form.reset();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const orderForm = document.getElementById('orderForm');
-
-    if (orderForm) {
-        orderForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const serviceName = document.getElementById('serviceName').value;
-            const servicePrice = document.getElementById('servicePrice').value;
-            const customerName = document.getElementById('customerName').value;
-            const bookingDate = document.getElementById('bookingDate').value;
-            const orderNotes = document.getElementById('orderNotes').value;
-            const discountCode = document.getElementById('discountCode').value;
-
-            if (!customerName.trim()) {
-                alert('Mohon isi nama lengkap Anda');
-                return;
-            }
-            if (!bookingDate) {
-                alert('Mohon pilih tanggal booking');
-                return;
-            }
-
-            const formattedDate = new Date(bookingDate).toLocaleDateString('id-ID', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-
-            let message = `Halo! Saya ingin memesan layanan:\n\n`;
-            message += `📦 Layanan: ${serviceName}\n`;
-            message += `💰 Harga: ${servicePrice}\n`;
-            message += `👤 Nama: ${customerName}\n`;
-            message += `📅 Tanggal Booking: ${formattedDate}\n`;
-            if (discountCode.trim()) message += `🎁 Kode Diskon: ${discountCode}\n`;
-            if (orderNotes.trim()) message += `\n📝 Catatan:\n${orderNotes}\n`;
-            message += `\nMohon konfirmasi ketersediaan dan detail pembayaran. Terima kasih!`;
-
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/628123731343?text=${encodedMessage}`, '_blank');
-
-            setTimeout(() => closeOrderForm(), 500);
-        });
-    }
-
-    const modal = document.getElementById('orderModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) closeOrderForm();
-        });
-    }
-});
-
-// ========================================
-// BOOKING CALENDAR
-// ========================================
-const bookingData = [
-    {
-        tanggal: '2026-03-08',
-        nama_klien: 'aeroblast',
-        paket_layanan: 'TikTok (2 Revisi)'
-    },
-    {
-        tanggal: '2026-03-29',
-        nama_klien: 'aeroblast',
-        paket_layanan: 'TikTok + Youtube (tanpa revisi)'
-    },
-];
-
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
-
-document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('calendarDays')) {
-        renderCalendar(currentMonth, currentYear);
-
-        const prevBtn = document.getElementById('prevMonth');
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
-                currentMonth--;
-                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-                renderCalendar(currentMonth, currentYear);
-            });
-        }
-
-        const nextBtn = document.getElementById('nextMonth');
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
-                currentMonth++;
-                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-                renderCalendar(currentMonth, currentYear);
-            });
-        }
-    }
-});
-
-function renderCalendar(month, year) {
-    const calendarDays = document.getElementById('calendarDays');
-    const currentMonthElement = document.getElementById('currentMonth');
-    if (!calendarDays || !currentMonthElement) return;
-
-    calendarDays.innerHTML = '';
-
-    const monthNames = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    // -------- Booking schedule data (past + future) ---------
+    // Format tanggal: 'YYYY-MM-DD'
+    const scheduleData = [
+        { tanggal: '2026-01-12', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)' },
+        { tanggal: '2026-02-04', nama_klien: 'minesive',  paket_layanan: 'YouTube (2 Revisi)' },
+        { tanggal: '2026-03-08', nama_klien: 'aeroblast', paket_layanan: 'TikTok (2 Revisi)' },
+        { tanggal: '2026-03-29', nama_klien: 'aeroblast', paket_layanan: 'TikTok + YouTube (Tanpa Revisi)' },
+        { tanggal: '2026-04-17', nama_klien: 'kalwi',     paket_layanan: 'Owning Content' },
+        { tanggal: '2026-05-09', nama_klien: 'ell anak emak', paket_layanan: 'TikTok + YouTube (2 Revisi)' },
+        { tanggal: '2026-05-22', nama_klien: 'potatosmp', paket_layanan: 'Setup Server Minecraft' },
+        { tanggal: '2026-06-14', nama_klien: 'arqonara',  paket_layanan: 'Jasa Pembuatan Website' },
+        { tanggal: '2026-07-03', nama_klien: 'minesive',  paket_layanan: 'TikTok (2 Revisi)' },
+        { tanggal: '2026-08-19', nama_klien: 'kalwi',     paket_layanan: 'YouTube (Tanpa Revisi)' }
     ];
-    currentMonthElement.textContent = `${monthNames[month]} ${year}`;
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
-    const todayDate = today.getDate();
-    const todayMonth = today.getMonth();
-    const todayYear = today.getFullYear();
+    const WA_NUMBER = '628123731343';
+    const monthsShort = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGT', 'SEP', 'OKT', 'NOV', 'DES'];
+    const monthsLong  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const weekdaysLong = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-    for (let i = 0; i < firstDay; i++) {
-        const emptyDay = document.createElement('div');
-        emptyDay.classList.add('calendar-day', 'empty');
-        calendarDays.appendChild(emptyDay);
+    function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+    function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
+
+    function parseDate(yyyyMmDd) {
+        const [y, m, d] = yyyyMmDd.split('-').map(Number);
+        return new Date(y, m - 1, d);
     }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayElement = document.createElement('div');
-        dayElement.classList.add('calendar-day');
-        dayElement.textContent = day;
+    function formatLongDate(date) {
+        return weekdaysLong[date.getDay()] + ', ' + date.getDate() + ' ' + monthsLong[date.getMonth()] + ' ' + date.getFullYear();
+    }
 
-        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const booking = bookingData.find(b => b.tanggal === dateString);
+    // -------- Hamburger menu --------
+    function initHamburger() {
+        const hamburger = $('#hamburger');
+        const navMenu = $('#navMenu');
+        if (!hamburger || !navMenu) return;
 
-        if (day === todayDate && month === todayMonth && year === todayYear) {
-            dayElement.classList.add('today');
-        } else if (booking) {
-            dayElement.classList.add('booked');
-            dayElement.title = 'Klik untuk lihat detail';
-            dayElement.addEventListener('click', function() {
-                showBookingDetail(dateString, booking);
-            });
-        } else if (new Date(year, month, day) < new Date(todayYear, todayMonth, todayDate)) {
-            dayElement.classList.add('available');
-            dayElement.style.opacity = '0.4';
-            dayElement.title = 'Tanggal sudah lewat';
-        } else {
-            dayElement.classList.add('available');
-            dayElement.title = 'Tersedia untuk booking';
+        function close() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Buka menu');
+        }
+        function open() {
+            hamburger.classList.add('active');
+            navMenu.classList.add('active');
+            hamburger.setAttribute('aria-expanded', 'true');
+            hamburger.setAttribute('aria-label', 'Tutup menu');
         }
 
-        calendarDays.appendChild(dayElement);
-    }
-}
-
-function showBookingDetail(dateString, booking) {
-    const modal = document.getElementById('bookingDetailModal');
-    const modalDate = document.getElementById('modalDate');
-    const clientName = document.getElementById('clientName');
-    const packageName = document.getElementById('packageName');
-
-    if (modal && modalDate && clientName && packageName) {
-        const date = new Date(dateString + 'T00:00:00');
-        const formattedDate = date.toLocaleDateString('id-ID', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        hamburger.addEventListener('click', function () {
+            if (navMenu.classList.contains('active')) close(); else open();
         });
 
-        modalDate.textContent = formattedDate;
-        clientName.textContent = booking.nama_klien;
-        packageName.textContent = booking.paket_layanan;
+        $$('.nav-link, .nav-cta', navMenu).forEach(function (link) {
+            link.addEventListener('click', close);
+        });
 
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
+        document.addEventListener('click', function (e) {
+            if (!navMenu.classList.contains('active')) return;
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) close();
+        });
 
-function closeBookingDetail() {
-    const modal = document.getElementById('bookingDetailModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('bookingDetailModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) closeBookingDetail();
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) close();
         });
     }
-});
 
-// ========================================
-// SMOOTH SCROLL FOR ANCHOR LINKS
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href === '#' || href === '') return;
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // -------- Navbar scroll state + active link --------
+    function initNavbar() {
+        const navbar = $('#navbar');
+        const links = $$('.nav-link');
+        const sections = links
+            .map(function (l) { return document.querySelector(l.getAttribute('href')); })
+            .filter(Boolean);
+
+        function onScroll() {
+            if (navbar) {
+                if (window.scrollY > 24) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            }
+
+            let current = sections[0] ? sections[0].id : '';
+            const offset = 120;
+            sections.forEach(function (sec) {
+                const top = sec.getBoundingClientRect().top;
+                if (top - offset <= 0) current = sec.id;
+            });
+            links.forEach(function (l) {
+                const target = (l.getAttribute('href') || '').replace('#', '');
+                l.classList.toggle('active', target === current);
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
+
+    // -------- Order Modal (Beli) --------
+    function buildOrderText(packageName, price) {
+        const pkg = packageName ? packageName : 'pilih paket';
+        const priceLine = price ? price : 'pilih paket';
+        return [
+            'Halo Haykal Service!',
+            'Saya ingin memesan layanan dengan detail berikut:',
+            '',
+            '• Nama        : [isi nama kamu]',
+            '• Kontak (WA) : [isi nomor / username]',
+            '• Paket       : ' + pkg + '   <-- pilih paket',
+            '• Harga       : ' + priceLine,
+            '• Tanggal     : [isi tanggal yang diinginkan]',
+            '• Catatan     : [opsional]',
+            '',
+            'Mohon konfirmasi ketersediaan slot dan info pembayarannya.',
+            'Terima kasih!'
+        ].join('\n');
+    }
+
+    function initOrderModal() {
+        const overlay = $('#orderModal');
+        const closeBtn = $('#orderModalClose');
+        const orderText = $('#orderText');
+        const copyBtn = $('#copyOrderBtn');
+        const copyLabel = $('#copyOrderLabel');
+        const waBtn = $('#orderWaBtn');
+        if (!overlay || !orderText) return;
+
+        function open(packageName, price) {
+            const text = buildOrderText(packageName, price);
+            orderText.textContent = text;
+            if (waBtn) {
+                waBtn.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
+            }
+            overlay.hidden = false;
+            // ensure CSS transition runs
+            requestAnimationFrame(function () { overlay.classList.add('active'); });
+            document.body.style.overflow = 'hidden';
+            if (copyLabel) copyLabel.textContent = 'Salin Format';
+        }
+
+        function close() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            window.setTimeout(function () { overlay.hidden = true; }, 250);
+        }
+
+        $$('.btn-buy').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const pkg = btn.getAttribute('data-package') || '';
+                const price = btn.getAttribute('data-price') || '';
+                open(pkg, price);
+            });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) close();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !overlay.hidden) close();
+        });
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function () {
+                const text = orderText.textContent || '';
+                const finish = function () {
+                    if (copyLabel) {
+                        const original = 'Salin Format';
+                        copyLabel.textContent = '✓ Tersalin';
+                        window.setTimeout(function () { copyLabel.textContent = original; }, 1600);
+                    }
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(finish, fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
+                function fallbackCopy() {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'absolute';
+                    ta.style.left = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand('copy'); } catch (err) { /* noop */ }
+                    document.body.removeChild(ta);
+                    finish();
+                }
+            });
+        }
+    }
+
+    // -------- Booking form --------
+    function initBookingForm() {
+        const form = $('#bookingForm');
+        const success = $('#bookingSuccess');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = $('#bk-name').value.trim();
+            const contact = $('#bk-contact').value.trim();
+            const pkg = $('#bk-package').value;
+            const date = $('#bk-date').value;
+            const notes = $('#bk-notes').value.trim();
+
+            if (!name || !contact || !pkg || !date) {
+                form.classList.add('shake');
+                window.setTimeout(function () { form.classList.remove('shake'); }, 400);
+                form.reportValidity();
+                return;
+            }
+
+            const dateObj = parseDate(date);
+            const formattedDate = formatLongDate(dateObj);
+
+            const lines = [
+                'Halo Haykal Service!',
+                'Saya ingin booking slot:',
+                '',
+                '• Nama    : ' + name,
+                '• Kontak  : ' + contact,
+                '• Paket   : ' + pkg,
+                '• Tanggal : ' + formattedDate
+            ];
+            if (notes) {
+                lines.push('• Catatan : ' + notes);
+            }
+            lines.push('');
+            lines.push('Mohon konfirmasi ketersediaan slot tersebut. Terima kasih!');
+
+            const url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+            window.open(url, '_blank', 'noopener');
+
+            if (success) {
+                success.hidden = false;
+                window.setTimeout(function () { success.hidden = true; }, 6000);
             }
         });
-    });
-});
+    }
 
-// ========================================
-// FORM INPUT FOCUS ANIMATIONS
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
+    // -------- Schedule list --------
+    function renderSchedule() {
+        const list = $('#scheduleList');
+        if (!list) return;
+
+        if (!scheduleData.length) {
+            list.innerHTML = '<li class="schedule-empty">Belum ada slot terbooking.</li>';
+            return;
+        }
+
+        // Sort ascending by date so the user sees full timeline (past + future together).
+        const sorted = scheduleData.slice().sort(function (a, b) {
+            return parseDate(a.tanggal) - parseDate(b.tanggal);
         });
-        input.addEventListener('blur', function() {
-            this.parentElement.classList.remove('focused');
+
+        // Reference point: now (used only to mark visual "is-past" styling, never as text).
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        const fragment = document.createDocumentFragment();
+        sorted.forEach(function (entry) {
+            const d = parseDate(entry.tanggal);
+            const isPast = d.getTime() < now.getTime();
+
+            const li = document.createElement('li');
+            li.className = 'schedule-item' + (isPast ? ' is-past' : '');
+
+            const dateBox = document.createElement('div');
+            dateBox.className = 'schedule-date';
+            dateBox.innerHTML =
+                '<span class="day">' + d.getDate() + '</span>' +
+                '<span class="month">' + monthsShort[d.getMonth()] + '</span>';
+
+            const info = document.createElement('div');
+            info.className = 'schedule-info';
+            const client = document.createElement('div');
+            client.className = 'schedule-client';
+            client.textContent = entry.nama_klien;
+            const pkg = document.createElement('div');
+            pkg.className = 'schedule-package';
+            pkg.textContent = entry.paket_layanan + ' · ' + formatLongDate(d);
+            info.appendChild(client);
+            info.appendChild(pkg);
+
+            const status = document.createElement('span');
+            status.className = 'schedule-status';
+            status.textContent = 'sedang dalam pengerjaan';
+
+            li.appendChild(dateBox);
+            li.appendChild(info);
+            li.appendChild(status);
+            fragment.appendChild(li);
         });
+
+        list.innerHTML = '';
+        list.appendChild(fragment);
+    }
+
+    // -------- Smooth scroll for anchor links (nav offset) --------
+    function initSmoothScroll() {
+        $$('a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const href = link.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+                const top = target.getBoundingClientRect().top + window.scrollY - navH + 1;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            });
+        });
+    }
+
+    // -------- Init --------
+    document.addEventListener('DOMContentLoaded', function () {
+        initHamburger();
+        initNavbar();
+        initOrderModal();
+        initBookingForm();
+        renderSchedule();
+        initSmoothScroll();
     });
-});
+})();
