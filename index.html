@@ -457,10 +457,20 @@
                             <!-- diisi via script.js -->
                         </ul>
 
-                        <div class="schedule-legend">
-                            <span class="legend-dot legend-booked" aria-hidden="true"></span>
-                            <span>Status: <strong>sedang dalam pengerjaan</strong></span>
-                        </div>
+<div class="schedule-legend" style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="legend-dot" style="background: var(--neon); box-shadow: 0 0 8px var(--neon-glow);"></span>
+        <span>Status: <strong>sedang dalam pengerjaan</strong></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="legend-dot" style="background: #f5a623; box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);"></span>
+        <span>Status: <strong style="color: #f5a623;">menunggu antrian</strong></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="legend-dot" style="background: #38bc77; box-shadow: none; animation: none;"></span>
+        <span>Status: <strong style="color: #a6f0c5;">sudah selesai</strong></span>
+    </div>
+</div>
                     </aside>
                 </div>
             </div>
