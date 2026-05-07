@@ -254,18 +254,24 @@
             return;
         }
 
-        // Sort ascending by date so the user sees full timeline (past + future together).
-        const sorted = scheduleData.slice().sort(function (a, b) {
-            return parseDate(a.tanggal) - parseDate(b.tanggal);
-        });
-        // BARU: Memotong array dan hanya mengambil 3 data paling akhir (terbaru)
-        const jadwalTerbaru = sorted.slice(-3);
-        // Reference point: now (used only to mark visual "is-past" styling, never as text).
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
 
-        const fragment = document.createDocumentFragment();
-jadwalTerbaru.forEach(function (entry) {
+        // HAPUS bagian sorted.slice(-3) yang lama, GANTI dari bagian ini:
+const sorted = scheduleData.slice().sort(function (a, b) {
+    return parseDate(a.tanggal) - parseDate(b.tanggal);
+});
+
+// BARU: Cek apakah sistem sedang disuruh menampilkan semua atau cuma 3
+// (window.showAllSchedule ini akan kita buat kontrolnya nanti)
+const jadwalYangDitampilkan = window.showAllSchedule ? sorted : sorted.slice(-3);
+
+const now = new Date();
+now.setHours(0, 0, 0, 0);
+
+const fragment = document.createDocumentFragment();
+
+// PASTIKAN loopingnya sekarang menggunakan 'jadwalYangDitampilkan'
+jadwalYangDitampilkan.forEach(function (entry) {
+    // ... (kode penentuan status, teks, warna, div, dll biarkan SAMA PERSIS seperti yang sudah kamu buat) ...
             const d = parseDate(entry.tanggal);
             
             // 1. Tentukan Teks dan Warna (Class) berdasarkan status
@@ -376,6 +382,31 @@ jadwalTerbaru.forEach(function (entry) {
         if (!wrap.contains(e.target)) closeDrop();
     });
 }
+// -------- Toggle Schedule --------
+    function initScheduleToggle() {
+        const btn = $('#toggleScheduleBtn');
+        if (!btn) return;
+        
+        // Memori awal: jangan tampilkan semua (hanya 3)
+        window.showAllSchedule = false;
+
+        btn.addEventListener('click', function() {
+            // Ubah status memori (jika false jadi true, jika true jadi false)
+            window.showAllSchedule = !window.showAllSchedule;
+            
+            // Ubah teks tombolnya
+            if (window.showAllSchedule) {
+                btn.textContent = 'Sembunyikan Jadwal Lama';
+                btn.style.borderColor = 'var(--red-500)'; // Kasih aksen menyala saat terbuka
+            } else {
+                btn.textContent = 'Lihat Semua Jadwal';
+                btn.style.borderColor = ''; // Kembalikan ke warna awal
+            }
+            
+            // Render (gambar) ulang jadwalnya sesuai status baru!
+            renderSchedule();
+        });
+    }
     // -------- Init --------
     document.addEventListener('DOMContentLoaded', function () {
         initHamburger();
@@ -385,5 +416,6 @@ jadwalTerbaru.forEach(function (entry) {
         renderSchedule();
         initSmoothScroll();
         initCustomSelect();
+        initScheduleToggle();
     });
 })();
