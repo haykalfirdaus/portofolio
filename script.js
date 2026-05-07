@@ -7,12 +7,13 @@
 
     // -------- Booking schedule data (past + future) ---------
     // Format tanggal: 'YYYY-MM-DD'
+    // Pilihan status: 'selesai', 'pengerjaan', atau 'antrian'
     const scheduleData = [
-        { tanggal: '2026-04-8', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)' },
-        { tanggal: '2026-05-07', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)' },
-        { tanggal: '2026-04-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website' },
+        { tanggal: '2026-04-08', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
+        { tanggal: '2026-05-07', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'pengerjaan' },
+        { tanggal: '2026-05-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website', status: 'antrian' },
     ];
-
+   
     const WA_NUMBER = '628123731343';
     const monthsShort = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGT', 'SEP', 'OKT', 'NOV', 'DES'];
     const monthsLong  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -262,12 +263,24 @@
         now.setHours(0, 0, 0, 0);
 
         const fragment = document.createDocumentFragment();
-        sorted.forEach(function (entry) {
+sorted.forEach(function (entry) {
             const d = parseDate(entry.tanggal);
-            const isPast = d.getTime() < now.getTime();
+            
+            // 1. Tentukan Teks dan Warna (Class) berdasarkan status
+            let statusText = 'sedang dalam pengerjaan';
+            let statusClass = 'status-pengerjaan';
 
+            if (entry.status === 'selesai') {
+                statusText = 'sudah selesai';
+                statusClass = 'status-selesai';
+            } else if (entry.status === 'antrian') {
+                statusText = 'menunggu antrian';
+                statusClass = 'status-antrian';
+            }
+
+            // 2. Buat bungkus list, jika selesai, beri class 'is-past' agar meredup
             const li = document.createElement('li');
-            li.className = 'schedule-item' + (isPast ? ' is-past' : '');
+            li.className = 'schedule-item' + (entry.status === 'selesai' ? ' is-past' : '');
 
             const dateBox = document.createElement('div');
             dateBox.className = 'schedule-date';
@@ -286,9 +299,10 @@
             info.appendChild(client);
             info.appendChild(pkg);
 
+            // 3. Masukkan class warna dan teks statusnya ke dalam HTML
             const status = document.createElement('span');
-            status.className = 'schedule-status';
-            status.textContent = 'sedang dalam pengerjaan';
+            status.className = 'schedule-status ' + statusClass;
+            status.textContent = statusText;
 
             li.appendChild(dateBox);
             li.appendChild(info);
