@@ -12,6 +12,7 @@
         { tanggal: '2026-04-08', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
         { tanggal: '2026-05-07', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
         { tanggal: '2026-04-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
+        { tanggal: '2026-02-2', nama_klien: 'aeoblast', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
     ];
    
     const WA_NUMBER = '628123731343';
