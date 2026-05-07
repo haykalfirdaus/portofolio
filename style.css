@@ -42,7 +42,33 @@
 
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
+/* Custom Scrollbar Merah untuk Seluruh Halaman */
+::-webkit-scrollbar {
+    width: 10px; /* Ketebalan scrollbar */
+}
 
+/* Background/jalur scrollbar */
+::-webkit-scrollbar-track {
+    background: var(--bg-0); 
+}
+
+/* Batang scrollbar yang bisa ditarik */
+::-webkit-scrollbar-thumb {
+    background: var(--red-500); 
+    border-radius: 10px;
+    border: 2px solid var(--bg-0); /* Memberi sedikit jarak/garis tepi gelap */
+}
+
+/* Saat batang scrollbar disentuh/diarahkan kursor */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--red-400); 
+}
+
+/* Dukungan khusus untuk browser Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--red-500) var(--bg-0);
+}
 /* -------------------- Reset -------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
