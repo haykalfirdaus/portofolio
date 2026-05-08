@@ -369,70 +369,71 @@
 
                             <div class="form-row">
                                 <div class="form-group">
-    <label>Paket Dipilih <span class="req">*</span></label>
-    <div class="custom-select-wrap" id="pkgSelectWrap">
-        <div class="custom-select-display" id="pkgDisplay" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
-            <span class="custom-select-placeholder" id="pkgDisplayText">pilih paket</span>
-            <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="custom-select-dropdown" id="pkgDropdown" role="listbox">
-            <div class="custom-select-group-label">Promosi — Tanpa Revisi</div>
-            <div class="custom-select-option" data-value="TikTok (Tanpa Revisi) — Rp 45.000" data-pkg="TikTok (Tanpa Revisi)" role="option">
-                <span class="custom-option-name">TikTok</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="YouTube (Tanpa Revisi) — Rp 45.000" data-pkg="YouTube (Tanpa Revisi)" role="option">
-                <span class="custom-option-name">YouTube</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="TikTok + YouTube (Tanpa Revisi) — Rp 80.000" data-pkg="TikTok + YouTube (Tanpa Revisi)" role="option">
-                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Hemat</span></span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 90.000</span><span class="custom-option-new">Rp 80.000</span></div>
-            </div>
-            <div class="custom-select-group-label">Promosi — 2 Revisi</div>
-            <div class="custom-select-option" data-value="TikTok (2 Revisi) — Rp 55.000" data-pkg="TikTok (2 Revisi)" role="option">
-                <span class="custom-option-name">TikTok</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="YouTube (2 Revisi) — Rp 55.000" data-pkg="YouTube (2 Revisi)" role="option">
-                <span class="custom-option-name">YouTube</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="TikTok + YouTube (2 Revisi) — Rp 95.000" data-pkg="TikTok + YouTube (2 Revisi)" role="option">
-                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Best Value</span></span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 105.000</span><span class="custom-option-new">Rp 95.000</span></div>
-            </div>
-            <div class="custom-select-group-label">Konten & Tambahan</div>
-            <div class="custom-select-option" data-value="Owning Content — Rp 15.000" data-pkg="Owning Content" role="option">
-                <span class="custom-option-name">Owning Content</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="Skip Antrian (Add-on) — Rp 15.000" data-pkg="Skip Antrian (Add-on)" role="option">
-                <span class="custom-option-name">Skip Antrian</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
-            </div>
-            <div class="custom-select-option" data-value="Revisi Ekstra — Rp 5.000/revisi" data-pkg="Revisi Ekstra" role="option">
-                <span class="custom-option-name">Revisi Ekstra</span>
-                <div class="custom-option-prices"><span class="custom-option-old">Rp 10.000</span><span class="custom-option-new">Rp 5.000/rev</span></div>
-            </div>
-            <div class="custom-select-group-label">Setup & Dev</div>
-            <div class="custom-select-option" data-value="Setup Server Minecraft — Custom" data-pkg="Setup Server Minecraft" role="option">
-                <span class="custom-option-name">Setup Server Minecraft</span>
-                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
-            </div>
-            <div class="custom-select-option" data-value="Jasa Pembuatan Website — Custom" data-pkg="Jasa Pembuatan Website" role="option">
-                <span class="custom-option-name">Jasa Pembuatan Website</span>
-                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
-            </div>
-        </div>
-        <!-- hidden input untuk form submit -->
-        <input type="hidden" id="bk-package" name="package" required>
-    </div>
-</div>
+                                    <label id="paket-label">Paket Dipilih <span class="req">*</span></label>
+                                    <div class="custom-select-wrap" id="pkgSelectWrap">
+                                        <div class="custom-select-display" id="pkgDisplay" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="paket-label">
+                                            <span class="custom-select-placeholder" id="pkgDisplayText">pilih paket</span>
+                                            <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="custom-select-dropdown" id="pkgDropdown" role="listbox">
+                                            <div class="custom-select-group-label">Promosi — Tanpa Revisi</div>
+                                            <div class="custom-select-option" data-value="TikTok (Tanpa Revisi) — Rp 45.000" data-pkg="TikTok (Tanpa Revisi)" role="option">
+                                                <span class="custom-option-name">TikTok</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="YouTube (Tanpa Revisi) — Rp 45.000" data-pkg="YouTube (Tanpa Revisi)" role="option">
+                                                <span class="custom-option-name">YouTube</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="TikTok + YouTube (Tanpa Revisi) — Rp 80.000" data-pkg="TikTok + YouTube (Tanpa Revisi)" role="option">
+                                                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Hemat</span></span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 90.000</span><span class="custom-option-new">Rp 80.000</span></div>
+                                            </div>
+                                            <div class="custom-select-group-label">Promosi — 2 Revisi</div>
+                                            <div class="custom-select-option" data-value="TikTok (2 Revisi) — Rp 55.000" data-pkg="TikTok (2 Revisi)" role="option">
+                                                <span class="custom-option-name">TikTok</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="YouTube (2 Revisi) — Rp 55.000" data-pkg="YouTube (2 Revisi)" role="option">
+                                                <span class="custom-option-name">YouTube</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="TikTok + YouTube (2 Revisi) — Rp 95.000" data-pkg="TikTok + YouTube (2 Revisi)" role="option">
+                                                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Best Value</span></span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 105.000</span><span class="custom-option-new">Rp 95.000</span></div>
+                                            </div>
+                                            <div class="custom-select-group-label">Konten & Tambahan</div>
+                                            <div class="custom-select-option" data-value="Owning Content — Rp 15.000" data-pkg="Owning Content" role="option">
+                                                <span class="custom-option-name">Owning Content</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="Skip Antrian (Add-on) — Rp 15.000" data-pkg="Skip Antrian (Add-on)" role="option">
+                                                <span class="custom-option-name">Skip Antrian</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="Revisi Ekstra — Rp 5.000/revisi" data-pkg="Revisi Ekstra" role="option">
+                                                <span class="custom-option-name">Revisi Ekstra</span>
+                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 10.000</span><span class="custom-option-new">Rp 5.000/rev</span></div>
+                                            </div>
+                                            <div class="custom-select-group-label">Setup & Dev</div>
+                                            <div class="custom-select-option" data-value="Setup Server Minecraft — Custom" data-pkg="Setup Server Minecraft" role="option">
+                                                <span class="custom-option-name">Setup Server Minecraft</span>
+                                                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
+                                            </div>
+                                            <div class="custom-select-option" data-value="Jasa Pembuatan Website — Custom" data-pkg="Jasa Pembuatan Website" role="option">
+                                                <span class="custom-option-name">Jasa Pembuatan Website</span>
+                                                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
+                                            </div>
+                                        </div>
+                                        <!-- hidden input untuk form submit -->
+                                        <input type="hidden" id="bk-package" name="package" required>
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="bk-notes">Catatan / Brief</label>
-                                <textarea id="bk-notes" name="notes" rows="4" placeholder="Style, referensi, durasi, link konten, dll."></textarea>
+                                <div class="form-group">
+                                    <label for="bk-notes">Catatan / Brief</label>
+                                    <textarea id="bk-notes" name="notes" rows="4" placeholder="Style, referensi, durasi, link konten, dll."></textarea>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-neon btn-submit">
@@ -454,25 +455,25 @@
                         </div>
 
                         <ul class="schedule-list" id="scheduleList">
-                         </ul>
-                         <button id="toggleScheduleBtn" class="btn btn-ghost" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem;">
-                             Lihat Semua Jadwal
-                         </button>
+                        </ul>
+                        <button id="toggleScheduleBtn" class="btn btn-ghost" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem;">
+                            Lihat Semua Jadwal
+                        </button>
 
-<div class="schedule-legend" style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <span class="legend-dot" style="background: var(--neon); box-shadow: 0 0 8px var(--neon-glow);"></span>
-        <span>Status: <strong>sedang dalam pengerjaan</strong></span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <span class="legend-dot" style="background: #f5a623; box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);"></span>
-        <span>Status: <strong style="color: #f5a623;">menunggu antrian</strong></span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <span class="legend-dot" style="background: #38bc77; box-shadow: none; animation: none;"></span>
-        <span>Status: <strong style="color: #a6f0c5;">sudah selesai</strong></span>
-    </div>
-</div>
+                        <div class="schedule-legend" style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="legend-dot" style="background: var(--neon); box-shadow: 0 0 8px var(--neon-glow);"></span>
+                                <span>Status: <strong>sedang dalam pengerjaan</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="legend-dot" style="background: #f5a623; box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);"></span>
+                                <span>Status: <strong style="color: #f5a623;">menunggu antrian</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="legend-dot" style="background: #38bc77; box-shadow: none; animation: none;"></span>
+                                <span>Status: <strong style="color: #a6f0c5;">sudah selesai</strong></span>
+                            </div>
+                        </div>
                     </aside>
                 </div>
             </div>
