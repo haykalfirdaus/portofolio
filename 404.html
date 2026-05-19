@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>404 - Halaman Tidak Ditemukan | Haykal Service</title>
+    <link rel="stylesheet" href="/style.css"> <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
+</head>
+<body>
+    <div class="aura-bg" aria-hidden="true">
+        <div class="aura aura-1"></div>
+        <div class="aura aura-2"></div>
+        <div class="aura aura-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-brand" aria-label="Haykal Service">
+                <span class="brand-mark">
+                    <img src="https://haykal.web.id/porto.png" alt="Haykal" class="brand-logo">
+                </span>
+                <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
+            </a>
+
+            <nav class="nav-menu" id="navMenu" aria-label="Navigasi utama">
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Beranda</a></li>
+                    <li><a href="/#layanan" class="nav-link">Layanan</a></li>
+                    <li><a href="/#booking" class="nav-link">Booking</a></li>
+                </ul>
+                <a href="/#booking" class="btn btn-neon btn-sm nav-cta">Pesan Sekarang</a>
+            </nav>
+
+            <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false" aria-controls="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="min-height: 70vh; display: flex; align-items: center;">
+            <div class="container hero-container" style="max-width: 600px;">
+                <h1 class="hero-title" style="font-size: clamp(6rem, 15vw, 10rem); color: var(--red-500); text-shadow: 0 0 40px var(--neon-glow); letter-spacing: 5px;">
+                    404
+                </h1>
+                
+                <h2 style="color: var(--white); font-size: 1.8rem; margin: 16px 0;">
+                    Oops! Nyasar ya?
+                </h2>
+                
+                <p class="hero-sub" style="margin-top: 0; margin-bottom: 40px;">
+                    Halaman yang kamu cari tidak ditemukan. Mungkin sudah dihapus atau URL-nya salah ketik.
+                </p>
+
+                <div class="hero-cta" style="justify-content: center;">
+                    <button onclick="window.history.back()" class="btn btn-ghost">
+                        Kembali ke Sebelumnya
+                    </button>
+                    <a href="/" class="btn btn-neon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        <span>Ke Beranda</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="/" class="nav-brand">
+                    <span class="brand-mark">
+                        <img src="https://haykal.web.id/porto.png" alt="Haykal" class="brand-logo">
+                    </span>
+                    <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
+                </a>
+                <p>Spesialis promosi &amp; konten kreator. Desain menarik, proses cepat, pelayanan ramah.</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="/">Beranda</a></li>
+                        <li><a href="/#layanan">Layanan</a></li>
+                        <li><a href="/#booking">Booking</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li><a href="https://wa.me/628123731343" target="_blank" rel="noopener">WhatsApp</a></li>
+                        <li>Mataram, NTB</li>
+                        <li>18.00 &ndash; 21.00 WITA</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Haykal Service.</span>
+            <span>Designed by Haykal</span>
+        </div>
+    </footer>
+
+    <script src="/script.js" defer></script>
+</body>
+</html>
