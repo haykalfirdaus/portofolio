@@ -409,6 +409,58 @@ jadwalYangDitampilkan.forEach(function (entry) {
             renderSchedule();
         });
     }
+    // -------- Skin Modal --------
+    function initSkinModal() {
+        const modal = $('#skinModal');
+        const closeBtn = $('#skinModalClose');
+        const overlay = modal;
+        
+        if (!modal || !closeBtn) return;
+
+        function close() {
+            modal.setAttribute('hidden', '');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', close);
+        
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) close();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.hasAttribute('hidden')) close();
+        });
+
+        // Order button handler
+        const orderBtn = $('#skinOrderBtn');
+        if (orderBtn) {
+            orderBtn.addEventListener('click', function() {
+                const message = encodeURIComponent(
+                    '🎮 *PEMESANAN SKIN MINECRAFT*\n\n' +
+                    '👤 Nama: \n' +
+                    '📦 Paket: Skin Minecraft Custom\n' +
+                    '💰 Budget: (sesuaikan dengan kerumitan)\n' +
+                    '📝 Deskripsi Skin:\n' +
+                    '   - Style: (misal: anime, realistic, chibi, dll)\n' +
+                    '   - Warna dominan: \n' +
+                    '   - Detail khusus: \n' +
+                    '   - Referensi (jika ada): \n\n' +
+                    '⏱️ Deadline: \n' +
+                    '📱 Kontak: '
+                );
+                window.open('https://wa.me/' + WA_NUMBER + '?text=' + message, '_blank', 'noopener');
+            });
+        }
+    }
+
+    window.openSkinModal = function() {
+        const modal = $('#skinModal');
+        if (!modal) return;
+        modal.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
     // -------- Preview Section --------
     const previewVideos = [
         {
@@ -431,12 +483,12 @@ jadwalYangDitampilkan.forEach(function (entry) {
         },
         {
             id: 'pv3',
-            url: 'https://haykal.web.id/pv2.mp4',
+            url: '#',
             thumb: 'https://haykal.web.id/pv3g.png',
-            title: 'Preview #3',
-            desc: 'Contoh hasil ketiga.',
-            tag: 'Video',
-            type: 'video'
+            title: 'Skin Minecraft',
+            desc: 'Jasa pembuatan skin Minecraft custom.',
+            tag: 'Skin',
+            type: 'skin'
         },
     ];
     // Tambah pv4, pv5, dst:
@@ -448,21 +500,32 @@ jadwalYangDitampilkan.forEach(function (entry) {
 
         previewVideos.forEach(function (item) {
             var isWebsite = item.type === 'website';
+            var isSkin = item.type === 'skin';
             var card = document.createElement('article');
             card.className = 'preview-card';
             card.setAttribute('tabindex', '0');
             card.setAttribute('role', 'link');
-            card.setAttribute('aria-label', (isWebsite ? 'Buka website ' : 'Tonton ') + item.title);
+            
+            var ariaLabel = isWebsite ? 'Buka website ' : (isSkin ? 'Lihat preview ' : 'Tonton ');
+            card.setAttribute('aria-label', ariaLabel + item.title);
 
-            var playIcon = isWebsite
-                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>'
-                : '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+            var playIcon;
+            if (isSkin) {
+                playIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/></svg>';
+            } else {
+                playIcon = isWebsite
+                    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>'
+                    : '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+            }
 
-            var footLabel = isWebsite
-                ? 'store.aeroblast.my.id'
-                : 'haykal.web.id/' + item.id + '.mp4';
+            var footLabel;
+            if (isSkin) {
+                footLabel = 'Mulai dari Rp 5.000';
+            } else {
+                footLabel = isWebsite ? 'store.aeroblast.my.id' : 'haykal.web.id/' + item.id + '.mp4';
+            }
 
-            var actionLabel = isWebsite ? 'Buka' : 'Tonton';
+            var actionLabel = isSkin ? 'Lihat' : (isWebsite ? 'Buka' : 'Tonton');
 
             card.innerHTML =
                 '<div class="preview-thumb">' +
@@ -484,7 +547,11 @@ jadwalYangDitampilkan.forEach(function (entry) {
                 '</div>';
 
             function openItem() {
-                window.open(item.url, '_blank', 'noopener');
+                if (isSkin) {
+                    openSkinModal();
+                } else {
+                    window.open(item.url, '_blank', 'noopener');
+                }
             }
 
             card.addEventListener('click', openItem);
@@ -507,5 +574,6 @@ jadwalYangDitampilkan.forEach(function (entry) {
         initCustomSelect();
         initScheduleToggle();
         initPreview();
+        initSkinModal();
     });
 })();
