@@ -12,11 +12,11 @@
         { tanggal: '2026-04-08', nama_klien: 'aeroblast', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
         { tanggal: '2026-05-07', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
         { tanggal: '2026-04-15', nama_klien: 'potatosmp', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
-        { tanggal: '2026-02-2', nama_klien: 'aeoblast', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
-        { tanggal: '2026-05-9', nama_klien: 'cloudsmp', paket_layanan: 'Tiktok (Tanpa Revisi)', status: 'selesai' },
-        { tanggal: '2026-05-10', nama_klien: 'minervax', paket_layanan: 'Tiktok (Tanpa Revisi)', status: 'selesai' },
+        { tanggal: '2026-02-02', nama_klien: 'aeoblast', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
+        { tanggal: '2026-05-09', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
+        { tanggal: '2026-05-10', nama_klien: 'minervax', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
     ];
-   
+
     const WA_NUMBER = '628123731343';
     const monthsShort = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGT', 'SEP', 'OKT', 'NOV', 'DES'];
     const monthsLong  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -137,7 +137,6 @@
                 waBtn.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
             }
             overlay.hidden = false;
-            // ensure CSS transition runs
             requestAnimationFrame(function () { overlay.classList.add('active'); });
             document.body.style.overflow = 'hidden';
             if (copyLabel) copyLabel.textContent = 'Salin Format';
@@ -153,6 +152,11 @@
             btn.addEventListener('click', function () {
                 const pkg = btn.getAttribute('data-package') || '';
                 const price = btn.getAttribute('data-price') || '';
+                // ✅ FIX: Jika paket Skin Minecraft, buka skin modal, bukan order modal
+                if (pkg === 'Skin Minecraft Custom') {
+                    openSkinModal();
+                    return;
+                }
                 open(pkg, price);
             });
         });
@@ -256,27 +260,20 @@
             return;
         }
 
+        const sorted = scheduleData.slice().sort(function (a, b) {
+            return parseDate(a.tanggal) - parseDate(b.tanggal);
+        });
 
-        // HAPUS bagian sorted.slice(-3) yang lama, GANTI dari bagian ini:
-const sorted = scheduleData.slice().sort(function (a, b) {
-    return parseDate(a.tanggal) - parseDate(b.tanggal);
-});
+        const jadwalYangDitampilkan = window.showAllSchedule ? sorted : sorted.slice(-3);
 
-// BARU: Cek apakah sistem sedang disuruh menampilkan semua atau cuma 3
-// (window.showAllSchedule ini akan kita buat kontrolnya nanti)
-const jadwalYangDitampilkan = window.showAllSchedule ? sorted : sorted.slice(-3);
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
 
-const now = new Date();
-now.setHours(0, 0, 0, 0);
+        const fragment = document.createDocumentFragment();
 
-const fragment = document.createDocumentFragment();
-
-// PASTIKAN loopingnya sekarang menggunakan 'jadwalYangDitampilkan'
-jadwalYangDitampilkan.forEach(function (entry) {
-    // ... (kode penentuan status, teks, warna, div, dll biarkan SAMA PERSIS seperti yang sudah kamu buat) ...
+        jadwalYangDitampilkan.forEach(function (entry) {
             const d = parseDate(entry.tanggal);
-            
-            // 1. Tentukan Teks dan Warna (Class) berdasarkan status
+
             let statusText = 'sedang dalam pengerjaan';
             let statusClass = 'status-pengerjaan';
 
@@ -288,7 +285,6 @@ jadwalYangDitampilkan.forEach(function (entry) {
                 statusClass = 'status-antrian';
             }
 
-            // 2. Buat bungkus list, jika selesai, beri class 'is-past' agar meredup
             const li = document.createElement('li');
             li.className = 'schedule-item' + (entry.status === 'selesai' ? ' is-past' : '');
 
@@ -309,7 +305,6 @@ jadwalYangDitampilkan.forEach(function (entry) {
             info.appendChild(client);
             info.appendChild(pkg);
 
-            // 3. Masukkan class warna dan teks statusnya ke dalam HTML
             const status = document.createElement('span');
             status.className = 'schedule-status ' + statusClass;
             status.textContent = statusText;
@@ -339,103 +334,117 @@ jadwalYangDitampilkan.forEach(function (entry) {
             });
         });
     }
+
+    // -------- Custom Package Dropdown --------
     function initCustomSelect() {
-    const wrap = document.getElementById('pkgSelectWrap');
-    const display = document.getElementById('pkgDisplay');
-    const displayText = document.getElementById('pkgDisplayText');
-    const dropdown = document.getElementById('pkgDropdown');
-    const hiddenInput = document.getElementById('bk-package');
-    if (!wrap || !display || !dropdown) return;
+        const wrap = document.getElementById('pkgSelectWrap');
+        const display = document.getElementById('pkgDisplay');
+        const displayText = document.getElementById('pkgDisplayText');
+        const dropdown = document.getElementById('pkgDropdown');
+        const hiddenInput = document.getElementById('bk-package');
+        if (!wrap || !display || !dropdown) return;
 
-    function openDrop() {
-        display.classList.add('open');
-        dropdown.classList.add('open');
-        display.setAttribute('aria-expanded', 'true');
-    }
-    function closeDrop() {
-        display.classList.remove('open');
-        dropdown.classList.remove('open');
-        display.setAttribute('aria-expanded', 'false');
-    }
-    function toggle() {
-        if (dropdown.classList.contains('open')) closeDrop(); else openDrop();
-    }
+        function openDrop() {
+            display.classList.add('open');
+            dropdown.classList.add('open');
+            display.setAttribute('aria-expanded', 'true');
+        }
+        function closeDrop() {
+            display.classList.remove('open');
+            dropdown.classList.remove('open');
+            display.setAttribute('aria-expanded', 'false');
+        }
+        function toggle() {
+            if (dropdown.classList.contains('open')) closeDrop(); else openDrop();
+        }
 
-    display.addEventListener('click', toggle);
-    display.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-        if (e.key === 'Escape') closeDrop();
-    });
-
-    dropdown.querySelectorAll('.custom-select-option').forEach(function(opt) {
-        opt.addEventListener('click', function() {
-            const val = opt.getAttribute('data-value');
-            const pkg = opt.getAttribute('data-pkg');
-            hiddenInput.value = val;
-            displayText.textContent = pkg;
-            displayText.classList.remove('custom-select-placeholder');
-            dropdown.querySelectorAll('.custom-select-option').forEach(function(o) { o.classList.remove('selected'); });
-            opt.classList.add('selected');
-            closeDrop();
+        display.addEventListener('click', toggle);
+        display.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+            if (e.key === 'Escape') closeDrop();
         });
-    });
 
-    document.addEventListener('click', function(e) {
-        if (!wrap.contains(e.target)) closeDrop();
-    });
-}
-// -------- Toggle Schedule --------
+        dropdown.querySelectorAll('.custom-select-option').forEach(function (opt) {
+            opt.addEventListener('click', function () {
+                const val = opt.getAttribute('data-value');
+                const pkg = opt.getAttribute('data-pkg');
+                hiddenInput.value = val;
+                displayText.textContent = pkg;
+                displayText.classList.remove('custom-select-placeholder');
+                dropdown.querySelectorAll('.custom-select-option').forEach(function (o) { o.classList.remove('selected'); });
+                opt.classList.add('selected');
+                closeDrop();
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!wrap.contains(e.target)) closeDrop();
+        });
+    }
+
+    // -------- Toggle Schedule --------
     function initScheduleToggle() {
         const btn = $('#toggleScheduleBtn');
         if (!btn) return;
-        
-        // Memori awal: jangan tampilkan semua (hanya 3)
+
         window.showAllSchedule = false;
 
-        btn.addEventListener('click', function() {
-            // Ubah status memori (jika false jadi true, jika true jadi false)
+        btn.addEventListener('click', function () {
             window.showAllSchedule = !window.showAllSchedule;
-            
-            // Ubah teks tombolnya
+
             if (window.showAllSchedule) {
                 btn.textContent = 'Sembunyikan Jadwal Lama';
-                btn.style.borderColor = 'var(--red-500)'; // Kasih aksen menyala saat terbuka
+                btn.style.borderColor = 'var(--red-500)';
             } else {
                 btn.textContent = 'Lihat Semua Jadwal';
-                btn.style.borderColor = ''; // Kembalikan ke warna awal
+                btn.style.borderColor = '';
             }
-            
-            // Render (gambar) ulang jadwalnya sesuai status baru!
+
             renderSchedule();
         });
     }
+
     // -------- Skin Modal --------
+    // ✅ FIX: openSkinModal didefinisikan di sini sebelum initPreview dipanggil
+    window.openSkinModal = function () {
+        const modal = $('#skinModal');
+        if (!modal) return;
+        modal.removeAttribute('hidden');
+        // requestAnimationFrame agar CSS transition pointer-events aktif
+        requestAnimationFrame(function () {
+            modal.classList.add('active');
+        });
+        document.body.style.overflow = 'hidden';
+    };
+
     function initSkinModal() {
         const modal = $('#skinModal');
         const closeBtn = $('#skinModalClose');
-        const overlay = modal;
-        
         if (!modal || !closeBtn) return;
 
         function close() {
-            modal.setAttribute('hidden', '');
+            modal.classList.remove('active');
             document.body.style.overflow = '';
+            // Tunggu transisi selesai baru sembunyikan elemen
+            setTimeout(function () {
+                modal.setAttribute('hidden', '');
+            }, 250);
         }
 
         closeBtn.addEventListener('click', close);
-        
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) close();
+
+        // Klik di luar modal (overlay) untuk menutup
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) close();
         });
 
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && !modal.hasAttribute('hidden')) close();
         });
 
-        // Order button handler
         const orderBtn = $('#skinOrderBtn');
         if (orderBtn) {
-            orderBtn.addEventListener('click', function() {
+            orderBtn.addEventListener('click', function () {
                 const message = encodeURIComponent(
                     '🎮 *PEMESANAN SKIN MINECRAFT*\n\n' +
                     '👤 Nama: \n' +
@@ -453,13 +462,6 @@ jadwalYangDitampilkan.forEach(function (entry) {
             });
         }
     }
-
-    window.openSkinModal = function() {
-        const modal = $('#skinModal');
-        if (!modal) return;
-        modal.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
-    };
 
     // -------- Preview Section --------
     const previewVideos = [
@@ -491,25 +493,23 @@ jadwalYangDitampilkan.forEach(function (entry) {
             type: 'skin'
         },
     ];
-    // Tambah pv4, pv5, dst:
-    // { id: 'pv4', url: '...', thumb: '...', title: 'Preview #4', desc: '...', tag: '...', type: 'video' atau 'website' },
 
     function initPreview() {
         const grid = $('#previewGrid');
         if (!grid) return;
 
         previewVideos.forEach(function (item) {
-            var isWebsite = item.type === 'website';
-            var isSkin = item.type === 'skin';
-            var card = document.createElement('article');
+            const isWebsite = item.type === 'website';
+            const isSkin = item.type === 'skin';
+            const card = document.createElement('article');
             card.className = 'preview-card';
             card.setAttribute('tabindex', '0');
             card.setAttribute('role', 'link');
-            
-            var ariaLabel = isWebsite ? 'Buka website ' : (isSkin ? 'Lihat preview ' : 'Tonton ');
+
+            const ariaLabel = isWebsite ? 'Buka website ' : (isSkin ? 'Lihat preview ' : 'Tonton ');
             card.setAttribute('aria-label', ariaLabel + item.title);
 
-            var playIcon;
+            let playIcon;
             if (isSkin) {
                 playIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/></svg>';
             } else {
@@ -518,14 +518,11 @@ jadwalYangDitampilkan.forEach(function (entry) {
                     : '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
             }
 
-            var footLabel;
-            if (isSkin) {
-                footLabel = 'Mulai dari Rp 5.000';
-            } else {
-                footLabel = isWebsite ? 'store.aeroblast.my.id' : 'haykal.web.id/' + item.id + '.mp4';
-            }
+            const footLabel = isSkin
+                ? 'Mulai dari Rp 5.000'
+                : (isWebsite ? 'store.aeroblast.my.id' : 'haykal.web.id/' + item.id + '.mp4');
 
-            var actionLabel = isSkin ? 'Lihat' : (isWebsite ? 'Buka' : 'Tonton');
+            const actionLabel = isSkin ? 'Lihat' : (isWebsite ? 'Buka' : 'Tonton');
 
             card.innerHTML =
                 '<div class="preview-thumb">' +
@@ -548,7 +545,8 @@ jadwalYangDitampilkan.forEach(function (entry) {
 
             function openItem() {
                 if (isSkin) {
-                    openSkinModal();
+                    // ✅ openSkinModal sudah pasti ada karena didefinisikan sebelum initPreview
+                    window.openSkinModal();
                 } else {
                     window.open(item.url, '_blank', 'noopener');
                 }
@@ -573,7 +571,7 @@ jadwalYangDitampilkan.forEach(function (entry) {
         initSmoothScroll();
         initCustomSelect();
         initScheduleToggle();
+        initSkinModal();   // ✅ FIX: initSkinModal SEBELUM initPreview
         initPreview();
-        initSkinModal();
     });
 })();
