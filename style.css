@@ -1736,3 +1736,134 @@ input, select, textarea { font: inherit; color: inherit; }
         scroll-behavior: auto !important;
     }
 }
+
+/* ==================== SKIN MODAL ==================== */
+.modal-skin {
+    max-width: 900px;
+    padding: 40px;
+}
+
+.skin-info-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+    padding: 24px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.skin-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skin-info-item svg {
+    width: 24px;
+    height: 24px;
+    color: var(--neon);
+    flex-shrink: 0;
+}
+
+.skin-info-item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.skin-info-item strong {
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.skin-info-item span {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.skin-preview-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 32px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.skin-preview-title svg {
+    width: 20px;
+    height: 20px;
+    color: var(--neon);
+}
+
+.skin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.skin-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: all 0.3s var(--ease-out);
+}
+
+.skin-item:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 20px rgba(255, 58, 92, 0.3);
+    transform: translateY(-4px);
+}
+
+.skin-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated; /* For Minecraft skins */
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .modal-skin {
+        padding: 28px 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .skin-info-box {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .skin-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .skin-item {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .skin-info-item {
+        font-size: 0.9rem;
+    }
+
+    .skin-info-item svg {
+        width: 20px;
+        height: 20px;
+    }
+}
