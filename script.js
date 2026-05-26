@@ -1,7 +1,29 @@
 /* ============================================================
    HAYKAL SERVICE - Single Page Portfolio
    ============================================================ */
+// -------- Loading Screen --------
+(function () {
+    var loader = document.getElementById('loadingScreen');
+    if (!loader) return;
 
+    var minMs = 2200; // tampil minimal 2.2 detik
+    var startTime = Date.now();
+
+    function hideLoader() {
+        var elapsed = Date.now() - startTime;
+        var delay = Math.max(0, minMs - elapsed);
+        setTimeout(function () {
+            loader.classList.add('ls-out');
+            setTimeout(function () { loader.remove(); }, 700);
+        }, delay);
+    }
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader);
+    }
+})();
 (function () {
     'use strict';
 
