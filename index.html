@@ -1,691 +1,2118 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0a0a0c">
-    <title>Haykal Service - Promosi &amp; Konten Kreator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://haykal.web.id/porto.png">
-    <meta name="description" content="Haykal Service - Spesialis promosi media sosial, pembuatan konten, dan pengembangan website. Desain menarik, proses cepat, pelayanan ramah.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haykal Service - Promosi & Konten Kreator</title>
+<!-- Font: preconnect dulu, load async supaya tidak block render -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- media="print" trick: load async, swap ke all setelah selesai -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<!-- fallback kalau JS off -->
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+<style>
+:root{
+  --bg-0:#08080a;--bg-1:#0e0e12;--bg-2:#15151b;
+  --bg-card:rgba(20,16,22,0.72);--bg-card-solid:#16121a;
+  --red-500:#ff1f3d;--red-600:#e51638;--red-400:#ff4f6b;
+  --neon:#ff3a5c;--neon-glow:rgba(255,58,92,0.55);--neon-soft:rgba(255,58,92,0.18);
+  --white:#fff;--text:#f3f3f5;--muted:rgba(243,243,245,0.65);--muted-2:rgba(243,243,245,0.42);
+  --border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);--border-red:rgba(255,31,61,0.35);
+  --shadow-card:0 1px 0 rgba(255,255,255,0.04) inset,0 22px 48px -28px rgba(0,0,0,0.85);
+  --shadow-glow:0 0 0 1px rgba(255,58,92,0.35),0 18px 60px -10px rgba(255,31,61,0.45);
+  --radius-sm:10px;--radius:16px;--radius-lg:22px;
+  --font-display:'Space Grotesk','Inter',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono','SFMono-Regular',Menlo,monospace;
+  --container-w:1200px;--nav-h:72px;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--red-500) var(--bg-0);}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--bg-0);}
+::-webkit-scrollbar-thumb{background:var(--red-500);border-radius:10px;border:2px solid var(--bg-0);}
+::-webkit-scrollbar-thumb:hover{background:var(--red-400);}
+body{margin:0;min-height:100vh;background:var(--bg-0);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;}
+ul,ol{margin:0;padding:0;list-style:none;}
+h1,h2,h3,h4,h5,h6{margin:0;font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;line-height:1.18;}
+p{margin:0;}
+input,select,textarea{font:inherit;color:inherit;}
+:focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:6px;}
+::selection{background:var(--red-500);color:#fff;}
+
+/* ── LOADING SCREEN ── */
+#loadingScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(ellipse at 30% 20%,rgba(255,31,61,0.12),transparent 55%),#08080a;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+  transition:opacity 0.7s var(--ease-out),visibility 0.7s var(--ease-out);
+}
+#loadingScreen.ls-out{opacity:0;visibility:hidden;pointer-events:none;}
+.ls-pivot{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(255,58,92,0.5);border:1px solid rgba(255,58,92,0.8);
+  box-shadow:0 0 12px rgba(255,58,92,0.6);position:relative;z-index:1;
+}
+.ls-pendulum{
+  display:flex;flex-direction:column;align-items:center;
+  transform-origin:top center;
+  animation:ls-swing 1.5s ease-in-out infinite alternate;
+  margin-bottom:40px;
+}
+@keyframes ls-swing{0%{transform:rotate(-28deg);}100%{transform:rotate(28deg);}}
+.ls-string{
+  width:2px;height:100px;
+  background:linear-gradient(to bottom,rgba(255,58,92,0.3) 0%,rgba(255,58,92,0.85) 100%);
+}
+.ls-ball{
+  width:22px;height:22px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#ff6b85,#ff1f3d);
+  box-shadow:0 0 0 3px rgba(255,31,61,0.2),0 0 22px rgba(255,31,61,0.7),0 0 48px rgba(255,31,61,0.35);
+}
+.ls-brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-display);font-size:1.45rem;font-weight:700;
+  color:var(--white);letter-spacing:-0.01em;
+  opacity:0;transform:translateY(8px);
+  animation:ls-fade-up 0.5s 0.3s var(--ease-out) forwards;
+}
+.ls-logo{width:30px;height:30px;border-radius:8px;object-fit:cover;}
+.ls-accent{color:var(--red-400);margin-left:3px;}
+.ls-bar-wrap{
+  margin-top:28px;width:150px;height:3px;border-radius:3px;
+  background:rgba(255,255,255,0.07);overflow:hidden;
+  opacity:0;animation:ls-fade-up 0.5s 0.55s var(--ease-out) forwards;
+}
+.ls-bar{
+  height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,var(--red-600),var(--red-400));
+  box-shadow:0 0 10px rgba(255,31,61,0.55);
+  animation:ls-progress 1.9s 0.7s var(--ease-out) forwards;
+}
+@keyframes ls-progress{to{width:100%;}}
+.ls-hint{
+  margin-top:14px;font-family:var(--font-mono);font-size:0.72rem;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--muted-2);
+  opacity:0;animation:ls-fade-up 0.5s 0.75s var(--ease-out) forwards;
+}
+@keyframes ls-fade-up{to{opacity:1;transform:translateY(0);}}
+
+/* ── BG AURA ── */
+.aura-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  background:radial-gradient(ellipse at 20% 0%,rgba(255,31,61,0.18),transparent 50%),
+  radial-gradient(ellipse at 80% 100%,rgba(255,58,92,0.10),transparent 55%),var(--bg-0);}
+.aura{position:absolute;border-radius:50%;filter:blur(110px);opacity:0.45;}
+.aura-1{width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,var(--red-500),transparent 70%);}
+.aura-2{width:420px;height:420px;top:40%;right:-120px;background:radial-gradient(circle,var(--neon),transparent 70%);opacity:0.28;}
+.aura-3{width:360px;height:360px;bottom:-100px;left:30%;background:radial-gradient(circle,var(--red-400),transparent 70%);opacity:0.18;}
+.grid-overlay{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);
+  opacity:0.55;
+}
+
+/* ── LAYOUT ── */
+.container{max-width:var(--container-w);margin:0 auto;padding:0 28px;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 22px;border-radius:999px;font-family:var(--font-display);font-weight:600;font-size:0.95rem;
+  cursor:pointer;transition:transform 0.25s var(--ease-out),box-shadow 0.25s var(--ease-out),background 0.25s var(--ease-out),color 0.25s var(--ease-out);
+  border:1px solid transparent;white-space:nowrap;user-select:none;
+}
+.btn svg{width:18px;height:18px;}
+.btn-sm{padding:9px 16px;font-size:0.85rem;}
+.btn-neon{
+  background:linear-gradient(135deg,var(--red-500),var(--red-600));color:#fff;
+  box-shadow:0 10px 30px -10px var(--neon-glow),0 0 0 1px rgba(255,255,255,0.06) inset;
+}
+.btn-neon:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px var(--neon-glow),0 0 24px rgba(255,58,92,0.4);}
+.btn-ghost{
+  background:rgba(255,255,255,0.04);color:var(--white);
+  border-color:var(--border-strong);backdrop-filter:blur(8px);
+}
+.btn-ghost:hover{background:rgba(255,31,61,0.10);border-color:var(--border-red);transform:translateY(-2px);}
+.btn-buy{
+  padding:10px 18px;font-size:0.88rem;
+  background:rgba(255,31,61,0.12);color:#fff;
+  border:1px solid var(--border-red);border-radius:999px;
+}
+.btn-buy:hover{
+  background:linear-gradient(135deg,var(--red-500),var(--red-600));border-color:transparent;
+  box-shadow:0 0 0 3px rgba(255,31,61,0.18),0 10px 24px -8px var(--neon-glow);transform:translateY(-1px);
+}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:sticky;top:0;z-index:50;height:var(--nav-h);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(8,8,10,0.55);border-bottom:1px solid transparent;
+  transition:background 0.3s var(--ease-out),border-color 0.3s var(--ease-out);
+}
+.navbar.scrolled{background:rgba(8,8,10,0.85);border-bottom-color:var(--border);}
+.nav-container{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;}
+.brand-mark img{width:26px;height:26px;border-radius:7px;object-fit:cover;}
+.brand-text{font-size:1.05rem;color:var(--white);}
+.brand-text-accent{color:var(--red-400);margin-left:4px;}
+.nav-menu{display:flex;align-items:center;gap:24px;}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-link{
+  position:relative;display:inline-block;padding:8px 14px;border-radius:999px;
+  font-size:0.92rem;color:var(--muted);
+  transition:color 0.2s var(--ease-out),background 0.2s var(--ease-out);
+}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,0.04);}
+.nav-link.active{color:var(--white);background:rgba(255,31,61,0.16);box-shadow:inset 0 0 0 1px var(--border-red);}
+.hamburger{
+  display:none;width:42px;height:42px;border-radius:12px;
+  border:1px solid var(--border-strong);background:rgba(255,255,255,0.04);
+  align-items:center;justify-content:center;flex-direction:column;gap:5px;
+  transition:background 0.2s,border-color 0.2s;
+}
+.hamburger span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform 0.25s var(--ease-out),opacity 0.2s;transform-origin:center;}
+.hamburger.active{background:rgba(255,31,61,0.18);border-color:var(--border-red);}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* ── HERO ── */
+.hero{padding:80px 0;position:relative;}
+.hero-container{max-width:920px;text-align:center;margin:0 auto;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 16px;
+  border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);
+  color:var(--muted);font-size:0.85rem;margin-bottom:28px;
+}
+.pill-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--neon);
+  box-shadow:0 0 10px var(--neon-glow);animation:pulse-dot 1.8s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.25);}}
+.hero-title{font-size:clamp(2.2rem,4.6vw,3.6rem);line-height:1.08;letter-spacing:-0.02em;color:var(--white);}
+.hero-greeting{
+  display:block;font-size:clamp(0.9rem,1.2vw,1.05rem);font-weight:500;
+  color:var(--red-400);text-transform:uppercase;letter-spacing:0.32em;
+  margin-bottom:16px;font-family:var(--font-mono);
+}
+.hero-headline{display:block;}
+.text-neon{color:var(--red-400);text-shadow:0 0 24px rgba(255,58,92,0.45);}
+.hero-sub{margin:22px auto 36px;max-width:640px;color:var(--muted);font-size:1.05rem;}
+.hero-cta{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:48px;}
+.hero-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  max-width:620px;margin:0 auto;padding:18px 24px;
+  border-radius:var(--radius);border:1px solid var(--border-strong);
+  background:var(--bg-card);backdrop-filter:blur(8px);
+}
+.hero-meta li{display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;}
+.hero-meta strong{font-family:var(--font-display);font-size:1.15rem;color:var(--white);}
+.hero-meta span{font-size:0.78rem;color:var(--muted-2);letter-spacing:0.02em;}
+
+/* Selling grid */
+.selling-grid{margin-top:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.sell-card{
+  position:relative;padding:24px 22px;border-radius:var(--radius);
+  background:var(--bg-card);border:1px solid var(--border);backdrop-filter:blur(10px);
+  transition:transform 0.3s var(--ease-out),border-color 0.3s,box-shadow 0.3s;overflow:hidden;
+}
+.sell-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(135deg,rgba(255,58,92,0.16),transparent 60%);
+  opacity:0;transition:opacity 0.3s;pointer-events:none;
+}
+.sell-card:hover{transform:translateY(-4px);border-color:var(--border-red);box-shadow:var(--shadow-glow);}
+.sell-card:hover::after{opacity:1;}
+.sell-icon{
+  display:grid;place-items:center;width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,31,61,0.18),rgba(255,58,92,0.06));
+  color:var(--red-400);margin-bottom:16px;border:1px solid var(--border-red);
+}
+.sell-icon svg{width:22px;height:22px;}
+.sell-card h3{font-size:1.05rem;color:var(--white);margin-bottom:8px;}
+.sell-card p{color:var(--muted);font-size:0.9rem;line-height:1.55;}
+
+/* ── SERVICES ── */
+.services,.booking{padding:80px 0;position:relative;}
+.section-head{text-align:center;max-width:720px;margin:0 auto 48px;}
+.section-tag{
+  display:inline-block;font-family:var(--font-mono);font-size:0.78rem;
+  letter-spacing:0.32em;color:var(--red-400);text-transform:uppercase;
+  padding:6px 14px;border-radius:999px;background:rgba(255,31,61,0.10);
+  border:1px solid var(--border-red);margin-bottom:18px;
+}
+.section-head h2{font-size:clamp(1.85rem,3.2vw,2.6rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:14px;}
+.section-head p{color:var(--muted);font-size:1.02rem;}
+.service-block{margin-bottom:56px;}
+.service-block-title{
+  display:inline-flex;align-items:center;gap:12px;font-size:1.1rem;color:var(--white);
+  margin-bottom:22px;padding-bottom:14px;border-bottom:1px dashed var(--border);width:100%;
+}
+.block-num{
+  display:grid;place-items:center;min-width:38px;height:38px;padding:0 10px;
+  border-radius:10px;background:linear-gradient(135deg,rgba(255,31,61,0.18),rgba(255,31,61,0.06));
+  border:1px solid var(--border-red);color:var(--red-400);font-family:var(--font-mono);font-size:0.85rem;
+}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.service-grid-2{grid-template-columns:repeat(2,1fr);}
+.service-grid-1{grid-template-columns:1fr;}
+.service-card{
+  position:relative;display:flex;flex-direction:column;padding:24px;
+  border-radius:var(--radius);background:var(--bg-card);border:1px solid var(--border);
+  backdrop-filter:blur(10px);overflow:hidden;
+  transition:transform 0.3s var(--ease-out),border-color 0.3s,box-shadow 0.3s;
+}
+.service-card:hover{transform:translateY(-4px);border-color:var(--border-red);box-shadow:var(--shadow-glow);}
+.service-card-feature{background:linear-gradient(155deg,rgba(255,31,61,0.12),var(--bg-card));border-color:var(--border-red);}
+.service-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.badge{
+  display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;
+  font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;
+  background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border-strong);
+}
+.badge-soft{background:rgba(255,31,61,0.10);color:var(--red-400);border-color:var(--border-red);}
+.service-card h4{font-size:1.08rem;color:var(--white);margin-bottom:8px;}
+.service-card>p{color:var(--muted);font-size:0.9rem;line-height:1.55;margin-bottom:20px;flex-grow:1;}
+.service-card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:16px;border-top:1px dashed var(--border);
+}
+.price{display:flex;flex-direction:column;gap:2px;}
+.price-old{font-size:0.78rem;color:var(--muted-2);text-decoration:line-through;text-decoration-color:rgba(255,58,92,0.6);}
+.price-now{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--white);}
+.price-custom{font-size:0.95rem;color:var(--red-400);}
+.price-unit{font-size:0.75rem;font-weight:500;color:var(--muted);margin-left:4px;}
+.services-note{
+  margin-top:36px;padding:16px 22px;border-radius:var(--radius-sm);
+  border:1px dashed var(--border-red);background:rgba(255,31,61,0.06);
+  color:var(--muted);font-size:0.9rem;text-align:center;
+}
+.services-note strong{color:var(--red-400);}
+.services-note em{color:var(--white);font-style:normal;font-weight:600;}
+
+/* ── BOOKING ── */
+.booking-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start;}
+.booking-form-wrap{
+  padding:32px;border-radius:var(--radius-lg);background:var(--bg-card);
+  border:1px solid var(--border-strong);backdrop-filter:blur(12px);box-shadow:var(--shadow-card);
+}
+.booking-form{display:flex;flex-direction:column;gap:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group label{font-size:0.85rem;color:var(--muted);font-weight:500;}
+.req{color:var(--red-400);margin-left:2px;}
+.booking-form input,.booking-form textarea{
+  width:100%;padding:13px 16px;background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--white);font-size:0.95rem;
+  transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;
+}
+.booking-form textarea{resize:vertical;min-height:110px;font-family:inherit;}
+.booking-form input::placeholder,.booking-form textarea::placeholder{color:var(--muted-2);}
+.booking-form input:focus,.booking-form textarea:focus{
+  outline:none;border-color:var(--red-500);background:rgba(255,31,61,0.05);
+  box-shadow:0 0 0 4px rgba(255,31,61,0.12);
+}
+.booking-form input[type="date"]{color-scheme:dark;}
+.booking-form input[type="date"]::-webkit-calendar-picker-indicator{
+  filter:invert(0.9) sepia(1) saturate(7) hue-rotate(310deg);opacity:0.85;cursor:pointer;
+}
+.btn-submit{margin-top:6px;padding:16px 24px;width:100%;}
+.form-success{
+  margin-top:4px;padding:12px 14px;border-radius:var(--radius-sm);
+  background:rgba(56,188,119,0.10);border:1px solid rgba(56,188,119,0.35);
+  color:#a6f0c5;font-size:0.88rem;text-align:center;
+}
+
+/* Custom Select */
+.custom-select-wrap{position:relative;}
+.custom-select-display{
+  width:100%;padding:13px 42px 13px 16px;background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--white);
+  font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;user-select:none;
+}
+.custom-select-display.open,.custom-select-display:focus{
+  outline:none;border-color:var(--red-500);background:rgba(255,31,61,0.05);
+  box-shadow:0 0 0 4px rgba(255,31,61,0.12);
+}
+.custom-select-display .chevron{flex-shrink:0;width:14px;height:14px;color:var(--red-400);transition:transform 0.2s;}
+.custom-select-display.open .chevron{transform:rotate(180deg);}
+.custom-select-placeholder{color:var(--muted-2);}
+.custom-select-dropdown{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:200;
+  background:var(--bg-2);border:1px solid var(--border-red);border-radius:var(--radius-sm);
+  box-shadow:0 16px 40px -8px rgba(0,0,0,0.7);display:none;max-height:340px;overflow-y:auto;
+}
+.custom-select-dropdown.open{display:block;}
+.custom-select-dropdown::-webkit-scrollbar{width:5px;}
+.custom-select-dropdown::-webkit-scrollbar-thumb{background:var(--border-red);border-radius:3px;}
+.custom-select-group-label{
+  padding:10px 14px 6px;font-family:var(--font-mono);font-size:0.68rem;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--red-400);
+  border-top:1px dashed var(--border);
+}
+.custom-select-group-label:first-child{border-top:none;}
+.custom-select-option{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 14px;cursor:pointer;transition:background 0.15s;
+}
+.custom-select-option:hover{background:rgba(255,31,61,0.10);}
+.custom-select-option.selected{background:rgba(255,31,61,0.14);}
+.custom-option-name{font-size:0.9rem;color:var(--white);}
+.custom-option-prices{display:flex;flex-direction:column;align-items:flex-end;gap:1px;flex-shrink:0;}
+.custom-option-old{font-size:0.7rem;color:var(--muted-2);text-decoration:line-through;}
+.custom-option-new{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--red-400);}
+.custom-option-badge{
+  font-family:var(--font-mono);font-size:0.62rem;padding:2px 7px;border-radius:999px;
+  background:linear-gradient(135deg,var(--red-500),var(--red-600));color:#fff;
+}
+
+/* Schedule */
+.schedule-wrap{
+  padding:28px;border-radius:var(--radius-lg);background:var(--bg-card);
+  border:1px solid var(--border-strong);backdrop-filter:blur(12px);box-shadow:var(--shadow-card);
+}
+.schedule-head h3{font-size:1.1rem;color:var(--white);margin-bottom:6px;}
+.schedule-head p{color:var(--muted);font-size:0.88rem;margin-bottom:20px;}
+.schedule-list{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding-right:4px;}
+.schedule-list::-webkit-scrollbar{width:6px;}
+.schedule-list::-webkit-scrollbar-thumb{background:var(--border-red);border-radius:3px;}
+.schedule-item{
+  display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;
+  padding:14px 16px;border-radius:var(--radius-sm);
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  transition:border-color 0.2s,background 0.2s;
+}
+.schedule-item:hover{border-color:var(--border-red);background:rgba(255,31,61,0.06);}
+.schedule-item.is-past{opacity:0.7;}
+.schedule-date{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:52px;padding:8px 0;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,rgba(255,31,61,0.20),rgba(255,58,92,0.06));
+  border:1px solid var(--border-red);color:var(--white);
+  font-family:var(--font-display);
+}
+.schedule-date .day{font-size:1.15rem;font-weight:700;line-height:1;}
+.schedule-date .month{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red-400);margin-top:4px;}
+.schedule-info{min-width:0;}
+.schedule-client{color:var(--white);font-weight:600;font-size:0.95rem;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.schedule-package{color:var(--muted);font-size:0.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.schedule-status{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;
+  font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.05em;text-transform:lowercase;
+  white-space:nowrap;border:1px solid transparent;
+}
+.schedule-status::before{content:"";width:6px;height:6px;border-radius:50%;}
+.status-pengerjaan{background:rgba(255,31,61,0.14);border-color:var(--border-red);color:var(--red-400);}
+.status-pengerjaan::before{background:var(--neon);box-shadow:0 0 8px var(--neon-glow);animation:pulse-dot 2s ease-in-out infinite;}
+.status-antrian{background:rgba(245,166,35,0.10);border-color:rgba(245,166,35,0.35);color:#f5a623;}
+.status-antrian::before{background:#f5a623;box-shadow:0 0 8px rgba(245,166,35,0.4);animation:pulse-dot 2s ease-in-out infinite;}
+.status-selesai{background:rgba(56,188,119,0.10);border-color:rgba(56,188,119,0.35);color:#a6f0c5;}
+.status-selesai::before{background:#38bc77;}
+.schedule-legend{
+  display:flex;flex-direction:column;gap:8px;align-items:flex-start;
+  margin-top:18px;padding-top:16px;border-top:1px dashed var(--border);font-size:0.85rem;color:var(--muted);
+}
+.legend-row{display:flex;align-items:center;gap:10px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* ── PREVIEW ── */
+.preview-section{padding:96px 0 80px;position:relative;}
+.preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.preview-card{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:var(--bg-card-solid);border:1px solid var(--border);cursor:pointer;
+  transition:transform 0.3s var(--ease-out),box-shadow 0.3s,border-color 0.3s;
+}
+.preview-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-glow);border-color:var(--border-red);}
+.preview-thumb{position:relative;width:100%;aspect-ratio:9/16;background:var(--bg-2);overflow:hidden;}
+.preview-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s var(--ease-out);}
+.preview-card:hover .preview-thumb img{transform:scale(1.04);}
+.preview-thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(8,8,10,0.92) 0%,rgba(8,8,10,0.2) 50%,transparent 100%);
+  display:flex;align-items:center;justify-content:center;transition:background 0.3s;
+}
+.preview-card:hover .preview-thumb-overlay{background:linear-gradient(to top,rgba(8,8,10,0.85) 0%,rgba(255,31,61,0.15) 50%,transparent 100%);}
+.preview-play-btn{
+  width:56px;height:56px;border-radius:50%;background:rgba(255,31,61,0.9);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 8px rgba(255,31,61,0.2),0 8px 24px -4px rgba(255,31,61,0.6);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.preview-card:hover .preview-play-btn{transform:scale(1.12);box-shadow:0 0 0 12px rgba(255,31,61,0.18),0 12px 32px -4px rgba(255,31,61,0.75);}
+.preview-play-btn svg{width:22px;height:22px;color:#fff;margin-left:3px;}
+.preview-badge{
+  position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:999px;
+  font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;
+  background:rgba(255,31,61,0.85);color:#fff;backdrop-filter:blur(4px);
+}
+.preview-card-body{padding:16px 18px 18px;}
+.preview-card-title{font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.preview-card-desc{font-size:0.82rem;color:var(--muted);line-height:1.5;}
+.preview-card-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 14px;border-top:1px solid var(--border);gap:8px;}
+.preview-card-tag{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--red-400);}
+.preview-card-link{font-size:0.78rem;color:var(--muted-2);display:flex;align-items:center;gap:4px;transition:color 0.2s;}
+.preview-card-link svg{width:12px;height:12px;}
+
+/* ── FOOTER ── */
+.footer{padding:64px 0 24px;border-top:1px solid var(--border);background:linear-gradient(to bottom,transparent,rgba(255,31,61,0.04));}
+.footer-container{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;margin-bottom:36px;}
+.footer-brand p{color:var(--muted);margin-top:14px;max-width:380px;}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.footer-links h4{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--red-400);margin-bottom:14px;font-family:var(--font-mono);font-weight:500;}
+.footer-links ul{display:flex;flex-direction:column;gap:8px;}
+.footer-links a,.footer-links li{color:var(--muted);font-size:0.9rem;transition:color 0.2s;}
+.footer-links a:hover{color:var(--red-400);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--border);color:var(--muted-2);font-size:0.82rem;flex-wrap:wrap;gap:12px;}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:100;background:rgba(5,5,8,0.72);
+  backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity 0.25s var(--ease-out);
+}
+.modal-overlay.active{opacity:1;pointer-events:auto;}
+.modal-overlay[hidden]{display:none;}
+.modal{
+  width:100%;max-width:540px;max-height:calc(100vh - 40px);overflow-y:auto;
+  background:var(--bg-card-solid);border:1px solid var(--border-red);border-radius:var(--radius-lg);
+  padding:32px;position:relative;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,0.8),0 0 60px -10px var(--neon-glow);
+  transform:translateY(20px) scale(0.97);transition:transform 0.3s var(--ease-out);
+}
+.modal-overlay.active .modal{transform:translateY(0) scale(1);}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border-strong);
+  color:var(--white);font-size:1.4rem;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+}
+.modal-close:hover{background:rgba(255,31,61,0.16);border-color:var(--border-red);transform:rotate(90deg);}
+.modal-eyebrow{display:inline-block;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.32em;color:var(--red-400);text-transform:uppercase;margin-bottom:8px;}
+.modal-head h3{font-size:1.4rem;color:var(--white);margin-bottom:8px;}
+.modal-head p{color:var(--muted);font-size:0.92rem;margin-bottom:20px;}
+.order-callout{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:18px;
+  border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(255,31,61,0.18),rgba(255,31,61,0.04));
+  border:1px solid var(--border-red);
+}
+.callout-arrow{
+  display:grid;place-items:center;width:32px;height:32px;border-radius:10px;
+  background:linear-gradient(135deg,var(--red-500),var(--red-600));color:#fff;font-weight:700;
+  box-shadow:0 6px 18px -6px var(--neon-glow);
+}
+.callout-label{display:block;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
+.callout-text{color:var(--white);font-size:1rem;font-weight:700;}
+.order-text{
+  margin:0 0 20px;padding:18px;background:#0c0c10;border:1px solid var(--border-strong);
+  border-radius:var(--radius-sm);color:#f3f3f5;font-family:var(--font-mono);font-size:0.86rem;
+  line-height:1.65;white-space:pre-wrap;word-break:break-word;max-height:280px;overflow-y:auto;
+}
+.modal-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.modal-actions .btn{flex:1;min-width:140px;}
+
+/* Skin Modal */
+.modal-skin{max-width:700px;padding:40px;}
+.skin-info-box{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;
+  margin:24px 0;padding:24px;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--radius);
+}
+.skin-info-item{display:flex;align-items:center;gap:12px;}
+.skin-info-item svg{width:24px;height:24px;color:var(--neon);flex-shrink:0;}
+.skin-info-item strong{color:var(--white);font-size:0.9rem;font-weight:600;display:block;}
+.skin-info-item span{color:var(--muted);font-size:0.85rem;}
+.skin-preview-title{
+  display:flex;align-items:center;gap:10px;margin:24px 0 16px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);color:var(--white);font-weight:600;
+}
+.skin-preview-title svg{width:20px;height:20px;color:var(--neon);}
+.skin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+.skin-item{
+  aspect-ratio:1/1;background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;transition:all 0.3s;
+}
+.skin-item:hover{border-color:var(--neon);box-shadow:0 0 20px rgba(255,58,92,0.3);transform:translateY(-4px);}
+.skin-item img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;}
+
+/* ══════════════════════════════════════════
+   ORDER FORM MODAL — bergaya store.aeroblast
+   ══════════════════════════════════════════ */
+.om-modal{
+  max-width:520px;
+  padding:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  max-height:90vh;
+}
+.om-modal .modal-close{z-index:10;}
+
+/* Scrollable inner */
+.om-modal > *:not(.om-actions){
+  padding-left:28px;
+  padding-right:28px;
+}
+.om-modal{overflow-y:auto;}
+
+/* Header */
+.om-header{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,rgba(255,31,61,0.08),transparent 60%);
+  position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);
+  background-color:var(--bg-card-solid);
+}
+.om-header .modal-eyebrow{display:block;margin-bottom:4px;}
+.om-header h3{font-size:1.25rem;color:var(--white);margin-bottom:14px;}
+
+/* Product preview card */
+.om-product-preview{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-radius:var(--radius-sm);
+  background:rgba(255,31,61,0.08);border:1px solid var(--border-red);
+  gap:12px;
+}
+.om-product-name{font-family:var(--font-display);font-weight:700;font-size:0.95rem;color:var(--white);}
+.om-product-price-row{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
+.om-product-price-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.12em;color:var(--muted-2);text-transform:uppercase;}
+.om-product-price-val{font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--red-400);}
+
+/* Sections */
+.om-section{padding:20px 28px 0;}
+.om-section-label{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-display);font-size:0.82rem;font-weight:600;
+  color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.om-step{
+  display:inline-grid;place-items:center;
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red-500),var(--red-600));
+  color:#fff;font-size:0.7rem;font-weight:700;flex-shrink:0;
+}
+
+/* Fields */
+.om-fields{display:flex;flex-direction:column;gap:10px;}
+.om-field{display:flex;flex-direction:column;gap:5px;}
+.om-field label{font-size:0.82rem;color:var(--muted);font-weight:500;}
+.om-field input,.om-field textarea{
+  padding:11px 14px;background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--white);font-size:0.92rem;font-family:inherit;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  width:100%;
+}
+.om-field textarea{resize:none;font-family:inherit;}
+.om-field input:focus,.om-field textarea:focus{
+  outline:none;border-color:var(--red-500);
+  box-shadow:0 0 0 3px rgba(255,31,61,0.12);
+  background:rgba(255,31,61,0.04);
+}
+.om-field input::placeholder,.om-field textarea::placeholder{color:var(--muted-2);}
+
+/* Payment grid */
+.om-pay-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+  margin-bottom:14px;
+}
+.om-pay-option input{display:none;}
+.om-pay-card{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:10px 6px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:rgba(255,255,255,0.02);
+  cursor:pointer;transition:border-color 0.2s,background 0.2s,transform 0.15s;
+  min-height:70px;
+}
+.om-pay-card img{height:24px;width:auto;object-fit:contain;filter:brightness(0.9);}
+.om-pay-card span{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;}
+.om-pay-option:hover .om-pay-card{border-color:var(--border-red);background:rgba(255,31,61,0.06);}
+.om-pay-option input:checked ~ .om-pay-card{
+  border-color:var(--red-400);background:rgba(255,31,61,0.12);
+  box-shadow:0 0 0 2px rgba(255,31,61,0.18);transform:scale(1.03);
+}
+.om-pay-option input:checked ~ .om-pay-card span{color:var(--red-400);}
+
+/* Payment preview (QR/logo) */
+.om-pay-preview{
+  margin-top:4px;padding:14px;
+  border-radius:var(--radius-sm);
+  border:1px dashed var(--border-red);
+  background:rgba(255,31,61,0.04);
+}
+.om-pay-preview-label{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--red-400);margin-bottom:10px;}
+.om-pay-preview-img-wrap{display:flex;align-items:center;gap:14px;}
+.om-pay-preview img{
+  width:90px;height:90px;object-fit:contain;border-radius:8px;
+  background:rgba(255,255,255,0.05);padding:6px;
+  border:1px solid var(--border);
+}
+.om-pay-preview-info{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+.om-pay-preview-info strong{display:block;color:var(--white);font-size:0.95rem;margin-bottom:2px;}
+
+/* Discount row */
+.om-discount-row{display:flex;gap:8px;align-items:stretch;}
+.om-discount-row input{
+  flex:1;padding:11px 14px;background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--white);font-size:0.92rem;font-family:var(--font-mono);letter-spacing:0.08em;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.om-discount-row input:focus{outline:none;border-color:var(--red-500);box-shadow:0 0 0 3px rgba(255,31,61,0.12);}
+.om-discount-row input::placeholder{color:var(--muted-2);font-family:var(--font-body);letter-spacing:0;}
+.om-discount-msg{
+  margin-top:6px;padding:8px 12px;border-radius:var(--radius-sm);font-size:0.82rem;
+}
+.om-discount-msg.success{background:rgba(56,188,119,0.10);border:1px solid rgba(56,188,119,0.3);color:#a6f0c5;}
+.om-discount-msg.error{background:rgba(255,31,61,0.08);border:1px solid var(--border-red);color:var(--red-400);}
+
+/* Summary */
+.om-summary{
+  margin:18px 28px 0;
+  padding:14px 16px;border-radius:var(--radius-sm);
+  background:rgba(255,255,255,0.02);border:1px solid var(--border-strong);
+}
+.om-summary-row{display:flex;justify-content:space-between;align-items:center;font-size:0.88rem;color:var(--muted);padding:3px 0;}
+.om-summary-divider{height:1px;background:var(--border);margin:8px 0;}
+.om-summary-total{font-size:1rem;font-weight:700;color:var(--white);}
+.om-summary-total .text-neon{font-size:1.15rem;}
+
+/* Agreement */
+.om-agree{
+  display:flex;align-items:flex-start;gap:10px;padding:14px 28px 0;
+  cursor:pointer;font-size:0.82rem;color:var(--muted);
+}
+.om-agree input{
+  margin-top:2px;flex-shrink:0;accent-color:var(--red-500);
+  width:15px;height:15px;cursor:pointer;
+}
+
+/* Error */
+.om-err{
+  margin:8px 28px 0;padding:10px 14px;border-radius:var(--radius-sm);
+  background:rgba(255,31,61,0.08);border:1px solid var(--border-red);
+  color:var(--red-400);font-size:0.82rem;
+}
+
+/* Actions */
+.om-actions{
+  display:flex;gap:10px;padding:16px 28px 24px;
+  position:sticky;bottom:0;
+  background:var(--bg-card-solid);border-top:1px solid var(--border);
+  backdrop-filter:blur(12px);margin-top:14px;
+}
+.om-actions .btn{flex:1;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:980px){
+  .selling-grid{grid-template-columns:repeat(2,1fr);}
+  .service-grid{grid-template-columns:repeat(2,1fr);}
+  .service-grid-2{grid-template-columns:repeat(2,1fr);}
+  .booking-grid{grid-template-columns:1fr;}
+  .footer-container{grid-template-columns:1fr;gap:32px;}
+  .preview-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:720px){
+  .container{padding:0 18px;}
+  .hamburger{display:inline-flex;}
+  .nav-menu{
+    position:fixed;top:var(--nav-h);left:0;right:0;flex-direction:column;align-items:stretch;gap:0;
+    padding:24px 22px 28px;background:rgba(8,8,10,0.96);backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border-red);
+    transform:translateY(-12px);opacity:0;pointer-events:none;
+    transition:transform 0.25s var(--ease-out),opacity 0.25s;
+  }
+  .nav-menu.active{transform:translateY(0);opacity:1;pointer-events:auto;}
+  .nav-links{flex-direction:column;align-items:stretch;gap:4px;margin-bottom:16px;}
+  .nav-link{padding:14px 18px;font-size:1rem;border-radius:12px;}
+  .nav-cta{align-self:stretch;padding:14px 22px;font-size:1rem;text-align:center;}
+  .hero{padding:48px 0 56px;}
+  .hero-title{font-size:2rem;}
+  .hero-cta{width:100%;flex-direction:column;}
+  .hero-cta .btn{width:100%;padding:16px 22px;}
+  .hero-meta{grid-template-columns:1fr;}
+  .selling-grid{grid-template-columns:1fr;gap:12px;}
+  .service-grid,.service-grid-2{
+    display:grid;grid-auto-flow:column;grid-auto-columns:84%;grid-template-columns:none;
+    overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:4px 18px 14px;
+    margin:0 -18px;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .service-grid::-webkit-scrollbar,.service-grid-2::-webkit-scrollbar{display:none;}
+  .service-card{scroll-snap-align:start;}
+  .booking-form-wrap{padding:22px;}
+  .form-row{grid-template-columns:1fr;}
+  .schedule-item{grid-template-columns:50px 1fr;grid-template-rows:auto auto;}
+  .schedule-status{grid-column:1 / -1;justify-self:start;}
+  .footer-links{grid-template-columns:1fr 1fr;}
+  .footer-bottom{flex-direction:column;align-items:flex-start;}
+  .modal{padding:24px 22px;}
+  .modal-actions{flex-direction:column;}
+  .modal-actions .btn{width:100%;min-width:0;}
+  .preview-grid{
+    display:grid;grid-auto-flow:column;grid-auto-columns:72%;grid-template-columns:none;
+    overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:4px 18px 14px;
+    margin:0 -18px;-webkit-overflow-scrolling:touch;
+  }
+  .preview-grid::-webkit-scrollbar{display:none;}
+  .preview-card{scroll-snap-align:start;}
+  .skin-grid{grid-template-columns:1fr;}
+  .modal-skin{padding:24px 20px;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
+}
+
+/* Shake anim */
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+.shake{animation:shake 0.4s ease;}
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL — ringan, pakai transform only
+   ══════════════════════════════════════════ */
+.reveal{
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+  will-change:opacity,transform;
+}
+.reveal.reveal-left{transform:translateX(-22px);}
+.reveal.reveal-right{transform:translateX(22px);}
+.reveal.reveal-scale{transform:scale(0.96) translateY(10px);}
+.reveal.is-visible{
+  opacity:1;
+  transform:none;
+}
+/* stagger delay untuk grid items — diterapkan via JS */
+.reveal-d1{transition-delay:0.05s;}
+.reveal-d2{transition-delay:0.12s;}
+.reveal-d3{transition-delay:0.19s;}
+.reveal-d4{transition-delay:0.26s;}
+
+/* ══════════════════════════════════════════
+   SWING REVEAL — efek ayunan untuk service card
+   pakai transform-origin di atas-kiri, rotate kecil
+   ══════════════════════════════════════════ */
+.reveal-swing{
+  opacity:0;
+  transform:rotate(-4deg) translateY(30px) scale(0.97);
+  transform-origin:top center;
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.7s cubic-bezier(0.34,1.56,0.64,1); /* spring bounce */
+  will-change:opacity,transform;
+}
+.reveal-swing.is-visible{
+  opacity:1;
+  transform:rotate(0deg) translateY(0) scale(1);
+}
+/* tiap kartu ayun bergantian dari sisi berbeda */
+.reveal-swing.swing-odd{
+  transform:rotate(-4deg) translateY(30px) scale(0.97);
+  transform-origin:top left;
+}
+.reveal-swing.swing-even{
+  transform:rotate(4deg) translateY(30px) scale(0.97);
+  transform-origin:top right;
+}
+.reveal-swing.swing-odd.is-visible,
+.reveal-swing.swing-even.is-visible{
+  transform:rotate(0deg) translateY(0) scale(1);
+}
+/* stagger lebih panjang biar ayunan keliatan */
+.swing-d1{transition-delay:0.05s;}
+.swing-d2{transition-delay:0.15s;}
+.swing-d3{transition-delay:0.25s;}
+
+/* ══════════════════════════════════════════
+   MARQUEE TICKER — teks berjalan kanan ke kiri
+   ══════════════════════════════════════════ */
+.marquee-wrap{
+  position:relative;
+  overflow:hidden;
+  padding:14px 0;
+  background:rgba(255,31,61,0.06);
+  border-top:1px solid rgba(255,31,61,0.18);
+  border-bottom:1px solid rgba(255,31,61,0.18);
+  /* gradient fade di kiri-kanan */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 6%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 6%,#000 94%,transparent 100%);
+}
+.marquee-track{
+  display:flex;
+  width:max-content;
+  animation:marquee-scroll 28s linear infinite;
+  will-change:transform;
+}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  padding:0 28px;
+  white-space:nowrap;
+  font-family:var(--font-mono);
+  font-size:0.78rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(243,243,245,0.45);
+}
+.marquee-item .mq-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--red-400);
+  flex-shrink:0;
+}
+.marquee-item .mq-highlight{
+  color:var(--red-400);
+  font-weight:600;
+}
+@keyframes marquee-scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+/* ══════════════════════════════════════════
+   FLOATING DECORATIVE ELEMENTS
+   ringan: hanya transform, no box-shadow animate
+   ══════════════════════════════════════════ */
+.float-orbs{
+  position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+}
+.orb{
+  position:absolute;border-radius:50%;
+  will-change:transform;
+  /* orbs sangat transparan supaya subtle */
+}
+.orb-1{
+  width:180px;height:180px;
+  top:15%;left:8%;
+  background:radial-gradient(circle,rgba(255,31,61,0.07),transparent 70%);
+  animation:orb-drift-1 18s ease-in-out infinite;
+}
+.orb-2{
+  width:120px;height:120px;
+  top:55%;right:6%;
+  background:radial-gradient(circle,rgba(255,58,92,0.06),transparent 70%);
+  animation:orb-drift-2 22s ease-in-out infinite;
+}
+.orb-3{
+  width:80px;height:80px;
+  bottom:20%;left:20%;
+  background:radial-gradient(circle,rgba(255,31,61,0.05),transparent 70%);
+  animation:orb-drift-3 26s ease-in-out infinite;
+}
+@keyframes orb-drift-1{
+  0%,100%{transform:translate(0,0);}
+  33%{transform:translate(18px,-24px);}
+  66%{transform:translate(-12px,16px);}
+}
+@keyframes orb-drift-2{
+  0%,100%{transform:translate(0,0);}
+  40%{transform:translate(-20px,14px);}
+  70%{transform:translate(10px,-18px);}
+}
+@keyframes orb-drift-3{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(16px,-10px);}
+}
+
+/* ── floating dots (dekoratif, CSS saja, sangat kecil) ── */
+.float-dots{position:fixed;inset:0;z-index:1;pointer-events:none;}
+.fdot{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:rgba(255,58,92,0.25);
+  will-change:transform;
+}
+.fdot-1{top:22%;left:15%;animation:fdot-f 14s 0s ease-in-out infinite;}
+.fdot-2{top:45%;left:88%;animation:fdot-f 17s 2s ease-in-out infinite;}
+.fdot-3{top:70%;left:5%;animation:fdot-f 19s 1s ease-in-out infinite;}
+.fdot-4{top:30%;left:72%;animation:fdot-f 15s 3s ease-in-out infinite;}
+.fdot-5{top:80%;left:55%;animation:fdot-f 21s 0.5s ease-in-out infinite;}
+@keyframes fdot-f{
+  0%,100%{transform:translateY(0) scale(1);opacity:0.25;}
+  50%{transform:translateY(-14px) scale(1.4);opacity:0.5;}
+}
+
+/* ── mouse-parallax layer (akan digerakkan JS) ── */
+#parallax-layer{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  will-change:transform;
+  /* hanya translate sangat kecil */
+}
+.plx-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(255,31,61,0.12);
+  will-change:transform;
+}
+.plx-ring-1{width:300px;height:300px;top:10%;left:5%;}
+.plx-ring-2{width:200px;height:200px;top:60%;right:8%;}
+
+/* ── scroll progress bar di atas ── */
+#scroll-prog{
+  position:fixed;top:0;left:0;z-index:200;
+  height:2px;width:0%;
+  background:linear-gradient(90deg,var(--red-600),var(--red-400));
+  box-shadow:0 0 8px rgba(255,31,61,0.5);
+  pointer-events:none;
+  will-change:width;
+  transition:width 0.08s linear;
+}
+
+/* ── section-head reveal subtle ── */
+.section-head{overflow:hidden;}
+
+/* mobile: orbs dan dots lebih kecil, paralax off */
+@media(max-width:720px){
+  .orb-1{width:100px;height:100px;}
+  .orb-2{width:70px;height:70px;}
+  .orb-3{display:none;}
+  .plx-ring{display:none;}
+  .fdot-3,.fdot-4,.fdot-5{display:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .orb,.fdot,.plx-ring{animation:none!important;}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}
+</style>
 </head>
 <body>
-    <!-- Loading Screen -->
+
+<!-- Loading Screen -->
 <div id="loadingScreen" aria-hidden="true">
-    <div class="ls-pivot"></div>
-    <div class="ls-pendulum">
-        <div class="ls-string"></div>
-        <div class="ls-ball"></div>
-    </div>
-    <div class="ls-brand">
-        <img src="porto.png" alt="" class="ls-logo">
-        <span>Haykal<span class="ls-accent">Service</span></span>
-    </div>
-    <div class="ls-bar-wrap">
-        <div class="ls-bar"></div>
-    </div>
-    <p class="ls-hint">memuat halaman...</p>
+  <div class="ls-pivot"></div>
+  <div class="ls-pendulum">
+    <div class="ls-string"></div>
+    <div class="ls-ball"></div>
+  </div>
+  <div class="ls-brand">
+    <img src="https://haykal.web.id/porto.png" alt="" class="ls-logo" onerror="this.style.display='none'">
+    <span>Haykal<span class="ls-accent">Service</span></span>
+  </div>
+  <div class="ls-bar-wrap"><div class="ls-bar"></div></div>
+  <p class="ls-hint">memuat halaman...</p>
 </div>
-    <!-- Background Aura -->
-    <div class="aura-bg" aria-hidden="true">
-        <div class="aura aura-1"></div>
-        <div class="aura aura-2"></div>
-        <div class="aura aura-3"></div>
-        <div class="grid-overlay"></div>
+
+<!-- Scroll progress bar -->
+<div id="scroll-prog" aria-hidden="true"></div>
+<!-- Floating orbs -->
+<div class="float-orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<!-- Floating dots -->
+<div class="float-dots" aria-hidden="true"><div class="fdot fdot-1"></div><div class="fdot fdot-2"></div><div class="fdot fdot-3"></div><div class="fdot fdot-4"></div><div class="fdot fdot-5"></div></div>
+<!-- Mouse parallax layer -->
+<div id="parallax-layer" aria-hidden="true"><div class="plx-ring plx-ring-1"></div><div class="plx-ring plx-ring-2"></div></div>
+<!-- Background -->
+<div class="aura-bg" aria-hidden="true">
+  <div class="aura aura-1"></div>
+  <div class="aura aura-2"></div>
+  <div class="aura aura-3"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<!-- Navbar -->
+<header class="navbar" id="navbar">
+  <div class="container nav-container">
+    <a href="#beranda" class="nav-brand">
+      <span class="brand-mark"><img src="https://haykal.web.id/porto.png" alt="Haykal" onerror="this.style.display='none'"></span>
+      <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="#beranda" class="nav-link">Beranda</a></li>
+        <li><a href="#layanan" class="nav-link">Layanan</a></li>
+        <li><a href="#preview" class="nav-link">Preview</a></li>
+        <li><a href="#booking" class="nav-link">Booking</a></li>
+      </ul>
+      <a href="#booking" class="btn btn-neon btn-sm nav-cta">Pesan Sekarang</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="beranda">
+  <div class="container hero-container">
+    <div class="hero-pill"><span class="pill-dot"></span>Open for new projects · Promosi &amp; Konten</div>
+    <h1 class="hero-title">
+      <span class="hero-greeting">Haykal</span>
+      <span class="hero-headline">Spesialis promosi &amp; <span class="text-neon">creator service</span> dengan editan anti boring.</span>
+    </h1>
+    <p class="hero-sub">Bantu konten, brand, dan server kamu naik level lewat promosi terarah, desain yang fresh, dan eksekusi yang on-time. Request bebas, hasil rapi.</p>
+    <div class="hero-cta">
+      <a href="#layanan" class="btn btn-neon">
+        <span>Lihat Layanan</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#booking" class="btn btn-ghost">Booking Slot</a>
+      <a href="https://www.tiktok.com/@..haykal.firdaus" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.24 8.24 0 0 0 4.84 1.56V6.79a4.85 4.85 0 0 1-1.07-.1z"/></svg>
+        <span>TikTok</span>
+      </a>
     </div>
+    <ul class="hero-meta">
+      <li><strong>1-2k·60</strong><span>Kualitas render</span></li>
+      <li><strong>1–3 Hari</strong><span>Estimasi rata-rata</span></li>
+      <li><strong>4 Brand</strong><span>Sudah bekerja sama</span></li>
+    </ul>
+  </div>
+  <div class="container">
+    <div class="selling-grid">
+      <article class="sell-card">
+        <span class="sell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2.4"/></svg></span>
+        <h3>Request Tergantung Client</h3>
+        <p>Detail brief, durasi, dan style menyesuaikan kebutuhan kamu. Tidak ada template yang kaku.</p>
+      </article>
+      <article class="sell-card">
+        <span class="sell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.4 5 5.6.8-4 3.9.9 5.6L12 15.7 7.1 18.3 8 12.7 4 8.8 9.6 8z"/></svg></span>
+        <h3>Desain &amp; Ide Menarik</h3>
+        <p>Konsep visual fresh, transisi halus, dan ritme cut yang bikin penonton stay sampai akhir.</p>
+      </article>
+      <article class="sell-card">
+        <span class="sell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+        <h3>Proses yang Cukup Cepat</h3>
+        <p>Antrian rapi dan komunikasi aktif. Order kamu jalan sesuai estimasi yang sudah disepakati.</p>
+      </article>
+      <article class="sell-card">
+        <span class="sell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 1 1-3.4-6.8L21 3v6h-6"/></svg></span>
+        <h3>Pelayanan Ramah</h3>
+        <p>Konsultasi santai, revisi terbuka, dan respon yang sopan dari awal sampai delivery.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <!-- Navigation -->
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#beranda" class="nav-brand" aria-label="Haykal Service">
-                <span class="brand-mark">
-                    <img src="porto.png" alt="Haykal" class="brand-logo">
-                </span>
-                <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
-            </a>
+<!-- MARQUEE TICKER -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item"><span class="mq-dot"></span>Promosi TikTok &amp; YouTube<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Haykal Service</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Desain Anti Boring<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Open Order</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Estimasi 1–3 Hari<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Setup Minecraft Server</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Jasa Pembuatan Website<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Skin Minecraft Custom</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Revisi Terbuka<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Harga Terjangkau</span><span class="mq-dot"></span></span>
+    <!-- duplikat persis untuk loop seamless -->
+    <span class="marquee-item"><span class="mq-dot"></span>Promosi TikTok &amp; YouTube<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Haykal Service</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Desain Anti Boring<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Open Order</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Estimasi 1–3 Hari<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Setup Minecraft Server</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Jasa Pembuatan Website<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Skin Minecraft Custom</span><span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-dot"></span>Revisi Terbuka<span class="mq-dot"></span></span>
+    <span class="marquee-item"><span class="mq-highlight">Harga Terjangkau</span><span class="mq-dot"></span></span>
+  </div>
+</div>
 
-            <nav class="nav-menu" id="navMenu" aria-label="Navigasi utama">
-                <ul class="nav-links">
-                    <li><a href="#beranda" class="nav-link">Beranda</a></li>
-                    <li><a href="#layanan" class="nav-link">Layanan</a></li>
-                    <li><a href="#preview" class="nav-link">Preview</a></li>
-                    <li><a href="#booking" class="nav-link">Booking</a></li>
-                </ul>
-                <a href="#booking" class="btn btn-neon btn-sm nav-cta">Pesan Sekarang</a>
-            </nav>
-
-            <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false" aria-controls="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+<!-- LAYANAN -->
+<section class="services" id="layanan">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-tag">Pricelist</span>
+      <h2>Layanan &amp; <span class="text-neon">Harga</span></h2>
+      <p>Promosi, pembuatan konten, dan setup server. Pilih paket yang paling pas, atau diskusikan custom request langsung dengan Haykal.</p>
     </header>
 
-    <main>
-        <!-- ============ A. LANDING / HERO ============ -->
-        <section class="hero" id="beranda">
-            <div class="container hero-container">
-                <div class="hero-pill">
-                    <span class="pill-dot"></span>
-                    Open for new projects &middot; Promosi &amp; Konten
-                </div>
-
-                <h1 class="hero-title">
-                    <span class="hero-greeting">Haykal</span>
-                    <span class="hero-headline">Spesialis promosi &amp; <span class="text-neon">creator service</span> dengan editan anti boring.</span>
-                </h1>
-
-                <p class="hero-sub">
-                    Bantu konten, brand, dan server kamu naik level lewat promosi terarah,
-                    desain yang fresh, dan eksekusi yang on-time. Request bebas, hasil rapi.
-                </p>
-
-                <div class="hero-cta">
-                    <a href="#layanan" class="btn btn-neon">
-                        <span>Lihat Layanan</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                    </a>
-                    <a href="#booking" class="btn btn-ghost">Booking Slot</a>
-                    <a href="https://www.tiktok.com/@..haykal.firdaus" target="_blank" rel="noopener" class="btn btn-ghost btn-tiktok" aria-label="TikTok Haykal">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.24 8.24 0 0 0 4.84 1.56V6.79a4.85 4.85 0 0 1-1.07-.1z"/></svg>
-                        <span>TikTok</span>
-                    </a>
-                </div>
-
-                <ul class="hero-meta" aria-label="Statistik">
-                    <li><strong>1-2k&middot;60</strong><span>Kualitas render</span></li>
-                    <li><strong>1&ndash;3 Hari</strong><span>Estimasi rata-rata</span></li>
-                    <li><strong>4 Brand</strong><span>Sudah bekerja sama</span></li>
-                </ul>
-            </div>
-
-            <!-- Selling Points strip -->
-            <div class="container">
-                <div class="selling-grid" aria-label="Kelebihan utama">
-                    <article class="sell-card">
-                        <span class="sell-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2.4"/></svg>
-                        </span>
-                        <h3>Request Tergantung Client</h3>
-                        <p>Detail brief, durasi, dan style menyesuaikan kebutuhan kamu. Tidak ada template yang kaku.</p>
-                    </article>
-                    <article class="sell-card">
-                        <span class="sell-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.4 5 5.6.8-4 3.9.9 5.6L12 15.7 7.1 18.3 8 12.7 4 8.8 9.6 8z"/></svg>
-                        </span>
-                        <h3>Desain &amp; Ide Menarik</h3>
-                        <p>Konsep visual fresh, transisi halus, dan ritme cut yang bikin penonton stay sampai akhir.</p>
-                    </article>
-                    <article class="sell-card">
-                        <span class="sell-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        </span>
-                        <h3>Proses yang Cukup Cepat</h3>
-                        <p>Antrian rapi dan komunikasi aktif. Order kamu jalan sesuai estimasi yang sudah disepakati.</p>
-                    </article>
-                    <article class="sell-card">
-                        <span class="sell-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 1 1-3.4-6.8L21 3v6h-6"/></svg>
-                        </span>
-                        <h3>Pelayanan Ramah</h3>
-                        <p>Konsultasi santai, revisi terbuka, dan respon yang sopan dari awal sampai delivery.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ B. LAYANAN ============ -->
-        <section class="services" id="layanan">
-            <div class="container">
-                <header class="section-head">
-                    <span class="section-tag">Pricelist</span>
-                    <h2>Layanan &amp; <span class="text-neon">Harga</span></h2>
-                    <p>Promosi, pembuatan konten, dan setup server. Pilih paket yang paling pas, atau diskusikan custom request langsung dengan Haykal.</p>
-                </header>
-
-                <!-- Promosi Tanpa Revisi -->
-                <div class="service-block">
-                    <h3 class="service-block-title">
-                        <span class="block-num">01</span>
-                        Promosi Media Sosial &mdash; Tanpa Revisi
-                    </h3>
-                    <div class="service-grid">
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Populer</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>TikTok (Tanpa Revisi)</h4>
-                            <p>Promosi konten TikTok dengan jangkauan maksimal, eksekusi cepat tanpa revisi.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 50.000</span>
-                                    <span class="price-now">Rp 45.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="TikTok (Tanpa Revisi)" data-price="Rp 45.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">★ Best Reach</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>YouTube (Tanpa Revisi)</h4>
-                            <p>Boost subscriber dan views YouTube dengan promosi terarah, tanpa revisi.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 50.000</span>
-                                    <span class="price-now">Rp 45.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="YouTube (Tanpa Revisi)" data-price="Rp 45.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card service-card-feature">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">★ Hemat</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>TikTok + YouTube (Tanpa Revisi)</h4>
-                            <p>Combo dual platform untuk jangkauan maksimal dengan satu kali pengerjaan.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 90.000</span>
-                                    <span class="price-now">Rp 80.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="TikTok + YouTube (Tanpa Revisi)" data-price="Rp 80.000">Beli</button>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <!-- Promosi 2 Revisi -->
-                <div class="service-block">
-                    <h3 class="service-block-title">
-                        <span class="block-num">02</span>
-                        Promosi Media Sosial &mdash; 2 Revisi
-                    </h3>
-                    <div class="service-grid">
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Rekomendasi</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>TikTok (2 Revisi)</h4>
-                            <p>Promosi TikTok dengan kesempatan 2&times; revisi untuk hasil yang benar-benar oke.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 65.000</span>
-                                    <span class="price-now">Rp 55.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="TikTok (2 Revisi)" data-price="Rp 55.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Rekomendasi</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>YouTube (2 Revisi)</h4>
-                            <p>Promosi YouTube dengan ruang revisi 2&times; untuk hasil yang lebih sempurna.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 65.000</span>
-                                    <span class="price-now">Rp 55.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="YouTube (2 Revisi)" data-price="Rp 55.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card service-card-feature">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">★ Best Value</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>TikTok + YouTube (2 Revisi)</h4>
-                            <p>Paket premium combo dengan revisi 2&times; di kedua platform sekaligus.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 105.000</span>
-                                    <span class="price-now">Rp 95.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="TikTok + YouTube (2 Revisi)" data-price="Rp 95.000">Beli</button>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <!-- Konten & Add-on -->
-                <div class="service-block">
-                    <h3 class="service-block-title">
-                        <span class="block-num">03</span>
-                        Konten &amp; Layanan Tambahan
-                    </h3>
-                    <div class="service-grid">
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Eksklusif</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Owning Content</h4>
-                            <p>Konten eksklusif dengan hak kepemilikan penuh untuk brand atau channel kamu.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 20.000</span>
-                                    <span class="price-now">Rp 15.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Owning Content" data-price="Rp 15.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Prioritas</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Skip Antrian</h4>
-                            <p>Loncat ke depan antrian agar pengerjaan order kamu didahulukan.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 20.000</span>
-                                    <span class="price-now">Rp 15.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Skip Antrian (Add-on)" data-price="Rp 15.000">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Add-on</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Revisi Ekstra</h4>
-                            <p>Tambahan revisi di luar paket untuk penyempurnaan hasil akhir.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-old">Rp 10.000</span>
-                                    <span class="price-now">Rp 5.000<span class="price-unit">/revisi</span></span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Revisi Ekstra" data-price="Rp 5.000/revisi">Beli</button>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <!-- Setup & Dev -->
-                <div class="service-block">
-                    <h3 class="service-block-title">
-                        <span class="block-num">04</span>
-                        Setup &amp; Pengembangan
-                    </h3>
-                    <div class="service-grid service-grid-2">
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Custom</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Setup Server Minecraft</h4>
-                            <p>Konfigurasi server lengkap, instalasi plugin/modpack, dan pengembangan custom sesuai kebutuhan.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-now price-custom">Harga menyesuaikan</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Setup Server Minecraft" data-price="Custom">Beli</button>
-                            </div>
-                        </article>
-
-                        <article class="service-card">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">Custom</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Jasa Pembuatan Website</h4>
-                            <p>Website modern, responsif, dan profesional dengan desain custom sesuai kebutuhan bisnis.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-now price-custom">Harga menyesuaikan</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Jasa Pembuatan Website" data-price="Custom">Beli</button>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <!-- Minecraft Skin -->
-                <div class="service-block">
-                    <h3 class="service-block-title">
-                        <span class="block-num">05</span>
-                        Minecraft Skin Custom
-                    </h3>
-                    <div class="service-grid service-grid-1">
-                        <article class="service-card service-card-feature">
-                            <div class="service-card-top">
-                                <span class="badge badge-soft">🎮 Gaming</span>
-                                <span class="service-card-icon" aria-hidden="true"></span>
-                            </div>
-                            <h4>Skin Minecraft Custom</h4>
-                            <p>Desain skin Minecraft sesuai request kamu. Harga menyesuaikan resolusi dan tingkat kerumitan desain.</p>
-                            <div class="service-card-foot">
-                                <div class="price">
-                                    <span class="price-now">Mulai dari Rp 5.000</span>
-                                </div>
-                                <button type="button" class="btn btn-buy" data-package="Skin Minecraft Custom" data-price="Mulai Rp 5.000">Beli</button>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <p class="services-note">
-                    <strong>Catatan:</strong> Klik tombol <em>Beli</em> untuk melihat format pesanan. Setelah memilih paket yang sesuai, kirim format tersebut ke WhatsApp Haykal.
-                </p>
-            </div>
-        </section>
-
-        <!-- ============ C. BOOKING ============ -->
-        <section class="booking" id="booking">
-            <div class="container">
-                <header class="section-head">
-                    <span class="section-tag">Booking</span>
-                    <h2>Reservasi <span class="text-neon">Slot</span></h2>
-                    <p>Isi form di bawah untuk memesan slot. Tim akan konfirmasi via WhatsApp. Cek juga jadwal agar kamu tahu slot yang sudah terisi.</p>
-                </header>
-
-                <div class="booking-grid">
-                    <!-- Form -->
-                    <div class="booking-form-wrap">
-                        <form class="booking-form" id="bookingForm" novalidate>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="bk-name">Nama Lengkap <span class="req">*</span></label>
-                                    <input type="text" id="bk-name" name="name" placeholder="Nama atau nickname" required autocomplete="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="bk-date">Tanggal Booking / Pengerjaan</label>
-                                    <input type="date" id="bk-date" name="bk-date" required placeholder="Pilih Tanggal">
-                                </div>
-                                <div class="form-group">
-                                    <label for="bk-contact">Kontak (WA / IG) <span class="req">*</span></label>
-                                    <input type="text" id="bk-contact" name="contact" placeholder="+62 ... atau @username" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label id="paket-label">Paket Dipilih <span class="req">*</span></label>
-                                    <div class="custom-select-wrap" id="pkgSelectWrap">
-                                        <div class="custom-select-display" id="pkgDisplay" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="paket-label">
-                                            <span class="custom-select-placeholder" id="pkgDisplayText">pilih paket</span>
-                                            <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                        </div>
-                                        <div class="custom-select-dropdown" id="pkgDropdown" role="listbox">
-                                            <div class="custom-select-group-label">Promosi — Tanpa Revisi</div>
-                                            <div class="custom-select-option" data-value="TikTok (Tanpa Revisi) — Rp 45.000" data-pkg="TikTok (Tanpa Revisi)" role="option">
-                                                <span class="custom-option-name">TikTok</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="YouTube (Tanpa Revisi) — Rp 45.000" data-pkg="YouTube (Tanpa Revisi)" role="option">
-                                                <span class="custom-option-name">YouTube</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="TikTok + YouTube (Tanpa Revisi) — Rp 80.000" data-pkg="TikTok + YouTube (Tanpa Revisi)" role="option">
-                                                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Hemat</span></span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 90.000</span><span class="custom-option-new">Rp 80.000</span></div>
-                                            </div>
-                                            <div class="custom-select-group-label">Promosi — 2 Revisi</div>
-                                            <div class="custom-select-option" data-value="TikTok (2 Revisi) — Rp 55.000" data-pkg="TikTok (2 Revisi)" role="option">
-                                                <span class="custom-option-name">TikTok</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="YouTube (2 Revisi) — Rp 55.000" data-pkg="YouTube (2 Revisi)" role="option">
-                                                <span class="custom-option-name">YouTube</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="TikTok + YouTube (2 Revisi) — Rp 95.000" data-pkg="TikTok + YouTube (2 Revisi)" role="option">
-                                                <span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Best Value</span></span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 105.000</span><span class="custom-option-new">Rp 95.000</span></div>
-                                            </div>
-                                            <div class="custom-select-group-label">Konten &amp; Tambahan</div>
-                                            <div class="custom-select-option" data-value="Owning Content — Rp 15.000" data-pkg="Owning Content" role="option">
-                                                <span class="custom-option-name">Owning Content</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="Skip Antrian (Add-on) — Rp 15.000" data-pkg="Skip Antrian (Add-on)" role="option">
-                                                <span class="custom-option-name">Skip Antrian</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="Revisi Ekstra — Rp 5.000/revisi" data-pkg="Revisi Ekstra" role="option">
-                                                <span class="custom-option-name">Revisi Ekstra</span>
-                                                <div class="custom-option-prices"><span class="custom-option-old">Rp 10.000</span><span class="custom-option-new">Rp 5.000/rev</span></div>
-                                            </div>
-                                            <!-- ✅ FIX: Tambah opsi Skin Minecraft -->
-                                            <div class="custom-select-group-label">🎮 Gaming</div>
-                                            <div class="custom-select-option" data-value="Skin Minecraft Custom — Mulai Rp 5.000" data-pkg="Skin Minecraft Custom" role="option">
-                                                <span class="custom-option-name">Skin Minecraft Custom <span class="custom-option-badge">🎮 Gaming</span></span>
-                                                <div class="custom-option-prices"><span class="custom-option-new">Mulai Rp 5.000</span></div>
-                                            </div>
-                                            <div class="custom-select-group-label">Setup &amp; Dev</div>
-                                            <div class="custom-select-option" data-value="Setup Server Minecraft — Custom" data-pkg="Setup Server Minecraft" role="option">
-                                                <span class="custom-option-name">Setup Server Minecraft</span>
-                                                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
-                                            </div>
-                                            <div class="custom-select-option" data-value="Jasa Pembuatan Website — Custom" data-pkg="Jasa Pembuatan Website" role="option">
-                                                <span class="custom-option-name">Jasa Pembuatan Website</span>
-                                                <div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div>
-                                            </div>
-                                        </div>
-                                        <!-- hidden input untuk form submit -->
-                                        <input type="hidden" id="bk-package" name="package" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="bk-notes">Catatan / Brief</label>
-                                    <textarea id="bk-notes" name="notes" rows="4" placeholder="Style, referensi, durasi, link konten, dll."></textarea>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-neon btn-submit">
-                                <span>Kirim Booking via WhatsApp</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                            </button>
-
-                            <p class="form-success" id="bookingSuccess" hidden>
-                                ✓ Format booking berhasil dibuka di WhatsApp. Tunggu konfirmasi balasan, ya!
-                            </p>
-                        </form>
-                    </div>
-
-                    <!-- Schedule list -->
-                    <aside class="schedule-wrap" aria-label="Jadwal yang sudah terbooking">
-                        <div class="schedule-head">
-                            <h3>Jadwal Terbooking</h3>
-                            <p>Daftar slot yang sudah ada di antrian (lampau &amp; mendatang).</p>
-                        </div>
-
-                        <ul class="schedule-list" id="scheduleList">
-                        </ul>
-                        <button id="toggleScheduleBtn" class="btn btn-ghost" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.85rem;">
-                            Lihat Semua Jadwal
-                        </button>
-
-                        <div class="schedule-legend" style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="legend-dot" style="background: var(--neon); box-shadow: 0 0 8px var(--neon-glow);"></span>
-                                <span>Status: <strong>sedang dalam pengerjaan</strong></span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="legend-dot" style="background: #f5a623; box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);"></span>
-                                <span>Status: <strong style="color: #f5a623;">menunggu antrian</strong></span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="legend-dot" style="background: #38bc77; box-shadow: none; animation: none;"></span>
-                                <span>Status: <strong style="color: #a6f0c5;">sudah selesai</strong></span>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- ============ D. PREVIEW ============ -->
-    <section class="preview-section" id="preview">
-        <div class="container">
-            <header class="section-head">
-                <span class="section-tag">Hasil Editan</span>
-                <h2>Preview <span class="text-neon">Karya</span></h2>
-                <p>Lihat langsung contoh hasil editan Haykal. Klik video untuk menonton preview lengkapnya.</p>
-            </header>
-
-            <div class="preview-grid" id="previewGrid">
-                <!-- Cards will be injected by script -->
-            </div>
-
-            <div class="preview-more" id="previewMore" style="display:none">
-                <button class="btn btn-ghost" id="previewLoadMore">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-                    <span>Muat Lebih Banyak</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <a href="#beranda" class="nav-brand">
-                    <span class="brand-mark">
-                        <img src="porto.png" alt="Haykal" class="brand-logo">
-                    </span>
-                    <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
-                </a>
-                <p>Spesialis promosi &amp; konten kreator. Desain menarik, proses cepat, pelayanan ramah.</p>
-            </div>
-            <div class="footer-links">
-                <div>
-                    <h4>Navigasi</h4>
-                    <ul>
-                        <li><a href="#beranda">Beranda</a></li>
-                        <li><a href="#layanan">Layanan</a></li>
-                        <li><a href="#preview">Preview</a></li>
-                        <li><a href="#booking">Booking</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Kontak</h4>
-                    <ul>
-                        <li><a href="https://wa.me/628123731343" target="_blank" rel="noopener">WhatsApp</a></li>
-                        <li>
-                            <a href="https://www.tiktok.com/@..haykal.firdaus" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.24 8.24 0 0 0 4.84 1.56V6.79a4.85 4.85 0 0 1-1.07-.1z"/></svg>
-                                TikTok
-                            </a>
-                        </li>
-                        <li>Mataram, NTB</li>
-                        <li>18.00 &ndash; 21.00 WITA</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 Haykal Service.</span>
-            <span>Designed by Haykal.</span>
-        </div>
-    </footer>
-
-    <!-- Order Format Modal (Beli) -->
-    <div class="modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle" hidden>
-        <div class="modal modal-order">
-            <button class="modal-close" id="orderModalClose" aria-label="Tutup">&times;</button>
-            <div class="modal-head">
-                <span class="modal-eyebrow">Format Pemesanan</span>
-                <h3 id="orderModalTitle">Salin format di bawah</h3>
-                <p>Salin teks pesanan di bawah, lalu kirim ke WhatsApp Haykal. Pastikan kamu sudah <strong class="text-neon">pilih paket</strong> yang sesuai sebelum mengirim.</p>
-            </div>
-
-            <div class="order-callout">
-                <span class="callout-arrow" aria-hidden="true">→</span>
-                <div>
-                    <span class="callout-label">Instruksi:</span>
-                    <strong class="callout-text">pilih paket</strong>
-                </div>
-            </div>
-
-            <pre class="order-text" id="orderText" tabindex="0" aria-label="Format teks pemesanan"></pre>
-
-            <div class="modal-actions">
-                <button type="button" class="btn btn-neon" id="copyOrderBtn">
-                    <span id="copyOrderLabel">Salin Format</span>
-                </button>
-                <a href="https://wa.me/628123731343" id="orderWaBtn" class="btn btn-ghost" target="_blank" rel="noopener">Buka WhatsApp</a>
-            </div>
-        </div>
+    <div class="service-block">
+      <h3 class="service-block-title"><span class="block-num">01</span>Promosi Media Sosial — Tanpa Revisi</h3>
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Populer</span></div>
+          <h4>TikTok (Tanpa Revisi)</h4>
+          <p>Promosi konten TikTok dengan jangkauan maksimal, eksekusi cepat tanpa revisi.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 50.000</span><span class="price-now">Rp 45.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="TikTok (Tanpa Revisi)" data-price="Rp 45.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">★ Best Reach</span></div>
+          <h4>YouTube (Tanpa Revisi)</h4>
+          <p>Boost subscriber dan views YouTube dengan promosi terarah, tanpa revisi.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 50.000</span><span class="price-now">Rp 45.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="YouTube (Tanpa Revisi)" data-price="Rp 45.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card service-card-feature">
+          <div class="service-card-top"><span class="badge badge-soft">★ Hemat</span></div>
+          <h4>TikTok + YouTube (Tanpa Revisi)</h4>
+          <p>Combo dual platform untuk jangkauan maksimal dengan satu kali pengerjaan.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 90.000</span><span class="price-now">Rp 80.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="TikTok + YouTube (Tanpa Revisi)" data-price="Rp 80.000">Beli</button>
+          </div>
+        </article>
+      </div>
     </div>
 
-    <!-- Skin Modal -->
-    <div class="modal-overlay" id="skinModal" role="dialog" aria-modal="true" aria-labelledby="skinModalTitle" hidden>
-        <div class="modal modal-skin">
-            <button class="modal-close" id="skinModalClose" aria-label="Tutup">&times;</button>
-            <div class="modal-head">
-                <span class="modal-eyebrow">Jasa Pembuatan Skin</span>
-                <h3 id="skinModalTitle">Skin Minecraft Custom</h3>
-                <p>Skin Minecraft disesuaikan dengan request kamu. Harga mulai dari <strong class="text-neon">Rp 5.000</strong> (menyesuaikan resolusi &amp; kerumitan desain).</p>
-            </div>
-
-            <div class="skin-info-box">
-                <div class="skin-info-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    <div>
-                        <strong>Estimasi</strong>
-                        <span>1-2 hari kerja</span>
-                    </div>
-                </div>
-                <div class="skin-info-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    <div>
-                        <strong>Custom Request</strong>
-                        <span>Sesuai keinginan buyer</span>
-                    </div>
-                </div>
-                <div class="skin-info-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    <div>
-                        <strong>Harga Fleksibel</strong>
-                        <span>Start Rp 5.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="skin-preview-title">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg>
-                <span>Contoh Hasil Karya</span>
-            </div>
-
-            <div class="skin-grid">
-                <div class="skin-item">
-                    <img src="https://haykal.web.id/skin1.png" alt="Skin Preview 1" loading="lazy">
-                </div>
-                <div class="skin-item">
-                    <img src="https://haykal.web.id/skin2.png" alt="Skin Preview 2" loading="lazy">
-                </div>
-                <div class="skin-item">
-                    <img src="https://haykal.web.id/skin3.png" alt="Skin Preview 3" loading="lazy">
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn btn-neon" id="skinOrderBtn">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                    <span>Pesan via WhatsApp</span>
-                </button>
-            </div>
-        </div>
+    <div class="service-block">
+      <h3 class="service-block-title"><span class="block-num">02</span>Promosi Media Sosial — 2 Revisi</h3>
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Rekomendasi</span></div>
+          <h4>TikTok (2 Revisi)</h4>
+          <p>Promosi TikTok dengan kesempatan 2× revisi untuk hasil yang benar-benar oke.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 65.000</span><span class="price-now">Rp 55.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="TikTok (2 Revisi)" data-price="Rp 55.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Rekomendasi</span></div>
+          <h4>YouTube (2 Revisi)</h4>
+          <p>Promosi YouTube dengan ruang revisi 2× untuk hasil yang lebih sempurna.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 65.000</span><span class="price-now">Rp 55.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="YouTube (2 Revisi)" data-price="Rp 55.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card service-card-feature">
+          <div class="service-card-top"><span class="badge badge-soft">★ Best Value</span></div>
+          <h4>TikTok + YouTube (2 Revisi)</h4>
+          <p>Paket premium combo dengan revisi 2× di kedua platform sekaligus.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 105.000</span><span class="price-now">Rp 95.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="TikTok + YouTube (2 Revisi)" data-price="Rp 95.000">Beli</button>
+          </div>
+        </article>
+      </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <div class="service-block">
+      <h3 class="service-block-title"><span class="block-num">03</span>Konten &amp; Layanan Tambahan</h3>
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Eksklusif</span></div>
+          <h4>Owning Content</h4>
+          <p>Konten eksklusif dengan hak kepemilikan penuh untuk brand atau channel kamu.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 20.000</span><span class="price-now">Rp 15.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="Owning Content" data-price="Rp 15.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Prioritas</span></div>
+          <h4>Skip Antrian</h4>
+          <p>Loncat ke depan antrian agar pengerjaan order kamu didahulukan.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 20.000</span><span class="price-now">Rp 15.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="Skip Antrian (Add-on)" data-price="Rp 15.000">Beli</button>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Add-on</span></div>
+          <h4>Revisi Ekstra</h4>
+          <p>Tambahan revisi di luar paket untuk penyempurnaan hasil akhir.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-old">Rp 10.000</span><span class="price-now">Rp 5.000<span class="price-unit">/revisi</span></span></div>
+            <button type="button" class="btn btn-buy" data-package="Revisi Ekstra" data-price="Rp 5.000/revisi">Beli</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <h3 class="service-block-title"><span class="block-num">04</span>Setup &amp; Pengembangan</h3>
+      <div class="service-grid service-grid-2">
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Custom</span></div>
+          <h4>Setup Server Minecraft</h4>
+          <p>Konfigurasi server lengkap, instalasi plugin/modpack, dan pengembangan custom sesuai kebutuhan.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-now price-custom">Harga menyesuaikan</span></div>
+            <button type="button" class="btn btn-buy" data-package="Setup Server Minecraft" data-price="Custom">Beli</button>
+          </div>
+        </article>
+        <article class="service-card">
+          <div class="service-card-top"><span class="badge badge-soft">Custom</span></div>
+          <h4>Jasa Pembuatan Website</h4>
+          <p>Website modern, responsif, dan profesional dengan desain custom sesuai kebutuhan bisnis.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-now price-custom">Harga menyesuaikan</span></div>
+            <button type="button" class="btn btn-buy" data-package="Jasa Pembuatan Website" data-price="Custom">Beli</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <h3 class="service-block-title"><span class="block-num">05</span>Minecraft Skin Custom</h3>
+      <div class="service-grid service-grid-1">
+        <article class="service-card service-card-feature">
+          <div class="service-card-top"><span class="badge badge-soft">🎮 Gaming</span></div>
+          <h4>Skin Minecraft Custom</h4>
+          <p>Desain skin Minecraft sesuai request kamu. Harga menyesuaikan resolusi dan tingkat kerumitan desain.</p>
+          <div class="service-card-foot">
+            <div class="price"><span class="price-now">Mulai dari Rp 5.000</span></div>
+            <button type="button" class="btn btn-buy" data-package="Skin Minecraft Custom" data-price="Mulai Rp 5.000">Beli</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <p class="services-note"><strong>Catatan:</strong> Klik tombol <em>Beli</em> untuk melihat format pesanan. Setelah memilih paket yang sesuai, kirim format tersebut ke WhatsApp Haykal.</p>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-tag">Booking</span>
+      <h2>Reservasi <span class="text-neon">Slot</span></h2>
+      <p>Isi form di bawah untuk memesan slot. Tim akan konfirmasi via WhatsApp.</p>
+    </header>
+    <div class="booking-grid">
+      <div class="booking-form-wrap">
+        <form class="booking-form" id="bookingForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bk-name">Nama Lengkap <span class="req">*</span></label>
+              <input type="text" id="bk-name" name="name" placeholder="Nama atau nickname" required>
+            </div>
+            <div class="form-group">
+              <label for="bk-date">Tanggal Booking</label>
+              <input type="date" id="bk-date" name="bk-date" required>
+            </div>
+            <div class="form-group">
+              <label for="bk-contact">Kontak (WA / IG) <span class="req">*</span></label>
+              <input type="text" id="bk-contact" name="contact" placeholder="+62 ... atau @username" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Paket Dipilih <span class="req">*</span></label>
+              <div class="custom-select-wrap" id="pkgSelectWrap">
+                <div class="custom-select-display" id="pkgDisplay" tabindex="0" role="combobox" aria-expanded="false">
+                  <span class="custom-select-placeholder" id="pkgDisplayText">pilih paket</span>
+                  <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="custom-select-dropdown" id="pkgDropdown" role="listbox">
+                  <div class="custom-select-group-label">Promosi — Tanpa Revisi</div>
+                  <div class="custom-select-option" data-value="TikTok (Tanpa Revisi) — Rp 45.000" data-pkg="TikTok (Tanpa Revisi)" role="option"><span class="custom-option-name">TikTok</span><div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div></div>
+                  <div class="custom-select-option" data-value="YouTube (Tanpa Revisi) — Rp 45.000" data-pkg="YouTube (Tanpa Revisi)" role="option"><span class="custom-option-name">YouTube</span><div class="custom-option-prices"><span class="custom-option-old">Rp 50.000</span><span class="custom-option-new">Rp 45.000</span></div></div>
+                  <div class="custom-select-option" data-value="TikTok + YouTube (Tanpa Revisi) — Rp 80.000" data-pkg="TikTok + YouTube (Tanpa Revisi)" role="option"><span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Hemat</span></span><div class="custom-option-prices"><span class="custom-option-old">Rp 90.000</span><span class="custom-option-new">Rp 80.000</span></div></div>
+                  <div class="custom-select-group-label">Promosi — 2 Revisi</div>
+                  <div class="custom-select-option" data-value="TikTok (2 Revisi) — Rp 55.000" data-pkg="TikTok (2 Revisi)" role="option"><span class="custom-option-name">TikTok</span><div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div></div>
+                  <div class="custom-select-option" data-value="YouTube (2 Revisi) — Rp 55.000" data-pkg="YouTube (2 Revisi)" role="option"><span class="custom-option-name">YouTube</span><div class="custom-option-prices"><span class="custom-option-old">Rp 65.000</span><span class="custom-option-new">Rp 55.000</span></div></div>
+                  <div class="custom-select-option" data-value="TikTok + YouTube (2 Revisi) — Rp 95.000" data-pkg="TikTok + YouTube (2 Revisi)" role="option"><span class="custom-option-name">TikTok + YouTube <span class="custom-option-badge">Best Value</span></span><div class="custom-option-prices"><span class="custom-option-old">Rp 105.000</span><span class="custom-option-new">Rp 95.000</span></div></div>
+                  <div class="custom-select-group-label">Konten &amp; Tambahan</div>
+                  <div class="custom-select-option" data-value="Owning Content — Rp 15.000" data-pkg="Owning Content" role="option"><span class="custom-option-name">Owning Content</span><div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div></div>
+                  <div class="custom-select-option" data-value="Skip Antrian (Add-on) — Rp 15.000" data-pkg="Skip Antrian (Add-on)" role="option"><span class="custom-option-name">Skip Antrian</span><div class="custom-option-prices"><span class="custom-option-old">Rp 20.000</span><span class="custom-option-new">Rp 15.000</span></div></div>
+                  <div class="custom-select-option" data-value="Revisi Ekstra — Rp 5.000/revisi" data-pkg="Revisi Ekstra" role="option"><span class="custom-option-name">Revisi Ekstra</span><div class="custom-option-prices"><span class="custom-option-old">Rp 10.000</span><span class="custom-option-new">Rp 5.000/rev</span></div></div>
+                  <div class="custom-select-group-label">🎮 Gaming</div>
+                  <div class="custom-select-option" data-value="Skin Minecraft Custom — Mulai Rp 5.000" data-pkg="Skin Minecraft Custom" role="option"><span class="custom-option-name">Skin Minecraft Custom <span class="custom-option-badge">🎮</span></span><div class="custom-option-prices"><span class="custom-option-new">Mulai Rp 5.000</span></div></div>
+                  <div class="custom-select-group-label">Setup &amp; Dev</div>
+                  <div class="custom-select-option" data-value="Setup Server Minecraft — Custom" data-pkg="Setup Server Minecraft" role="option"><span class="custom-option-name">Setup Server Minecraft</span><div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div></div>
+                  <div class="custom-select-option" data-value="Jasa Pembuatan Website — Custom" data-pkg="Jasa Pembuatan Website" role="option"><span class="custom-option-name">Jasa Pembuatan Website</span><div class="custom-option-prices"><span class="custom-option-new" style="color:var(--muted)">Custom</span></div></div>
+                </div>
+                <input type="hidden" id="bk-package" name="package" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bk-notes">Catatan / Brief</label>
+              <textarea id="bk-notes" name="notes" rows="4" placeholder="Style, referensi, durasi, link konten, dll."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-neon btn-submit">
+            <span>Kirim Booking via WhatsApp</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <p class="form-success" id="bookingSuccess" hidden>✓ Format booking berhasil dibuka di WhatsApp. Tunggu konfirmasi balasan, ya!</p>
+        </form>
+      </div>
+      <aside class="schedule-wrap">
+        <div class="schedule-head">
+          <h3>Jadwal Terbooking</h3>
+          <p>Daftar slot yang sudah ada di antrian.</p>
+        </div>
+        <ul class="schedule-list" id="scheduleList"></ul>
+        <button id="toggleScheduleBtn" class="btn btn-ghost" style="width:100%;margin-top:12px;padding:10px;font-size:0.85rem;">Lihat Semua Jadwal</button>
+        <div class="schedule-legend">
+          <div class="legend-row"><span class="legend-dot" style="background:var(--neon);box-shadow:0 0 8px var(--neon-glow);"></span><span>Status: <strong>sedang dalam pengerjaan</strong></span></div>
+          <div class="legend-row"><span class="legend-dot" style="background:#f5a623;box-shadow:0 0 8px rgba(245,166,35,0.4);"></span><span>Status: <strong style="color:#f5a623;">menunggu antrian</strong></span></div>
+          <div class="legend-row"><span class="legend-dot" style="background:#38bc77;"></span><span>Status: <strong style="color:#a6f0c5;">sudah selesai</strong></span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- PREVIEW -->
+<section class="preview-section" id="preview">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-tag">Hasil Editan</span>
+      <h2>Preview <span class="text-neon">Karya</span></h2>
+      <p>Lihat langsung contoh hasil editan Haykal. Klik kartu untuk melihat preview lengkapnya.</p>
+    </header>
+    <div class="preview-grid" id="previewGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-container">
+    <div class="footer-brand">
+      <a href="#beranda" class="nav-brand">
+        <span class="brand-mark"><img src="https://haykal.web.id/porto.png" alt="Haykal" onerror="this.style.display='none'"></span>
+        <span class="brand-text">Haykal<span class="brand-text-accent">Service</span></span>
+      </a>
+      <p>Spesialis promosi &amp; konten kreator. Desain menarik, proses cepat, pelayanan ramah.</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#layanan">Layanan</a></li>
+          <li><a href="#preview">Preview</a></li>
+          <li><a href="#booking">Booking</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="https://wa.me/628123731343" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://www.tiktok.com/@..haykal.firdaus" target="_blank" rel="noopener">TikTok</a></li>
+          <li>Mataram, NTB</li>
+          <li>18.00 – 21.00 WITA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Haykal Service.</span>
+    <span>Designed by Haykal.</span>
+  </div>
+</footer>
+
+<!-- ═══ ORDER FORM MODAL (new) ═══ -->
+<div class="modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="omTitle" hidden>
+  <div class="modal om-modal">
+    <button class="modal-close" id="orderModalClose" aria-label="Tutup">×</button>
+
+    <!-- Header produk -->
+    <div class="om-header">
+      <span class="modal-eyebrow">Formulir Pemesanan</span>
+      <h3 id="omTitle">Pesan Layanan</h3>
+      <!-- preview produk -->
+      <div class="om-product-preview" id="omProductPreview">
+        <div class="om-product-name" id="omProductName">—</div>
+        <div class="om-product-price-row">
+          <span class="om-product-price-label">Harga normal</span>
+          <span class="om-product-price-val" id="omBasePrice">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Data diri -->
+    <div class="om-section">
+      <div class="om-section-label"><span class="om-step">1</span>Data Pemesan</div>
+      <div class="om-fields">
+        <div class="om-field">
+          <label for="om-name">👤 Nama / Nickname <span class="req">*</span></label>
+          <input type="text" id="om-name" placeholder="Nama lengkap atau nickname" autocomplete="name">
+        </div>
+        <div class="om-field">
+          <label for="om-wa">📱 Nomor WhatsApp <span class="req">*</span></label>
+          <input type="tel" id="om-wa" placeholder="Contoh: 0812xxxxxxxx" autocomplete="tel">
+        </div>
+        <div class="om-field">
+          <label for="om-notes">📝 Catatan / Brief <span style="color:var(--muted-2);font-weight:400">(opsional)</span></label>
+          <textarea id="om-notes" rows="2" placeholder="Style, referensi, durasi, detail lainnya…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Metode Pembayaran -->
+    <div class="om-section">
+      <div class="om-section-label"><span class="om-step">2</span>Metode Pembayaran <span class="req">*</span></div>
+      <div class="om-pay-grid">
+        <label class="om-pay-option" data-method="QRIS">
+          <input type="radio" name="omPayMethod" value="QRIS">
+          <div class="om-pay-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" onerror="this.src=''">
+            <span>QRIS</span>
+          </div>
+        </label>
+        <label class="om-pay-option" data-method="DANA">
+          <input type="radio" name="omPayMethod" value="DANA">
+          <div class="om-pay-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" onerror="this.src=''">
+            <span>DANA</span>
+          </div>
+        </label>
+        <label class="om-pay-option" data-method="GoPay">
+          <input type="radio" name="omPayMethod" value="GoPay">
+          <div class="om-pay-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1920px-Gopay_logo.svg.png" alt="GoPay" onerror="this.src=''">
+            <span>GoPay</span>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Preview bukti pembayaran — muncul setelah pilih metode -->
+      <div class="om-pay-preview" id="omPayPreview" hidden>
+        <div class="om-pay-preview-label" id="omPayLabel">Tujuan pembayaran:</div>
+        <div class="om-pay-preview-img-wrap">
+          <img id="omPayImg" src="" alt="Bukti pembayaran" loading="lazy">
+          <div class="om-pay-preview-info" id="omPayInfo">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Kode Diskon -->
+    <div class="om-section">
+      <div class="om-section-label"><span class="om-step">3</span>Kode Diskon <span style="color:var(--muted-2);font-weight:400">(opsional)</span></div>
+      <div class="om-discount-row">
+        <input type="text" id="om-discount" placeholder="Masukkan kode diskon jika ada" style="text-transform:uppercase">
+        <button type="button" id="om-discount-btn" class="btn btn-ghost btn-sm">Pakai</button>
+      </div>
+      <div class="om-discount-msg" id="omDiscountMsg" hidden></div>
+    </div>
+
+    <!-- Price summary -->
+    <div class="om-summary" id="omSummary">
+      <div class="om-summary-row">
+        <span>Harga paket</span>
+        <span id="omSumBase">—</span>
+      </div>
+      <div class="om-summary-row om-discount-row-sum" id="omDiscountSumRow" hidden>
+        <span>Diskon</span>
+        <span id="omSumDiscount" style="color:#38bc77">—</span>
+      </div>
+      <div class="om-summary-divider"></div>
+      <div class="om-summary-row om-summary-total">
+        <span>Total Bayar</span>
+        <span id="omSumTotal" class="text-neon">—</span>
+      </div>
+    </div>
+
+    <!-- Agreement + actions -->
+    <label class="om-agree">
+      <input type="checkbox" id="omAgree">
+      <span>Saya menyetujui syarat &amp; ketentuan pembelian</span>
+    </label>
+    <div class="om-err" id="omErr" hidden></div>
+
+    <div class="om-actions">
+      <button type="button" class="btn btn-ghost" id="orderModalClose2">Batal</button>
+      <button type="button" class="btn btn-neon" id="omSendBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span>Pesan via WhatsApp</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Skin Modal -->
+<div class="modal-overlay" id="skinModal" role="dialog" aria-modal="true" hidden>
+  <div class="modal modal-skin">
+    <button class="modal-close" id="skinModalClose">×</button>
+    <div class="modal-head">
+      <span class="modal-eyebrow">Jasa Pembuatan Skin</span>
+      <h3>Skin Minecraft Custom</h3>
+      <p>Skin Minecraft disesuaikan dengan request kamu. Harga mulai dari <strong class="text-neon">Rp 5.000</strong>.</p>
+    </div>
+    <div class="skin-info-box">
+      <div class="skin-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <div><strong>Estimasi</strong><span>1-2 hari kerja</span></div>
+      </div>
+      <div class="skin-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div><strong>Custom Request</strong><span>Sesuai keinginan buyer</span></div>
+      </div>
+      <div class="skin-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div><strong>Harga Fleksibel</strong><span>Start Rp 5.000</span></div>
+      </div>
+    </div>
+    <div class="skin-preview-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      <span>Contoh Hasil Karya</span>
+    </div>
+    <div class="skin-grid">
+      <div class="skin-item"><img src="https://haykal.web.id/skin1.png" alt="Skin 1" loading="lazy" onerror="this.parentElement.style.background='rgba(255,31,61,0.1)'"></div>
+      <div class="skin-item"><img src="https://haykal.web.id/skin2.png" alt="Skin 2" loading="lazy" onerror="this.parentElement.style.background='rgba(255,31,61,0.1)'"></div>
+      <div class="skin-item"><img src="https://haykal.web.id/skin3.png" alt="Skin 3" loading="lazy" onerror="this.parentElement.style.background='rgba(255,31,61,0.1)'"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-neon" id="skinOrderBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span>Pesan via WhatsApp</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const WA='628123731343';
+const monthsShort=['JAN','FEB','MAR','APR','MEI','JUN','JUL','AGT','SEP','OKT','NOV','DES'];
+const monthsLong=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const weekdays=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+function $(s,c){return(c||document).querySelector(s);}
+function $$(s,c){return Array.from((c||document).querySelectorAll(s));}
+function parseDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function formatLong(d){return weekdays[d.getDay()]+', '+d.getDate()+' '+monthsLong[d.getMonth()]+' '+d.getFullYear();}
+
+const scheduleData=[
+  {tanggal:'2026-04-08',nama_klien:'aeroblast',paket_layanan:'TikTok (Tanpa Revisi)',status:'selesai'},
+  {tanggal:'2026-05-07',nama_klien:'cloudsmp',paket_layanan:'TikTok (Tanpa Revisi)',status:'selesai'},
+  {tanggal:'2026-04-15',nama_klien:'potatosmp',paket_layanan:'Jasa Pembuatan Website',status:'selesai'},
+  {tanggal:'2026-02-02',nama_klien:'aeoblast',paket_layanan:'Jasa Pembuatan Website',status:'selesai'},
+  {tanggal:'2026-05-09',nama_klien:'cloudsmp',paket_layanan:'TikTok (Tanpa Revisi)',status:'selesai'},
+  {tanggal:'2026-05-10',nama_klien:'minervax',paket_layanan:'TikTok (Tanpa Revisi)',status:'selesai'},
+];
+
+// Loading screen
+(function(){
+  var loader=document.getElementById('loadingScreen');
+  if(!loader)return;
+  var minMs=1800,startTime=Date.now();
+  var hidden=false;
+  function hide(){
+    if(hidden)return;
+    hidden=true;
+    var delay=Math.max(0,minMs-(Date.now()-startTime));
+    setTimeout(function(){
+      loader.classList.add('ls-out');
+      setTimeout(function(){if(loader.parentNode)loader.remove();},700);
+    },delay);
+  }
+  // Trigger on DOMContentLoaded — jauh lebih cepat dari window.load
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',hide);
+  } else {
+    hide(); // DOM sudah ready
+  }
+  // Safety timeout: paksa hilang setelah 4 detik, apapun yang terjadi
+  setTimeout(hide,4000);
+})();
+
+// Hamburger
+function initHamburger(){
+  var h=$('#hamburger'),m=$('#navMenu');if(!h||!m)return;
+  function close(){h.classList.remove('active');m.classList.remove('active');h.setAttribute('aria-expanded','false');}
+  function open(){h.classList.add('active');m.classList.add('active');h.setAttribute('aria-expanded','true');}
+  h.addEventListener('click',function(){m.classList.contains('active')?close():open();});
+  $$('.nav-link, .nav-cta',m).forEach(function(l){l.addEventListener('click',close);});
+  document.addEventListener('click',function(e){if(!m.classList.contains('active'))return;if(!h.contains(e.target)&&!m.contains(e.target))close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('active'))close();});
+}
+
+// Navbar scroll
+function initNavbar(){
+  var nb=$('#navbar');
+  var links=$$('.nav-link');
+  var sections=links.map(function(l){return document.querySelector(l.getAttribute('href'));}).filter(Boolean);
+  function onScroll(){
+    if(nb){nb.classList.toggle('scrolled',window.scrollY>24);}
+    var cur=sections[0]?sections[0].id:'';
+    sections.forEach(function(s){if(s.getBoundingClientRect().top-120<=0)cur=s.id;});
+    links.forEach(function(l){l.classList.toggle('active',(l.getAttribute('href')||'').replace('#','')===cur);});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+}
+
+// ── ORDER FORM MODAL (new rich version) ──
+var omState={pkg:'',basePrice:0,isCustom:false,method:'',discountCode:'',discountAmt:0,discountPct:0};
+
+// Payment methods config — ganti URL sesuai aset nyata
+var payMethods={
+  'QRIS':{
+    img:'https://haykal.web.id/qris.png',
+    fallback:'https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg',
+    info:'Scan QRIS di atas untuk membayar.\nBerlaku untuk semua e-wallet & bank.',
+    name:'QRIS Universal'
+  },
+  'DANA':{
+    img:'https://haykal.web.id/dana.png',
+    fallback:'https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg',
+    info:'Transfer ke DANA:\n085236xxxxxx a/n Haykal F.',
+    name:'DANA'
+  },
+  'GoPay':{
+    img:'https://haykal.web.id/gopay.png',
+    fallback:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1920px-Gopay_logo.svg.png',
+    info:'Transfer ke GoPay:\n085236xxxxxx a/n Haykal F.',
+    name:'GoPay'
+  },
+
+};
+
+// Diskon codes — bisa ditambah
+var discountCodes={
+  'HAYKAL10':{type:'pct',value:10,label:'10% diskon'},
+  'NEWCLIENT':{type:'pct',value:15,label:'15% diskon pelanggan baru'},
+  'HEMAT5K':{type:'flat',value:5000,label:'Hemat Rp 5.000'},
+};
+
+function parsePriceNum(str){
+  if(!str||str==='Custom'||str.toLowerCase().includes('menyesuaikan')||str.toLowerCase().includes('mulai'))return 0;
+  var n=str.replace(/[^\d]/g,'');
+  return parseInt(n,10)||0;
+}
+function fmtRp(num){
+  if(!num||isNaN(num))return'—';
+  return'Rp '+num.toLocaleString('id-ID');
+}
+
+function omUpdateSummary(){
+  var base=omState.basePrice;
+  var disc=omState.discountAmt;
+  var total=Math.max(0,base-disc);
+
+  $('#omSumBase').textContent=omState.isCustom?'Menyesuaikan':fmtRp(base);
+  if(disc>0){
+    $('#omDiscountSumRow').hidden=false;
+    $('#omSumDiscount').textContent='− '+fmtRp(disc);
+    $('#omSumTotal').textContent=fmtRp(total);
+  } else {
+    $('#omDiscountSumRow').hidden=true;
+    $('#omSumTotal').textContent=omState.isCustom?'Menyesuaikan':fmtRp(base);
+  }
+}
+
+function omApplyDiscount(){
+  var code=($('#om-discount').value||'').trim().toUpperCase();
+  var msgEl=$('#omDiscountMsg');
+  if(!code){msgEl.hidden=true;omState.discountCode='';omState.discountAmt=0;omUpdateSummary();return;}
+  var dc=discountCodes[code];
+  if(!dc){
+    msgEl.className='om-discount-msg error';msgEl.textContent='❌ Kode diskon tidak valid.';msgEl.hidden=false;
+    omState.discountCode='';omState.discountAmt=0;omUpdateSummary();return;
+  }
+  omState.discountCode=code;
+  if(dc.type==='pct'){omState.discountAmt=Math.round(omState.basePrice*dc.value/100);}
+  else{omState.discountAmt=dc.value;}
+  msgEl.className='om-discount-msg success';
+  msgEl.textContent='✓ '+dc.label+' berhasil diterapkan!';
+  msgEl.hidden=false;
+  omUpdateSummary();
+}
+
+function initOrderModal(){
+  var ov=$('#orderModal');
+  if(!ov)return;
+
+  function openModal(pkg,priceStr){
+    // Reset state
+    omState.pkg=pkg;
+    omState.basePrice=parsePriceNum(priceStr);
+    omState.isCustom=(!omState.basePrice);
+    omState.method='';omState.discountCode='';omState.discountAmt=0;
+
+    // Reset UI
+    $('#omTitle').textContent='Pesan: '+pkg;
+    $('#omProductName').textContent=pkg;
+    $('#omProductPrice-val')&&($('#omProductPrice-val').textContent=priceStr||'Custom');
+    var pv=$('#omBasePrice');
+    if(pv)pv.textContent=omState.isCustom?'Harga custom':fmtRp(omState.basePrice);
+
+    $('#om-name').value='';$('#om-wa').value='';$('#om-notes').value='';
+    $('#om-discount').value='';
+    var msgEl=$('#omDiscountMsg');if(msgEl){msgEl.hidden=true;msgEl.textContent='';}
+    var errEl=$('#omErr');if(errEl)errEl.hidden=true;
+    var agr=$('#omAgree');if(agr)agr.checked=false;
+    var pp=$('#omPayPreview');if(pp)pp.hidden=true;
+    // uncheck radios
+    ov.querySelectorAll('input[name="omPayMethod"]').forEach(function(r){r.checked=false;});
+    // uncheck selected style
+    ov.querySelectorAll('.om-pay-option input:checked ~ .om-pay-card');
+    omUpdateSummary();
+
+    // Show modal
+    ov.hidden=false;
+    requestAnimationFrame(function(){ov.classList.add('active');});
+    document.body.style.overflow='hidden';
+  }
+
+  function closeModal(){
+    ov.classList.remove('active');
+    document.body.style.overflow='';
+    setTimeout(function(){ov.hidden=true;},250);
+  }
+
+  // Wire buy buttons
+  $$('.btn-buy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pkg=btn.getAttribute('data-package')||'';
+      if(pkg==='Skin Minecraft Custom'){openSkinModal();return;}
+      openModal(pkg,btn.getAttribute('data-price')||'');
+    });
+  });
+
+  // Close buttons
+  [$('#orderModalClose'),$('#orderModalClose2')].forEach(function(b){if(b)b.addEventListener('click',closeModal);});
+  ov.addEventListener('click',function(e){if(e.target===ov)closeModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ov.hidden)closeModal();});
+
+  // Payment method selection
+  ov.querySelectorAll('input[name="omPayMethod"]').forEach(function(radio){
+    radio.addEventListener('change',function(){
+      omState.method=radio.value;
+      var cfg=payMethods[radio.value];
+      var pp=$('#omPayPreview');
+      if(!pp||!cfg)return;
+      pp.hidden=false;
+      var lbl=$('#omPayLabel');if(lbl)lbl.textContent='💳 Tujuan pembayaran ('+cfg.name+'):';
+      var img=$('#omPayImg');
+      if(img){
+        img.src=cfg.img;
+        img.onerror=function(){if(cfg.fallback)this.src=cfg.fallback;};
+      }
+      var info=$('#omPayInfo');
+      if(info){
+        info.innerHTML='<strong>'+cfg.name+'</strong>'+cfg.info.replace(/\n/g,'<br>');
+      }
+    });
+  });
+
+  // Discount
+  var discBtn=$('#om-discount-btn');
+  if(discBtn)discBtn.addEventListener('click',omApplyDiscount);
+  var discInp=$('#om-discount');
+  if(discInp)discInp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();omApplyDiscount();}});
+
+  // Send WA
+  var sendBtn=$('#omSendBtn');
+  if(sendBtn){
+    sendBtn.addEventListener('click',function(){
+      var name=($('#om-name').value||'').trim();
+      var wa=($('#om-wa').value||'').trim();
+      var notes=($('#om-notes').value||'').trim();
+      var method=omState.method;
+      var agree=$('#omAgree').checked;
+      var errEl=$('#omErr');
+
+      // Validasi
+      var errs=[];
+      if(!name)errs.push('Nama / nickname wajib diisi.');
+      if(!wa)errs.push('Nomor WhatsApp wajib diisi.');
+      if(!method)errs.push('Pilih metode pembayaran terlebih dahulu.');
+      if(!agree)errs.push('Centang persetujuan syarat & ketentuan.');
+
+      if(errs.length){
+        errEl.textContent='⚠ '+errs[0];errEl.hidden=false;
+        errEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+        return;
+      }
+      errEl.hidden=true;
+
+      // Build payment link based on method
+      var payLinks={
+        'QRIS':'https://haykal.web.id/qris.png',
+        'DANA':'https://haykal.web.id/dana.png',
+        'GoPay':'https://haykal.web.id/gopay.png'
+      };
+      var payLink=payLinks[method]||'https://haykal.web.id/qris.png';
+      var base=omState.basePrice;
+      var disc=omState.discountAmt;
+      var total=Math.max(0,base-disc);
+      var totalStr=omState.isCustom?'Menyesuaikan (konfirmasi dulu)':fmtRp(total);
+
+      var lines=[
+        '🛒 *PEMESANAN HAYKAL SERVICE*',
+        '',
+        '👤 Nama     : '+name,
+        '📱 WA       : '+wa,
+        '📦 Paket    : '+omState.pkg,
+        '💰 Harga    : '+(omState.isCustom?'Custom':fmtRp(base)),
+      ];
+      if(disc>0){
+        lines.push('🎟 Diskon   : '+omState.discountCode+' (− '+fmtRp(disc)+')');
+      }
+      lines.push('💳 Total    : '+totalStr);
+      lines.push('🏦 Bayar via: '+method);
+      if(notes)lines.push('📝 Catatan  : '+notes);
+      lines.push('');
+      lines.push('📎 Link pembayaran: '+payLink);
+      lines.push('');
+      lines.push('Mohon konfirmasi setelah pembayaran. Terima kasih! 🙏');
+
+      var url='https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+      window.open(url,'_blank','noopener');
+      closeModal();
+    });
+  }
+}
+
+// Skin modal
+window.openSkinModal=function(){
+  var m=$('#skinModal');if(!m)return;
+  m.removeAttribute('hidden');
+  requestAnimationFrame(function(){m.classList.add('active');});
+  document.body.style.overflow='hidden';
+};
+function initSkinModal(){
+  var m=$('#skinModal'),cl=$('#skinModalClose');if(!m||!cl)return;
+  function close(){m.classList.remove('active');document.body.style.overflow='';setTimeout(function(){m.setAttribute('hidden','');},250);}
+  cl.addEventListener('click',close);
+  m.addEventListener('click',function(e){if(e.target===m)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hasAttribute('hidden'))close();});
+  var ob=$('#skinOrderBtn');
+  if(ob){ob.addEventListener('click',function(){
+    var msg=encodeURIComponent('🎮 *PEMESANAN SKIN MINECRAFT*\n\n👤 Nama: \n📦 Paket: Skin Minecraft Custom\n💰 Budget: \n📝 Deskripsi Skin:\n   - Style: \n   - Warna dominan: \n   - Detail khusus: \n⏱️ Deadline: \n📱 Kontak: ');
+    window.open('https://wa.me/'+WA+'?text='+msg,'_blank','noopener');
+  });}
+}
+
+// Booking form
+function initBookingForm(){
+  var form=$('#bookingForm'),succ=$('#bookingSuccess');if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=$('#bk-name').value.trim(),contact=$('#bk-contact').value.trim(),pkg=$('#bk-package').value,date=$('#bk-date').value,notes=$('#bk-notes').value.trim();
+    if(!name||!contact||!pkg||!date){form.classList.add('shake');setTimeout(function(){form.classList.remove('shake');},400);form.reportValidity();return;}
+    var d=parseDate(date),fd=formatLong(d);
+    var lines=['Halo Haykal Service!','Saya ingin booking slot:','','• Nama    : '+name,'• Kontak  : '+contact,'• Paket   : '+pkg,'• Tanggal : '+fd];
+    if(notes)lines.push('• Catatan : '+notes);
+    lines.push('','Mohon konfirmasi ketersediaan slot tersebut. Terima kasih!');
+    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n')),'_blank','noopener');
+    if(succ){succ.hidden=false;setTimeout(function(){succ.hidden=true;},6000);}
+  });
+}
+
+// Schedule
+function renderSchedule(){
+  var list=$('#scheduleList');if(!list)return;
+  if(!scheduleData.length){list.innerHTML='<li style="padding:24px;text-align:center;color:var(--muted);font-size:0.9rem;border:1px dashed var(--border);border-radius:var(--radius-sm)">Belum ada slot terbooking.</li>';return;}
+  var sorted=scheduleData.slice().sort(function(a,b){return parseDate(a.tanggal)-parseDate(b.tanggal);});
+  var shown=window.showAllSchedule?sorted:sorted.slice(-3);
+  var frag=document.createDocumentFragment();
+  shown.forEach(function(entry){
+    var d=parseDate(entry.tanggal);
+    var stText='sedang dalam pengerjaan',stClass='status-pengerjaan';
+    if(entry.status==='selesai'){stText='sudah selesai';stClass='status-selesai';}
+    else if(entry.status==='antrian'){stText='menunggu antrian';stClass='status-antrian';}
+    var li=document.createElement('li');li.className='schedule-item'+(entry.status==='selesai'?' is-past':'');
+    li.innerHTML='<div class="schedule-date"><span class="day">'+d.getDate()+'</span><span class="month">'+monthsShort[d.getMonth()]+'</span></div><div class="schedule-info"><div class="schedule-client">'+entry.nama_klien+'</div><div class="schedule-package">'+entry.paket_layanan+' · '+formatLong(d)+'</div></div><span class="schedule-status '+stClass+'">'+stText+'</span>';
+    frag.appendChild(li);
+  });
+  list.innerHTML='';list.appendChild(frag);
+}
+function initScheduleToggle(){
+  var btn=$('#toggleScheduleBtn');if(!btn)return;
+  window.showAllSchedule=false;
+  btn.addEventListener('click',function(){
+    window.showAllSchedule=!window.showAllSchedule;
+    btn.textContent=window.showAllSchedule?'Sembunyikan Jadwal Lama':'Lihat Semua Jadwal';
+    btn.style.borderColor=window.showAllSchedule?'var(--red-500)':'';
+    renderSchedule();
+  });
+}
+
+// Custom select
+function initCustomSelect(){
+  var wrap=$('#pkgSelectWrap'),disp=$('#pkgDisplay'),dt=$('#pkgDisplayText'),dd=$('#pkgDropdown'),hi=$('#bk-package');
+  if(!wrap||!disp||!dd)return;
+  function openDrop(){disp.classList.add('open');dd.classList.add('open');disp.setAttribute('aria-expanded','true');}
+  function closeDrop(){disp.classList.remove('open');dd.classList.remove('open');disp.setAttribute('aria-expanded','false');}
+  disp.addEventListener('click',function(){dd.classList.contains('open')?closeDrop():openDrop();});
+  disp.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();dd.classList.contains('open')?closeDrop():openDrop();}if(e.key==='Escape')closeDrop();});
+  $$('.custom-select-option',dd).forEach(function(opt){
+    opt.addEventListener('click',function(){
+      if(hi)hi.value=opt.getAttribute('data-value');
+      if(dt){dt.textContent=opt.getAttribute('data-pkg');dt.classList.remove('custom-select-placeholder');}
+      $$('.custom-select-option',dd).forEach(function(o){o.classList.remove('selected');});
+      opt.classList.add('selected');
+      closeDrop();
+    });
+  });
+  document.addEventListener('click',function(e){if(!wrap.contains(e.target))closeDrop();});
+}
+
+// Smooth scroll
+function initSmoothScroll(){
+  $$('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click',function(e){
+      var href=link.getAttribute('href');if(!href||href==='#')return;
+      var target=document.querySelector(href);if(!target)return;
+      e.preventDefault();
+      var navH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||72;
+      window.scrollTo({top:target.getBoundingClientRect().top+window.scrollY-navH+1,behavior:'smooth'});
+    });
+  });
+}
+
+// Preview
+var previewVideos=[
+  {id:'pv1',url:'https://haykal.web.id/pv1.mp4',thumb:'https://haykal.web.id/pv1g.png',title:'Preview #1',desc:'Contoh hasil pertama.',tag:'Video',type:'video'},
+  {id:'pv2',url:'https://store.aeroblast.my.id',thumb:'https://haykal.web.id/pv2g.png',title:'Preview #2',desc:'Contoh hasil pembuatan website.',tag:'Website',type:'website'},
+  {id:'pv3',url:'#',thumb:'https://haykal.web.id/pv3g.png',title:'Skin Minecraft',desc:'Jasa pembuatan skin Minecraft custom.',tag:'Skin',type:'skin'},
+];
+function initPreview(){
+  var grid=$('#previewGrid');if(!grid)return;
+  previewVideos.forEach(function(item){
+    var isWeb=item.type==='website',isSkin=item.type==='skin';
+    var card=document.createElement('article');
+    card.className='preview-card';card.setAttribute('tabindex','0');card.setAttribute('role','link');
+    var playIcon=isSkin?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/></svg>':(isWeb?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>');
+    var footLabel=isSkin?'Mulai dari Rp 5.000':(isWeb?'store.aeroblast.my.id':'haykal.web.id/'+item.id+'.mp4');
+    var actionLabel=isSkin?'Lihat':(isWeb?'Buka':'Tonton');
+    card.innerHTML='<div class="preview-thumb"><img src="'+item.thumb+'" alt="'+item.title+'" loading="lazy" onerror="this.style.opacity=\'0.2\'"><div class="preview-thumb-overlay"><div class="preview-play-btn">'+playIcon+'</div></div><span class="preview-badge">'+item.tag+'</span></div><div class="preview-card-body"><div class="preview-card-title">'+item.title+'</div><div class="preview-card-desc">'+item.desc+'</div></div><div class="preview-card-foot"><span class="preview-card-tag">'+footLabel+'</span><span class="preview-card-link">'+actionLabel+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></div>';
+    function openItem(){if(isSkin)window.openSkinModal();else window.open(item.url,'_blank','noopener');}
+    card.addEventListener('click',openItem);
+    card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openItem();}});
+    grid.appendChild(card);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  initHamburger();
+  initNavbar();
+  initOrderModal();
+  initBookingForm();
+  renderSchedule();
+  initSmoothScroll();
+  initCustomSelect();
+  initScheduleToggle();
+  initSkinModal();
+  initPreview();
+  initScrollReveal();
+  initMouseParallax();
+  initScrollProgress();
+});
+
+// ── SCROLL REVEAL ──
+function initScrollReveal(){
+  var prefersReduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // ── 1. Reveal biasa untuk elemen non-card ──
+  var selectors=[
+    {sel:'.hero-pill',cls:''},
+    {sel:'.hero-title',cls:''},
+    {sel:'.hero-sub',cls:''},
+    {sel:'.hero-cta',cls:''},
+    {sel:'.hero-meta',cls:'reveal-scale'},
+    {sel:'.section-head',cls:''},
+    {sel:'.service-block-title',cls:'reveal-left'},
+    {sel:'.booking-form-wrap',cls:'reveal-left'},
+    {sel:'.schedule-wrap',cls:'reveal-right'},
+    {sel:'.preview-card',cls:'reveal-scale',stagger:true},
+    {sel:'.footer-brand',cls:'reveal-left'},
+    {sel:'.footer-links',cls:'reveal-right'},
+  ];
+
+  var allReveal=[];
+  selectors.forEach(function(cfg){
+    var els=document.querySelectorAll(cfg.sel);
+    els.forEach(function(el,i){
+      el.classList.add('reveal');
+      if(cfg.cls)el.classList.add(cfg.cls);
+      if(cfg.stagger){
+        var d=['reveal-d1','reveal-d2','reveal-d3','reveal-d4'];
+        el.classList.add(d[i%4]);
+      }
+      allReveal.push(el);
+    });
+  });
+
+  // ── 2. SWING reveal untuk service-card & sell-card ──
+  var swingCards=document.querySelectorAll('.service-card, .sell-card');
+  swingCards.forEach(function(el,i){
+    el.classList.add('reveal-swing');
+    // ganjil/genap bergantian kiri-kanan
+    el.classList.add(i%2===0?'swing-odd':'swing-even');
+    // stagger per 3
+    var d=['swing-d1','swing-d2','swing-d3'];
+    el.classList.add(d[i%3]);
+    allReveal.push(el);
+  });
+
+  if(prefersReduced){
+    allReveal.forEach(function(el){el.classList.add('is-visible');});
+    return;
+  }
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+
+  allReveal.forEach(function(el){io.observe(el);});
+}
+
+// ── MOUSE PARALLAX — sangat halus, hanya pada desktop ──
+function initMouseParallax(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  if(window.innerWidth<768)return;
+
+  var layer=document.getElementById('parallax-layer');
+  var aura1=document.querySelector('.aura-1');
+  var aura2=document.querySelector('.aura-2');
+  if(!layer)return;
+
+  var targetX=0,targetY=0,curX=0,curY=0;
+  var raf=null;
+
+  document.addEventListener('mousemove',function(e){
+    // Normalized -1 to 1
+    targetX=(e.clientX/window.innerWidth-0.5)*2;
+    targetY=(e.clientY/window.innerHeight-0.5)*2;
+    if(!raf)raf=requestAnimationFrame(tick);
+  },{passive:true});
+
+  function tick(){
+    // lerp sangat lambat = efek sangat halus
+    curX+=(targetX-curX)*0.04;
+    curY+=(targetY-curY)*0.04;
+
+    // Layer parallax rings: gerak max ±8px
+    layer.style.transform='translate('+(curX*8)+'px,'+(curY*6)+'px)';
+
+    // Aura background: gerak lebih kecil, max ±12px
+    if(aura1)aura1.style.transform='translate('+(curX*12)+'px,'+(curY*10)+'px)';
+    if(aura2)aura2.style.transform='translate('+(curX*-8)+'px,'+(curY*-6)+'px)';
+
+    // Terus loop kalau masih ada gerakan berarti
+    var still=Math.abs(targetX-curX)<0.001&&Math.abs(targetY-curY)<0.001;
+    if(still){raf=null;}
+    else{raf=requestAnimationFrame(tick);}
+  }
+}
+
+// ── SCROLL PROGRESS BAR ──
+function initScrollProgress(){
+  var bar=document.getElementById('scroll-prog');
+  if(!bar)return;
+  function onScroll(){
+    var scrolled=window.scrollY;
+    var total=document.documentElement.scrollHeight-window.innerHeight;
+    var pct=total>0?(scrolled/total*100):0;
+    bar.style.width=pct+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+}
+})();
+</script>
 </body>
 </html>
