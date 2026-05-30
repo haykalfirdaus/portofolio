@@ -37,6 +37,7 @@
         { tanggal: '2026-02-02', nama_klien: 'aeoblast', paket_layanan: 'Jasa Pembuatan Website', status: 'selesai' },
         { tanggal: '2026-05-09', nama_klien: 'cloudsmp', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
         { tanggal: '2026-05-10', nama_klien: 'minervax', paket_layanan: 'TikTok (Tanpa Revisi)', status: 'selesai' },
+        { tanggal: '2026-05-31', nama_klien: 'renn3112', paket_layanan: 'Minecraft Skin (20k)', status: 'selesai' },
     ];
 
     const WA_NUMBER = '628123731343';
