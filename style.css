@@ -1994,3 +1994,25 @@ input, select, textarea { font: inherit; color: inherit; }
 @keyframes ls-fade-up {
     to { opacity: 1; transform: translateY(0); }
 }
+/* Tambahkan pada bagian CSS yang sudah ada, tepat di atas */
+.reveal,
+.reveal-swing {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out);
+}
+
+/* ketika sudah terlihat */
+.reveal.is-visible,
+.reveal-swing.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* fallback untuk pengguna yang menon‑aktifkan animasi */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-swing { opacity:1; transform:none; transition:none; }
+}
