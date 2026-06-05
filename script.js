@@ -274,73 +274,56 @@
     }
 
     // -------- Schedule list --------
-    function renderSchedule() {
-        const list = $('#scheduleList');
-        if (!list) return;
+    /**
+ * Render schedule ke elemen <ul> yang diberikan.
+ * Jika tidak ada container yang diberikan, pakai #scheduleList (default).
+ */
+function renderSchedule(container) {
+  const list = container || $('#scheduleList');
+  if (!list) return;
 
-        if (!scheduleData.length) {
-            list.innerHTML = '<li class="schedule-empty">Belum ada slot terbooking.</li>';
-            return;
-        }
+  if (!scheduleData.length) {
+    list.innerHTML = `
+      <li class="schedule-empty">
+        Belum ada slot ter‑booking.
+      </li>`;
+    return;
+  }
 
-        const sorted = scheduleData.slice().sort(function (a, b) {
-            return parseDate(a.tanggal) - parseDate(b.tanggal);
-        });
+  const sorted = scheduleData.slice().sort((a, b) => parseDate(a.tanggal) - parseDate(b.tanggal));
+  const shown = window.showAllSchedule ? sorted : sorted.slice(-3);
+  const frag = document.createDocumentFragment();
 
-        const jadwalYangDitampilkan = window.showAllSchedule ? sorted : sorted.slice(-3);
-
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-
-        const fragment = document.createDocumentFragment();
-
-        jadwalYangDitampilkan.forEach(function (entry) {
-            const d = parseDate(entry.tanggal);
-
-            let statusText = 'sedang dalam pengerjaan';
-            let statusClass = 'status-pengerjaan';
-
-            if (entry.status === 'selesai') {
-                statusText = 'sudah selesai';
-                statusClass = 'status-selesai';
-            } else if (entry.status === 'antrian') {
-                statusText = 'menunggu antrian';
-                statusClass = 'status-antrian';
-            }
-
-            const li = document.createElement('li');
-            li.className = 'schedule-item' + (entry.status === 'selesai' ? ' is-past' : '');
-
-            const dateBox = document.createElement('div');
-            dateBox.className = 'schedule-date';
-            dateBox.innerHTML =
-                '<span class="day">' + d.getDate() + '</span>' +
-                '<span class="month">' + monthsShort[d.getMonth()] + '</span>';
-
-            const info = document.createElement('div');
-            info.className = 'schedule-info';
-            const client = document.createElement('div');
-            client.className = 'schedule-client';
-            client.textContent = entry.nama_klien;
-            const pkg = document.createElement('div');
-            pkg.className = 'schedule-package';
-            pkg.textContent = entry.paket_layanan + ' · ' + formatLongDate(d);
-            info.appendChild(client);
-            info.appendChild(pkg);
-
-            const status = document.createElement('span');
-            status.className = 'schedule-status ' + statusClass;
-            status.textContent = statusText;
-
-            li.appendChild(dateBox);
-            li.appendChild(info);
-            li.appendChild(status);
-            fragment.appendChild(li);
-        });
-
-        list.innerHTML = '';
-        list.appendChild(fragment);
+  shown.forEach(entry => {
+    const d = parseDate(entry.tanggal);
+    let statusText = 'sedang dalam pengerjaan';
+    let statusClass = 'status-pengerjaan';
+    if (entry.status === 'selesai') {
+      statusText = 'sudah selesai';
+      statusClass = 'status-selesai';
+    } else if (entry.status === 'antrian') {
+      statusText = 'menunggu antrian';
+      statusClass = 'status-antrian';
     }
+
+    const li = document.createElement('li');
+    li.className = 'schedule-item' + (entry.status === 'selesai' ? ' is-past' : '');
+    li.innerHTML = `
+      <div class="schedule-date">
+        <span class="day">${d.getDate()}</span>
+        <span class="month">${monthsShort[d.getMonth()]}</span>
+      </div>
+      <div class="schedule-info">
+        <div class="schedule-client">${entry.nama_klien}</div>
+        <div class="schedule-package">${entry.paket_layanan} · ${formatLongDate(d)}</div>
+      </div>
+      <span class="schedule-status ${statusClass}">${statusText}</span>`;
+    frag.appendChild(li);
+  });
+
+  list.innerHTML = '';
+  list.appendChild(frag);
+}
 
     // -------- Smooth scroll for anchor links (nav offset) --------
     function initSmoothScroll() {
@@ -598,3 +581,94 @@
         initPreview();
     });
 })();
+/* Ganti seluruh blok initScrollReveal() dengan yang berikut */
+function initScrollReveal() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    // semua elemen langsung terlihat
+    document.querySelectorAll('.reveal, .reveal-swing').forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
+  /* -----------------------------------------------------------------
+   1️⃣  Daftar selector yang ingin di‑reveal (tambahkan atau hapus
+      sesuai kebutuhan).  Semua elemen akan langsung diberi kelas
+      .reveal/.reveal-swing sebelum observer dibuat.
+   ----------------------------------------------------------------- */
+  const map = [
+    { sel: '.hero-pill',          cls: '' },
+    { sel: '.hero-title',         cls: '' },
+    { sel: '.hero-sub',           cls: '' },
+    { sel: '.hero-cta',           cls: '' },
+    { sel: '.hero-meta',          cls: 'reveal-scale' },
+    { sel: '.section-head',      cls: '' },
+    { sel: '.service-block-title',cls: 'reveal-left' },
+    { sel: '.booking-form-wrap', cls: 'reveal-left' },
+    { sel: '.schedule-wrap',     cls: 'reveal-right' },
+    { sel: '.preview-card',      cls: 'reveal-scale', stagger:true },
+    { sel: '.footer-brand',      cls: 'reveal-left' },
+    { sel: '.footer-links',      cls: 'reveal-right' },
+  ];
+
+  const allElements = [];
+
+  map.forEach(item => {
+    document.querySelectorAll(item.sel).forEach((el, i) => {
+      el.classList.add('reveal');
+      if (item.cls) el.classList.add(item.cls);
+      if (item.stagger) {
+        const delayCls = ['reveal-d1','reveal-d2','reveal-d3','reveal-d4'];
+        el.classList.add(delayCls[i % delayCls.length]);
+      }
+      allElements.push(el);
+    });
+  });
+
+  /* -----------------------------------------------------------------
+   2️⃣  Service‑card & sell‑card – efek “swing”
+   ----------------------------------------------------------------- */
+  document.querySelectorAll('.service-card, .sell-card').forEach((el, i) => {
+    el.classList.add('reveal-swing');
+    el.classList.add(i % 2 === 0 ? 'swing-odd' : 'swing-even');
+    const swingDelay = ['swing-d1','swing-d2','swing-d3'];
+    el.classList.add(swingDelay[i % swingDelay.length]);
+    allElements.push(el);
+  });
+
+  /* -----------------------------------------------------------------
+   3️⃣  IntersectionObserver
+   ----------------------------------------------------------------- */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  allElements.forEach(el => observer.observe(el));
+}
+
+/* ------------------------------------------------------------
+   Panggil initScrollReveal() **setelah** initPreview() selesai,
+   karena preview‑card dibuat secara dinamis.
+   ------------------------------------------------------------ */
+document.addEventListener('DOMContentLoaded', () => {
+  initHamburger();
+  initNavbar();
+  initOrderModal();
+  initBookingForm();
+  renderSchedule();
+  initSmoothScroll();
+  initCustomSelect();
+  initScheduleToggle();
+  initSkinModal();          // skin modal harus di‑init dulu
+  initPreview();           // buat preview‑card (dinamis)
+  initScrollReveal();      // ← dipanggil *setelah* preview‑card ada
+  initMouseParallax();
+  initScrollProgress();
+});
