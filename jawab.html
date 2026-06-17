@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Buat Kamu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            color: #ff4d4d;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        .step {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .active {
+            display: block;
+        }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            transition: opacity 0.5s ease;
+        }
+        input {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffb3b3;
+            border-radius: 12px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            font-family: inherit;
+        }
+        input:focus {
+            border-color: #ff4d4d;
+        }
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+            transition: transform 0.2s;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+            min-height: 110px; /* Mencegah layout lompat saat tombol kabur */
+        }
+
+        /* --- Gaya Tombol Love --- */
+        .btn-love, .btn-love-broken {
+            width: 110px;
+            height: 100px;
+            padding: 0;
+            padding-bottom: 10px; /* Menyesuaikan posisi teks ke tengah secara visual */
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 0;
+        }
+
+        .btn-love {
+            background-color: #ff4d4d;
+            mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'><path d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'/></svg>");
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'><path d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'/></svg>");
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+        }
+
+        .btn-love-broken {
+            background-color: #b3b3b3;
+            mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'><path d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-4.4 117.7-4.6 188.2 38.7 234.3L256 461.4l217.3-227.1c43.3-46.1 43.1-116.6.4-160.5z'/></svg>");
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'><path d='M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-4.4 117.7-4.6 188.2 38.7 234.3L256 461.4l217.3-227.1c43.3-46.1 43.1-116.6.4-160.5z'/></svg>");
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatFade {
+            0% { transform: translateY(0) scale(0.8) rotate(-10deg); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.3) rotate(10deg); opacity: 0; }
+        }
+
+        /* --- Gaya Emoji Melayang Default --- */
+        #floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            opacity: 0.8;
+            animation: floatUp linear infinite;
+            filter: drop-shadow(0 2px 5px rgba(255, 77, 77, 0.3));
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .big-emoji {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Wadah Emoji Melayang -->
+    <div id="floating-container"></div>
+
+    <div class="container">
+        <!-- Tahap 1 -->
+        <div id="step1" class="step active">
+            <h2>udah seiap belummm??</h2>
+            <button onclick="nextStep(1)">Udah</button>
+        </div>
+
+        <!-- Tahap 2 -->
+        <div id="step2" class="step">
+            <h2>nama kamu siapaa??</h2>
+            <input type="text" id="nama" placeholder="Isi nama kamu..." autocomplete="off">
+            <br>
+            <button onclick="nextStep(2)">Lanjut</button>
+        </div>
+
+        <!-- Tahap 3 -->
+        <div id="step3" class="step">
+            <h2>warna kesukaan kamuu apaa???</h2>
+            <input type="text" id="warna" placeholder="Warna kesukaan..." autocomplete="off">
+            <br>
+            <button onclick="nextStep(3)">Lanjut</button>
+        </div>
+
+        <!-- Tahap 4 -->
+        <div id="step4" class="step">
+            <h2 id="text-sukanya">owhh kaloo akuu sihh sukanyaa....<br><br><span style="font-size:16px; color:#ff9999;">(penasaran gaa??)</span></h2>
+        </div>
+
+        <!-- Tahap 5 -->
+        <div id="step5" class="step">
+            <h2>kiraa kira suka balik gaa yaa</h2>
+            <div class="btn-group">
+                <button id="btn-yes" class="btn-love" onclick="finishStory()">Iya</button>
+                <button id="btn-no" class="btn-love-broken">Engga</button>
+            </div>
+        </div>
+
+        <!-- Tahap 6 -->
+        <div id="step6" class="step">
+            <div class="big-emoji">🧸💖</div>
+            <h2>makasii yaa! mulai sekarang kamu punya akuu hehehe 🥺❤️</h2>
+        </div>
+    </div>
+
+    <script>
+        // Logika Emoji Melayang
+        window.onload = function() {
+            createEmojis();
+        };
+
+        function createEmojis() {
+            const container = document.getElementById('floating-container');
+            const emojis = ['❤️', '💖', '🌸', '🌼', '⭐', '✨']; 
+            const totalEmojis = 35;
+
+            for (let i = 0; i < totalEmojis; i++) {
+                const emojiEl = document.createElement('div');
+                emojiEl.classList.add('floating-emoji');
+                emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const size = Math.random() * 20 + 15;
+                emojiEl.style.fontSize = `${size}px`;
+                emojiEl.style.left = `${Math.random() * 100}%`;
+                emojiEl.style.animationDuration = `${Math.random() * 4 + 4}s`;
+                emojiEl.style.animationDelay = `${Math.random() * 5}s`;
+
+                container.appendChild(emojiEl);
+            }
+        }
+
+        function nextStep(current) {
+            if (current === 2 && document.getElementById('nama').value.trim() === '') {
+                alert('Isi dulu dong namanya!');
+                return;
+            }
+            if (current === 3 && document.getElementById('warna').value.trim() === '') {
+                alert('Isi dulu warna kesukaannya!');
+                return;
+            }
+
+            document.getElementById('step' + current).classList.remove('active');
+            
+            if (current === 3) {
+                document.getElementById('step4').classList.add('active');
+                
+                setTimeout(() => {
+                    const textSukanya = document.getElementById('text-sukanya');
+                    textSukanya.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        textSukanya.innerHTML = "aku suka kamuuu ❤️";
+                        textSukanya.style.fontSize = "28px";
+                        textSukanya.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            document.getElementById('step4').classList.remove('active');
+                            document.getElementById('step5').classList.add('active');
+                        }, 2500);
+                        
+                    }, 500);
+                }, 3500);
+            } else {
+                document.getElementById('step' + (current + 1)).classList.add('active');
+            }
+        }
+
+        function finishStory() {
+            document.getElementById('step5').classList.remove('active');
+            document.getElementById('step6').classList.add('active');
+        }
+
+        // --- Logika Efek Eits Gakena & Pindah Tombol ---
+        const btnNo = document.getElementById('btn-no');
+        
+        function createEitsEffect(x, y) {
+            const eits = document.createElement('div');
+            eits.innerText = "eits gakena😜";
+            eits.style.position = 'fixed';
+            eits.style.left = `${x - 40}px`; 
+            eits.style.top = `${y - 30}px`;
+            eits.style.color = '#ff4d4d';
+            eits.style.fontWeight = 'bold';
+            eits.style.fontSize = '18px';
+            eits.style.pointerEvents = 'none';
+            eits.style.zIndex = '1000';
+            eits.style.textShadow = '2px 2px 0px white, -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white';
+            eits.style.animation = 'floatFade 1s ease-out forwards';
+            document.body.appendChild(eits);
+
+            setTimeout(() => {
+                eits.remove();
+            }, 1000);
+        }
+
+        function moveButton(e) {
+            if(e) e.preventDefault();
+            
+            let clickX = 0;
+            let clickY = 0;
+            
+            // Ambil koordinat sentuhan/klik untuk menampilkan teks
+            if (e && e.touches && e.touches.length > 0) {
+                clickX = e.touches[0].clientX;
+                clickY = e.touches[0].clientY;
+            } else if (e && e.clientX) {
+                clickX = e.clientX;
+                clickY = e.clientY;
+            } else {
+                const rect = btnNo.getBoundingClientRect();
+                clickX = rect.left + rect.width / 2;
+                clickY = rect.top;
+            }
+
+            // Panggil efek tulisan
+            createEitsEffect(clickX, clickY);
+
+            // Pindah tombol
+            btnNo.style.position = 'fixed';
+            
+            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            btnNo.style.left = `${Math.max(10, randomX)}px`;
+            btnNo.style.top = `${Math.max(10, randomY)}px`;
+        }
+
+        btnNo.addEventListener('touchstart', moveButton, {passive: false});
+        btnNo.addEventListener('click', moveButton); 
+        btnNo.addEventListener('mouseover', moveButton); 
+    </script>
+</body>
+</html>
