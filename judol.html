@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival Naga Emas - Ultimate Edition</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Shojumaru&family=Titan+One&display=swap" rel="stylesheet">
+
+    <style>
+        /* TEMA & BACKGROUND */
+        body {
+            background-color: #3b0000; color: #ffd700; font-family: 'Segoe UI', Tahoma, sans-serif;
+            text-align: center; margin: 0; padding: 0; overflow-x: hidden;
+            background-image: radial-gradient(#6b0000 15%, transparent 16%), radial-gradient(#6b0000 15%, transparent 16%);
+            background-size: 60px 60px; background-position: 0 0, 30px 30px;
+        }
+
+        .gold-font { font-family: 'Titan One', cursive; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0px 4px 0px #b8860b, 0px 6px 5px rgba(0,0,0,0.8); }
+        .oriental-font { font-family: 'Shojumaru', cursive; text-shadow: 2px 2px 5px #000; }
+
+        header { background-color: #1a0000; padding: 15px; border-bottom: 5px solid #ffd700; position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 15px rgba(0,0,0,0.9); }
+        h1 { margin: 5px 0; font-size: 2.2em; }
+        
+        .status-bar {
+            display: inline-block; font-size: 1.8em; background: linear-gradient(to bottom, #ffe55c, #d4af37);
+            color: #5c0000; padding: 10px 40px; border-radius: 15px; margin-top: 10px; border: 3px solid #fff; box-shadow: 0 0 20px #ffd700;
+        }
+
+        #btn-audio {
+            background-color: #000; color: #0f0; border: 2px solid #0f0; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; position: absolute; right: 20px; top: 20px; animation: pulseGlow 1.5s infinite; font-size: 1em;
+        }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #0f0; } 50% { box-shadow: 0 0 20px #0f0; } 100% { box-shadow: 0 0 5px #0f0; } }
+
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; background-color: rgba(30, 0, 0, 0.95); border: 4px solid #ffd700; border-radius: 15px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+        .wager-section { background: linear-gradient(to right, #b8860b, #ffd700, #b8860b); color: #3b0000; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1.3em; }
+        input[type="number"] { padding: 10px; font-size: 1.3em; border: 3px solid #3b0000; border-radius: 8px; width: 250px; text-align: center; background-color: #fff9e6; color: #8b0000; }
+
+        .game-section { margin: 30px 0; padding: 25px; border: 3px dashed #d4af37; border-radius: 15px; background-color: #4a0000; position: relative; }
+        
+        button.action-btn {
+            background: linear-gradient(to bottom, #fff380, #ffd700, #daa520); color: #5c0000; border: 2px solid #fff; padding: 12px 25px; font-size: 1.2em; border-radius: 8px; cursor: pointer; transition: all 0.2s; box-shadow: 0 5px 0px #b8860b, 0 8px 10px rgba(0,0,0,0.5); margin: 5px;
+        }
+        button.action-btn:hover { filter: brightness(1.1); transform: translateY(-3px); box-shadow: 0 8px 0px #b8860b, 0 12px 15px rgba(0,0,0,0.5); }
+        button.action-btn:active { transform: translateY(3px); box-shadow: 0 2px 0px #b8860b, 0 4px 5px rgba(0,0,0,0.5); }
+
+        .result-box { margin-top: 20px; font-size: 1.6em; min-height: 40px; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; color: #fff; text-shadow: 0 2px 5px #000; border: 1px solid #555; }
+
+        /* HUJAN KOIN EFEK */
+        .coin-particle { position: fixed; top: -50px; font-size: 35px; z-index: 9999; animation: fall linear forwards; pointer-events: none; }
+        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+        /* SHAKE ANIMATION */
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        .shaking { animation: shake 0.5s infinite; }
+
+        /* RODA PUTAR */
+        .wheel-wrapper { position: relative; width: 320px; height: 320px; margin: 20px auto; }
+        .pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 35px solid #fff; z-index: 10; filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.8)); }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #ffd700; position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(255,215,0,0.6), inset 0 0 20px rgba(0,0,0,0.8); }
+        .wheel-slice-text { position: absolute; top: 50%; left: 50%; width: 50%; height: 20px; transform-origin: 0% 50%; font-size: 1.2em; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); margin-top: -10px; color:#fff;}
+
+        /* KARTU */
+        .cards { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; perspective: 1000px; }
+        .card { width: 80px; height: 120px; background-color: #d32f2f; border: 3px solid #ffd700; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3em; cursor: pointer; transition: transform 0.6s, background-color 0.6s; transform-style: preserve-3d; background-image: repeating-linear-gradient(45deg, #b71c1c 25%, transparent 25%, transparent 75%, #b71c1c 75%, #b71c1c), repeating-linear-gradient(45deg, #b71c1c 25%, #d32f2f 25%, #d32f2f 75%, #b71c1c 75%, #b71c1c); background-size: 20px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .card.flip { transform: rotateY(180deg); background-image: none; background-color: #fff; }
+
+        /* BALAP PERAHU */
+        .race-track { width: 100%; background: #1a1a1a; border: 2px solid #ffd700; border-radius: 10px; margin-bottom: 10px; position: relative; height: 60px; overflow: hidden; display: flex; align-items: center; }
+        .finish-line { position: absolute; right: 5%; width: 5px; height: 100%; background: repeating-linear-gradient(to bottom, #fff 0, #fff 10px, #000 10px, #000 20px); z-index: 1; }
+        .boat { font-size: 35px; position: absolute; left: 2%; transition: left 0.5s ease-out; z-index: 2; filter: drop-shadow(2px 2px 2px #000); }
+
+        /* LAMPION */
+        .lanterns { display: flex; justify-content: center; gap: 40px; margin-top: 20px; }
+        .lantern { font-size: 5em; cursor: pointer; transition: transform 0.2s, opacity 0.5s; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.8)); }
+        .lantern:hover { transform: scale(1.1); filter: drop-shadow(0 10px 20px #ffd700); }
+        .lantern.smashed { transform: scale(0.1); opacity: 0; pointer-events: none; }
+        .lantern-prize { position: absolute; font-size: 4em; opacity: 0; transform: translateY(50px); transition: all 0.5s; pointer-events: none;}
+        .lantern-prize.show { opacity: 1; transform: translateY(0px); }
+
+        /* MODAL MATEMATIKA */
+        #math-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        .math-box { background-color: #5c0000; border: 5px solid #ffd700; padding: 40px; border-radius: 15px; text-align: center; max-width: 500px; box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button id="btn-audio" onclick="toggleAudio()">🔇 NYALAKAN MUSIK</button>
+        <h1 class="oriental-font">🐉 Arkade Naga Emas Ultimate 🐉</h1>
+        <div class="status-bar gold-font" id="display-poin">🪙 50.000</div>
+    </header>
+
+    <div class="container">
+        <div class="wager-section gold-font">
+            <label>Poin Taruhan Anda: </label>
+            <input type="number" id="wager-input" class="gold-font" value="10000" min="1000" step="1000">
+        </div>
+
+        <!-- GAME 1: RODA PUTAR (Animasi Lebih Lama) -->
+        <div class="game-section">
+            <h2 class="gold-font">🎡 Roda Nasib Visual</h2>
+            <p>Berputar sangat lama! Menangkan hingga Jackpot x10!</p>
+            <button onclick="putarRoda()" class="action-btn gold-font">PUTAR RODA!</button>
+            <div class="wheel-wrapper">
+                <div class="pointer"></div>
+                <div class="wheel" id="wheel-element"></div>
+            </div>
+            <div id="hasil-roda" class="result-box gold-font">Tarik Tuasnya!</div>
+        </div>
+
+        <!-- GAME 4: BALAP PERAHU NAGA -->
+        <div class="game-section">
+            <h2 class="gold-font">🛶 Balap Perahu Naga</h2>
+            <p>Pilih perahu jagoanmu. Perahu balapan selama 7 detik!</p>
+            <button onclick="mulaiBalap(1)" class="action-btn gold-font" style="background: linear-gradient(to bottom, #ff7b7b, #d32f2f); color:#fff;">MERAH</button>
+            <button onclick="mulaiBalap(2)" class="action-btn gold-font" style="background: linear-gradient(to bottom, #fff380, #ffd700);">EMAS</button>
+            <button onclick="mulaiBalap(3)" class="action-btn gold-font" style="background: linear-gradient(to bottom, #7bff86, #2e8b57); color:#fff;">HIJAU</button>
+            
+            <div style="margin-top:20px;">
+                <div class="race-track"><div class="finish-line"></div><div class="boat" id="boat-1" style="color:red;">🛶</div></div>
+                <div class="race-track"><div class="finish-line"></div><div class="boat" id="boat-2" style="color:gold;">🛶</div></div>
+                <div class="race-track"><div class="finish-line"></div><div class="boat" id="boat-3" style="color:lightgreen;">🛶</div></div>
+            </div>
+            <div id="hasil-balap" class="result-box gold-font">Siapa yang tercepat?</div>
+        </div>
+
+        <!-- GAME 5: PECAH LAMPION -->
+        <div class="game-section">
+            <h2 class="gold-font">🏮 Pecahkan Lampion</h2>
+            <p>Hanya 1 Lampion yang berisi Naga Emas (Poin x5). Pukul lampionnya!</p>
+            <button onclick="resetLampion()" class="action-btn gold-font">GANTUNG LAMPION</button>
+            <div class="lanterns" id="tempat-lampion">
+                <div style="position:relative; display:flex; justify-content:center; align-items:center;">
+                    <div class="lantern" id="l-0" onclick="pecahLampion(0)">🏮</div>
+                    <div class="lantern-prize" id="p-0"></div>
+                </div>
+                <div style="position:relative; display:flex; justify-content:center; align-items:center;">
+                    <div class="lantern" id="l-1" onclick="pecahLampion(1)">🏮</div>
+                    <div class="lantern-prize" id="p-1"></div>
+                </div>
+                <div style="position:relative; display:flex; justify-content:center; align-items:center;">
+                    <div class="lantern" id="l-2" onclick="pecahLampion(2)">🏮</div>
+                    <div class="lantern-prize" id="p-2"></div>
+                </div>
+            </div>
+            <div id="hasil-lampion" class="result-box gold-font">Menunggu dipukul...</div>
+        </div>
+
+        <!-- GAME 2: TEBAK KARTU -->
+        <div class="game-section">
+            <h2 class="gold-font">🃏 Ilusi 5 Kartu</h2>
+            <p>Animasi mengocok heboh! Cari Koin 🪙 untuk Poin x4.</p>
+            <button onclick="resetKartu()" class="action-btn gold-font">KOCOK KARTU BANYAK</button>
+            <div class="cards" id="tempat-kartu"></div>
+            <div id="hasil-kartu" class="result-box gold-font">Menunggu Kartu...</div>
+        </div>
+
+        <!-- GAME 3: LEMPAR DADU -->
+        <div class="game-section">
+            <h2 class="gold-font">🎲 Dadu Gempa</h2>
+            <p>Dadu dikocok sangat kencang. Tebakan benar = x5!</p>
+            <div>
+                <button onclick="mainDadu(1)" class="action-btn gold-font">1</button>
+                <button onclick="mainDadu(2)" class="action-btn gold-font">2</button>
+                <button onclick="mainDadu(3)" class="action-btn gold-font">3</button>
+                <button onclick="mainDadu(4)" class="action-btn gold-font">4</button>
+                <button onclick="mainDadu(5)" class="action-btn gold-font">5</button>
+                <button onclick="mainDadu(6)" class="action-btn gold-font">6</button>
+            </div>
+            <div id="hasil-dadu" class="result-box gold-font">Pilih Angka!</div>
+        </div>
+    </div>
+
+    <!-- MODAL MATEMATIKA SULIT -->
+    <div id="math-modal">
+        <div class="math-box">
+            <h2 class="gold-font" style="font-size: 2.5em; margin-top:0;">🚨 Poin Habis! 🚨</h2>
+            <h1 id="math-question" class="gold-font" style="font-size: 3.5em; margin: 20px 0; letter-spacing: 5px;">? + ?</h1>
+            <input type="number" id="math-answer" class="gold-font" placeholder="Jawaban" style="margin-bottom: 20px;"><br>
+            <button onclick="cekMatematika()" class="action-btn gold-font" style="font-size: 1.5em; padding: 15px 40px;">KIRIM JAWABAN</button>
+        </div>
+    </div>
+
+    <script>
+        let isAnimating = false;
+        let poinUser = 50000;
+
+        // ----------------------------------------------------
+        // SISTEM AUDIO EXTREME (Web Audio API)
+        // ----------------------------------------------------
+        let audioCtx;
+        let isAudioOn = false;
+        let bgmInterval;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function toggleAudio() {
+            initAudio();
+            let btn = document.getElementById('btn-audio');
+            if (isAudioOn) {
+                clearInterval(bgmInterval); isAudioOn = false;
+                btn.innerText = "🔇 NYALAKAN MUSIK"; btn.style.color = "#0f0"; btn.style.borderColor = "#0f0";
+            } else {
+                playBGM(); isAudioOn = true;
+                btn.innerText = "🔊 MATIKAN MUSIK"; btn.style.color = "#f44"; btn.style.borderColor = "#f44";
+            }
+        }
+
+        function playBGM() {
+            const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00];
+            bgmInterval = setInterval(() => {
+                if (!audioCtx) return;
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(pentatonic[Math.floor(Math.random() * pentatonic.length)], audioCtx.currentTime);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.6);
+            }, 300);
+        }
+
+        // Suara Koin Berserakan
+        function playCoinScatter() {
+            if (!audioCtx || !isAudioOn) return;
+            let count = 0;
+            let coinInt = setInterval(() => {
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'square'; 
+                osc.frequency.setValueAtTime(1200 + Math.random()*500, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+                count++; if(count > 25) clearInterval(coinInt);
+            }, 40);
+        }
+
+        // Suara Orang Teriak Girang (Crowd Cheer & Fanfare)
+        function playCrowdCheer() {
+            if (!audioCtx || !isAudioOn) return;
+            // Fanfare Terompet
+            const notes = [440, 554, 659, 880];
+            notes.forEach((freq, i) => {
+                let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'square';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0, audioCtx.currentTime + i*0.15);
+                gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + i*0.15 + 0.05);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + i*0.15 + 0.5);
+                osc.start(audioCtx.currentTime + i*0.15); osc.stop(audioCtx.currentTime + i*0.15 + 0.6);
+            });
+            // Crowd Noise Filtered
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const noise = audioCtx.createBufferSource(); noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; 
+            filter.frequency.setValueAtTime(500, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(2000, audioCtx.currentTime + 1);
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.5);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2.5);
+            noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        function playSmash() {
+            if (!audioCtx || !isAudioOn) return;
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        function playLose() {
+            if (!audioCtx || !isAudioOn) return;
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.8);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.8);
+        }
+
+        function playTick() {
+            if (!audioCtx || !isAudioOn) return;
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.05);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        // HUJAN KOIN VISUAL
+        function spawnCoinShower() {
+            for(let i=0; i<40; i++) {
+                let coin = document.createElement('div');
+                coin.className = 'coin-particle';
+                coin.innerText = '🪙';
+                coin.style.left = Math.random() * 100 + 'vw';
+                coin.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+                coin.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(coin);
+                setTimeout(() => coin.remove(), 3000);
+            }
+        }
+
+        // ----------------------------------------------------
+        // LOGIKA WAGER & MATEMATIKA
+        // ----------------------------------------------------
+        let soalMathAktif = null;
+        function updatePoinUI() { document.getElementById('display-poin').innerHTML = `🪙 ${poinUser.toLocaleString('id-ID')}`; }
+
+        function generateHardMath() {
+            const ops = ['+', '-'];
+            let a = Math.floor(Math.random() * 20) + 10;
+            let b = Math.floor(Math.random() * 20) + 10;
+            let c = Math.floor(Math.random() * 300) + 100;
+            let op = ops[Math.floor(Math.random() * ops.length)];
+            return { q: `(${a} x ${b}) ${op} ${c}`, a: op === '+' ? (a * b) + c : (a * b) - c };
+        }
+
+        function validasiWager() {
+            initAudio();
+            if (isAnimating) { alert("Sabar! Animasi sedang berlangsung."); return 0; }
+            let wagerVal = parseInt(document.getElementById('wager-input').value);
+            if (isNaN(wagerVal) || wagerVal < 100) return 0;
+            if (wagerVal > poinUser) {
+                soalMathAktif = generateHardMath();
+                document.getElementById('math-question').innerText = soalMathAktif.q;
+                document.getElementById('math-answer').value = '';
+                document.getElementById('math-modal').style.display = 'flex';
+                playLose(); return 0;
+            }
+            poinUser -= wagerVal; updatePoinUI();
+            return wagerVal;
+        }
+
+        function cekMatematika() {
+            let jwb = parseInt(document.getElementById('math-answer').value);
+            if (jwb === soalMathAktif.a) {
+                playCrowdCheer(); playCoinScatter(); spawnCoinShower();
+                alert("JENIUS! Bantuan 100.000 Poin!");
+                poinUser += 100000; updatePoinUI();
+                document.getElementById('math-modal').style.display = 'none';
+            } else {
+                playLose();
+                alert("SALAH! Jawaban benar: " + soalMathAktif.a);
+                soalMathAktif = generateHardMath();
+                document.getElementById('math-question').innerText = soalMathAktif.q;
+                document.getElementById('math-answer').value = '';
+            }
+        }
+
+        function handleMenang(poinMenang, pesan, elemenBox) {
+            poinUser += poinMenang; updatePoinUI();
+            playCrowdCheer(); playCoinScatter(); spawnCoinShower();
+            elemenBox.innerHTML = `🎉 ${pesan} 🎉`;
+            elemenBox.style.color = "#a8ff9e";
+            elemenBox.classList.add('shaking'); setTimeout(()=> elemenBox.classList.remove('shaking'), 2000);
+        }
+
+        function handleKalah(pesan, elemenBox) {
+            playLose();
+            elemenBox.innerHTML = `❌ ${pesan} ❌`;
+            elemenBox.style.color = "#ff9e9e";
+        }
+
+        // ----------------------------------------------------
+        // 1. GAME RODA PUTAR LAMA (8 Detik)
+        // ----------------------------------------------------
+        const wheelSectors = [
+            { label: "❌ ZONK", color: "#d32f2f", mult: 0 }, { label: "💰 x2", color: "#ffd700", mult: 2 },
+            { label: "❌ ZONK", color: "#d32f2f", mult: 0 }, { label: "🏮 x1", color: "#ffd700", mult: 1 },
+            { label: "❌ ZONK", color: "#d32f2f", mult: 0 }, { label: "🐉 x10", color: "#ffd700", mult: 10 },
+            { label: "❌ ZONK", color: "#d32f2f", mult: 0 }, { label: "🛶 x0.5", color: "#ffd700", mult: 0.5 }
+        ];
+        let wheelEl = document.getElementById('wheel-element');
+        let currentWheelRotation = 0;
+        let grad = wheelSectors.map((s, i) => `${s.color} ${i*45}deg ${i*45+45}deg`).join(', ');
+        wheelEl.style.background = `conic-gradient(${grad})`;
+        wheelSectors.forEach((s, i) => {
+            let span = document.createElement('div'); span.className = 'wheel-slice-text'; span.innerText = s.label;
+            span.style.color = (s.color==="#d32f2f")?"#fff":"#3b0000";
+            span.style.transform = `rotate(${i*45+22.5 - 90}deg) translateX(55px)`; wheelEl.appendChild(span);
+        });
+
+        function putarRoda() {
+            let wager = validasiWager(); if(wager === 0) return;
+            isAnimating = true; let box = document.getElementById('hasil-roda');
+            box.innerHTML = "RODA BERPUTAR SANGAT KENCANG... 🌪️"; box.style.color = "#fff";
+
+            let rand = Math.random(); let targetIdx = 0;
+            if (rand < 0.05) targetIdx = 5; else if (rand < 0.15) targetIdx = 1; else if (rand < 0.25) targetIdx = 3; else if (rand < 0.35) targetIdx = 7; else targetIdx = [0,2,4,6][Math.floor(Math.random()*4)];
+            
+            let angle = targetIdx * 45 + 22.5; let targetRotRaw = 360 - angle; 
+            let diff = targetRotRaw - (currentWheelRotation % 360); if (diff <= 0) diff += 360;
+            currentWheelRotation += 3600 + diff; // 10 Putaran Penuh (Sangat Lama)
+
+            wheelEl.style.transition = 'transform 8s cubic-bezier(0.1, 0.8, 0.1, 1)';
+            wheelEl.style.transform = `rotate(${currentWheelRotation}deg)`;
+
+            let tickInt = setInterval(playTick, 80); setTimeout(() => clearInterval(tickInt), 7500);
+
+            setTimeout(() => {
+                let prize = wheelSectors[targetIdx];
+                if (prize.mult > 1) handleMenang(wager*prize.mult, `JACKPOT! Mendarat di ${prize.label}`, box);
+                else if (prize.mult > 0) { poinUser += wager*prize.mult; updatePoinUI(); box.innerHTML = `Lumayan, ${prize.label}`; box.style.color="#fff"; }
+                else handleKalah(`Roda berhenti di ${prize.label}`, box);
+                isAnimating = false;
+            }, 8200);
+        }
+
+        // ----------------------------------------------------
+        // 2. KARTU LAMA (Kocok Heboh)
+        // ----------------------------------------------------
+        let posKoin = 0; let kartuReady = false; let wagerKartu = 0;
+        let cContainer = document.getElementById('tempat-kartu');
+        for(let i=0; i<5; i++) cContainer.innerHTML += `<div class="card" onclick="tebakKartu(${i})" id="kartu-${i}"></div>`;
+
+        function resetKartu() {
+            wagerKartu = validasiWager(); if(wagerKartu === 0) return;
+            isAnimating = true; posKoin = Math.floor(Math.random() * 5); 
+            let box = document.getElementById('hasil-kartu'); box.innerHTML = "MENGGILA... MENGGILA... 🔀"; box.style.color = "#fff";
+
+            for(let i=0; i<5; i++) {
+                let k = document.getElementById(`kartu-${i}`);
+                k.classList.remove('flip'); k.innerHTML = ""; k.classList.add('shaking');
+            }
+            let kocokDelay = setInterval(playTick, 100);
+            
+            setTimeout(() => {
+                clearInterval(kocokDelay);
+                for(let i=0; i<5; i++) document.getElementById(`kartu-${i}`).classList.remove('shaking');
+                kartuReady = true; isAnimating = false; box.innerHTML = "Silakan Pilih Satu Kartu!";
+            }, 2500); // 2.5 detik ngocok
+        }
+
+        function tebakKartu(idx) {
+            if (isAnimating || !kartuReady) return;
+            kartuReady = false; isAnimating = true; playTick();
+            document.getElementById(`kartu-${idx}`).classList.add('flip');
+            
+            setTimeout(() => {
+                for(let i=0; i<5; i++) {
+                    let k = document.getElementById(`kartu-${i}`); k.classList.add('flip');
+                    k.innerHTML = (i === posKoin) ? "<div style='transform:rotateY(180deg)'>🪙</div>" : "<div style='transform:rotateY(180deg)'>❌</div>";
+                }
+                if (idx === posKoin) handleMenang(wagerKartu*4, "TEPAT SEKALI! POIN x4!", document.getElementById('hasil-kartu'));
+                else handleKalah("KARTU KOSONG.", document.getElementById('hasil-kartu'));
+                isAnimating = false;
+            }, 800);
+        }
+
+        // ----------------------------------------------------
+        // 3. DADU (Getar Heboh)
+        // ----------------------------------------------------
+        function mainDadu(tebakan) {
+            let wager = validasiWager(); if(wager === 0) return;
+            isAnimating = true;
+            const daduSim = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+            let box = document.getElementById('hasil-dadu'); let c = 0;
+            box.classList.add('shaking'); box.style.color = "#fff";
+
+            let kocok = setInterval(() => {
+                box.innerHTML = `🎲 DADU BERGETAR... ${daduSim[Math.floor(Math.random()*6)]}`;
+                playTick(); c++;
+                if (c > 30) { // 3 detik
+                    clearInterval(kocok); box.classList.remove('shaking');
+                    let hasil = Math.floor(Math.random() * 6) + 1;
+                    if (tebakan === hasil) handleMenang(wager*5, `KELUAR ${hasil} (${daduSim[hasil-1]})! POIN x5!`, box);
+                    else handleKalah(`KELUAR ${hasil} (${daduSim[hasil-1]}). TEBAKAN SALAH.`, box);
+                    isAnimating = false;
+                }
+            }, 100);
+        }
+
+        // ----------------------------------------------------
+        // 4. BALAP PERAHU NAGA (Animasi Dinamis)
+        // ----------------------------------------------------
+        function mulaiBalap(pilihanUser) {
+            let wager = validasiWager(); if(wager === 0) return;
+            isAnimating = true; let box = document.getElementById('hasil-balap');
+            box.innerHTML = "BALAPAN DIMULAI!!! 🛶💦"; box.style.color = "#fff";
+
+            let pos = [2, 2, 2]; // 3 perahu, posisi awal 2%
+            let boats = [document.getElementById('boat-1'), document.getElementById('boat-2'), document.getElementById('boat-3')];
+            boats.forEach(b => b.style.left = '2%');
+            
+            let timeElapsed = 0;
+            let raceTick = setInterval(playTick, 300); // Suara dayung
+
+            let raceInt = setInterval(() => {
+                timeElapsed += 500;
+                // Update kecepatan acak
+                for(let i=0; i<3; i++) {
+                    pos[i] += Math.random() * 8 + 2; // loncat 2% - 10%
+                    if(pos[i] > 85) pos[i] = 85; // max di garis finish
+                    boats[i].style.left = pos[i] + '%';
+                }
+
+                if (timeElapsed >= 7000 || Math.max(...pos) >= 85) { // Balap 7 detik
+                    clearInterval(raceInt); clearInterval(raceTick);
+                    let maxPos = Math.max(...pos);
+                    let winners = [];
+                    for(let i=0; i<3; i++) if(pos[i] >= maxPos) winners.push(i+1);
+                    
+                    if (winners.includes(pilihanUser)) {
+                        handleMenang(wager*3, `PERAHU ${pilihanUser} MENANG! POIN x3!`, box);
+                    } else {
+                        handleKalah(`PERAHU ${winners[0]} MENANG. ANDA KALAH.`, box);
+                    }
+                    isAnimating = false;
+                }
+            }, 500);
+        }
+
+        // ----------------------------------------------------
+        // 5. PECAH LAMPION
+        // ----------------------------------------------------
+        let lampionReady = false; let wagerLampion = 0; let lampionWinIdx = 0;
+        function resetLampion() {
+            wagerLampion = validasiWager(); if(wagerLampion === 0) return;
+            lampionReady = true; lampionWinIdx = Math.floor(Math.random() * 3);
+            document.getElementById('hasil-lampion').innerHTML = "Pukul satu lampion!"; document.getElementById('hasil-lampion').style.color = "#fff";
+            for(let i=0; i<3; i++) {
+                let L = document.getElementById(`l-${i}`); let P = document.getElementById(`p-${i}`);
+                L.classList.remove('smashed'); L.classList.add('shaking'); P.classList.remove('show');
+                setTimeout(()=> L.classList.remove('shaking'), 500);
+            }
+            playTick();
+        }
+
+        function pecahLampion(idx) {
+            if (isAnimating || !lampionReady) return;
+            lampionReady = false; isAnimating = true;
+            playSmash(); // Suara pecah
+            
+            // Animasi pecah
+            let L = document.getElementById(`l-${idx}`); let P = document.getElementById(`p-${idx}`);
+            L.classList.add('smashed');
+            
+            // Generate Hadiah
+            for(let i=0; i<3; i++) {
+                document.getElementById(`p-${i}`).innerHTML = (i === lampionWinIdx) ? "🐉" : "💥";
+            }
+            P.classList.add('show');
+
+            setTimeout(() => {
+                // Tunjukkan sisanya
+                for(let i=0; i<3; i++) {
+                    if (i !== idx) { document.getElementById(`l-${i}`).classList.add('smashed'); document.getElementById(`p-${i}`).classList.add('show'); playSmash(); }
+                }
+                
+                let box = document.getElementById('hasil-lampion');
+                if (idx === lampionWinIdx) handleMenang(wagerLampion*5, "NAGA EMAS! POIN x5!", box);
+                else handleKalah("LAMPION KOSONG.", box);
+                isAnimating = false;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
