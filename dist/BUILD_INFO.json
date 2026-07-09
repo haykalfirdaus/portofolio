@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-07-09T14:17:45.960Z",
+  "version": "1.0.0",
+  "obfuscation": {
+    "javascript": "terser (mangle: true, compress: 3 passes)",
+    "css": "cssnano",
+    "data": "base64 encoding",
+    "devtools": "blocked"
+  },
+  "files": {
+    "js": [
+      "/vercel/share/v0-project/dist/assets/security-shield.min.js",
+      "/vercel/share/v0-project/dist/assets/encoding-utils.min.js",
+      "/vercel/share/v0-project/dist/assets/modules.min.js"
+    ],
+    "css": [
+      "/vercel/share/v0-project/dist/assets/style.min.css"
+    ],
+    "html": "/vercel/share/v0-project/dist/index.html"
+  }
+}
