@@ -1,0 +1,25 @@
+{
+  "name": "portfolio-obfuscated",
+  "version": "1.0.0",
+  "description": "Haykal Service Portfolio - Obfuscated & Secured",
+  "scripts": {
+    "obfuscate": "node build-obfuscate.js",
+    "build": "npm run obfuscate",
+    "dev": "python3 -m http.server 8000 --directory dist 2>/dev/null || python -m SimpleHTTPServer 8000 --directory dist",
+    "serve": "cd dist && npx http-server -p 3000",
+    "clean": "rm -rf dist/",
+    "rebuild": "npm run clean && npm run obfuscate"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "babel-loader": "^10.1.1",
+    "cssnano": "^8.0.2",
+    "html-minifier": "^4.0.0",
+    "postcss": "^8.5.16",
+    "terser": "^5.49.0",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1",
+    "webpack-dev-server": "^6.0.0"
+  }
+}
