@@ -46,7 +46,8 @@ button{font:inherit}
 .btn:active:not(:disabled){box-shadow:var(--in)}
 .btn:disabled{opacity:.4;cursor:default}
 .btn.pri{color:var(--ac)}
-.tool[aria-pressed=true]{box-shadow:var(--in);color:var(--ac)}
+.btn small{font-weight:500;color:var(--mut);font-size:12px}
+.tool[aria-pressed=true],.seg[aria-pressed=true]{box-shadow:var(--in);color:var(--ac)}
 :focus-visible{outline:3px solid var(--ac);outline-offset:3px}
 .bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .bar .sp{flex:1}
@@ -76,12 +77,13 @@ canvas{display:block;image-rendering:pixelated;touch-action:none;cursor:crosshai
 <div class="grid">
 <aside>
  <div class="card"><h2><svg class="i"><use href="#i-text"/></svg>Tulisan</h2>
+  <label>Ukuran badge</label><div class="row" id="sizes"><button type="button" class="btn seg" data-size="large" aria-pressed="true">Besar<small>74 × 12</small></button><button type="button" class="btn seg" data-size="mini" aria-pressed="false">Mini<small>65 × 8</small></button></div>
   <label for="text">Tulisan di badge</label><input id="text" type="text" maxlength="14" autocomplete="off">
   <div class="cols">
    <div><label for="tx">Geser kiri / kanan</label><input id="tx" type="range" min="-20" max="20" value="0"></div>
    <div><label for="sp">Jarak antar huruf</label><input id="sp" type="range" min="0" max="3" value="1"></div>
   </div>
-  <label for="w">Lebar gambar (tinggi selalu 12)</label><input id="w" type="number" min="30" max="160" value="74">
+  <label for="w">Lebar gambar</label><input id="w" type="number" min="30" max="160" value="74">
   <label class="chk"><input id="icon" type="checkbox" checked> Tampilkan kotak gambar di kiri</label>
  </div>
  <div class="card"><h2><svg class="i"><use href="#i-pal"/></svg>Warna</h2>
@@ -94,6 +96,7 @@ canvas{display:block;image-rendering:pixelated;touch-action:none;cursor:crosshai
    <div><label for="dark">Warna bagian gelap</label><input id="dark" type="color"></div>
    <div><label for="tc">Warna tulisan</label><input id="tc" type="color"></div>
    <div><label for="sc">Warna bayangan tulisan</label><input id="sc" type="color"></div>
+   <div><label for="ic">Warna ikon orang</label><input id="ic" type="color"></div>
   </div>
   <label class="chk"><input id="shadow" type="checkbox" checked> Beri bayangan pada tulisan</label>
  </div>
@@ -136,8 +139,8 @@ canvas{display:block;image-rendering:pixelated;touch-action:none;cursor:crosshai
 </section>
 </div></div>
 <script>
-const $=i=>document.getElementById(i),H=12;
-const raw={A:'.##./#..#/####/#..#/#..#',B:'###./#..#/###./#..#/####',C:'.###/#.../#.../#.../.###',D:'###./#..#/#..#/#..#/###.',E:'###/#../##./#../###',F:'###/#../##./#../#..',G:'.###/#.../#.##/#..#/.###',H:'#..#/#..#/####/#..#/#..#',I:'###/.#./.#./.#./###',J:'..##/...#/...#/#..#/.##.',K:'#..#/#.#./##../#.#./#..#',L:'#../#../#../#../###',M:'#...#/##.##/#.#.#/#...#/#...#',N:'#..#/##.#/#.##/#..#/#..#',O:'.##./#..#/#..#/#..#/.##.',P:'###./#..#/###./#.../#...',Q:'.##./#..#/#..#/#.##/.###',R:'###./#..#/###./#.#./#..#',S:'.###/#.../.##./...#/###.',T:'###/.#./.#./.#./.#.',U:'#..#/#..#/#..#/#..#/.##.',V:'#...#/#...#/.#.#./.#.#./..#..',W:'#...#/#...#/#.#.#/##.##/#...#',X:'#...#/.#.#./..#../.#.#./#...#',Y:'#...#/.#.#./..#../..#../..#..',Z:'####/...#/.##./#.../####','0':'.##./#..#/#..#/#..#/.##.','1':'.#./##./.#./.#./###','2':'###./...#/.##./#.../####','3':'###./...#/.##./...#/###.','4':'#..#/#..#/####/...#/...#','5':'####/#.../###./...#/###.','6':'.##./#.../###./#..#/.##.','7':'####/...#/..#./.#../.#..','8':'.##./#..#/.##./#..#/.##.','9':'.##./#..#/.###/...#/.##.','-':'.../.../###/.../...','+':'.#./.#./###/.#./.#.','!':'#/#/#/./#','_':'.../.../.../.../###','[':'##/#./#./#./##',']':'##/.#/.#/.#/##',' ':'.../.../.../.../...'};
+const $=i=>document.getElementById(i);let H=12;
+const raw={A:'.##./#..#/####/#..#/#..#',B:'###./#..#/###./#..#/####',C:'.###/#.../#.../#.../.###',D:'###./#..#/#..#/#..#/###.',E:'###/#../##./#../###',F:'###/#../##./#../#..',G:'.###/#.../#.##/#..#/.###',H:'#..#/#..#/####/#..#/#..#',I:'#/#/#/#/#',J:'..##/...#/...#/#..#/.##.',K:'#..#/#.#./##../#.#./#..#',L:'#../#../#../#../###',M:'#...#/##.##/#.#.#/#...#/#...#',N:'#..#/##.#/#.##/#..#/#..#',O:'.##./#..#/#..#/#..#/.##.',P:'###./#..#/###./#.../#...',Q:'.##./#..#/#..#/#.##/.###',R:'###./#..#/###./#..#/#..#',S:'.###/#.../.##./...#/###.',T:'###/.#./.#./.#./.#.',U:'#..#/#..#/#..#/#..#/.##.',V:'#..#/#..#/#..#/#.#./.#..',W:'#...#/#...#/#.#.#/##.##/#...#',X:'#...#/.#.#./..#../.#.#./#...#',Y:'#...#/.#.#./..#../..#../..#..',Z:'####/...#/.##./#.../####','0':'.##./#..#/#..#/#..#/.##.','1':'.#./##./.#./.#./###','2':'###./...#/.##./#.../####','3':'###./...#/.##./...#/###.','4':'#..#/#..#/####/...#/...#','5':'####/#.../###./...#/###.','6':'.##./#.../###./#..#/.##.','7':'####/...#/..#./.#../.#..','8':'.##./#..#/.##./#..#/.##.','9':'.##./#..#/.###/...#/.##.','-':'.../.../###/.../...','+':'.#./.#./###/.#./.#.','!':'#/#/#/./#','_':'.../.../.../.../###','[':'##/#./#./#./##',']':'##/.#/.#/.#/##',' ':'.../.../.../.../...'};
 raw['.']='././././#';
 const FONT=Object.fromEntries(Object.entries(raw).map(([k,v])=>[k,v.split('/')]));
 const rgb=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));
@@ -146,29 +149,32 @@ function hsl(h){const[r,g,b]=rgb(h).map(v=>v/255),M=Math.max(r,g,b),m=Math.min(r
 function fromHsl(h,s,l){const c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2,a=[[c,x,0],[x,c,0],[0,c,x],[0,x,c],[x,0,c],[c,0,x]][Math.floor(h/60)%6];return hex(a.map(v=>(v+m)*255))}
 const der=(h,f)=>{const[a,s,l]=hsl(h);return fromHsl(a,s>.1?Math.min(1,s*1.1+.05):s,l*f)};
 const PRESETS=[['Silver','#D0D0D0'],['Kuning','#FFE24D'],['Cyan','#5CF0F0'],['Hijau','#6BFF6B'],['Merah','#FF6B6B'],['Ungu','#E68EFF'],['Biru muda','#86B8FF'],['Emas','#FFC933'],['Pink','#FF8FD0'],['Merah tua','#D44A4A'],['Hitam','#7A7A7A'],['Emerald','#3DDC84']];
-let P={w:74,text:'MEMBER',tx:0,sp:1,base:'#D0D0D0',mid:'#000000',dark:'#000000',auto:true,tc:'#FFFFFF',sc:'#000000',shadow:true,icon:true},E={};
+let P={size:'large',w:74,text:'MEMBER',tx:0,sp:1,base:'#D0D0D0',mid:'#000000',dark:'#000000',auto:true,tc:'#FFFFFF',sc:'#000000',ic:'#FFFFFF',shadow:true,icon:true},E={};
 let Z=12,tool='pen',down=false,Hs=[],Rs=[],committed='';
 const cur=()=>JSON.stringify({P,E});
 const off=document.createElement('canvas'),cv=$('cv');
 
-const ICON=['..DEDD..','..DFFG..','..HIIHJ.','J.LLEEJ.','MGGFFFFM','MFFFFFFM','MAAAAAAM'];
+const MF={R:'###./#..#/###./#.##/#..#'.split('/')},G=c=>(P.size=='mini'&&MF[c])||FONT[c];
+const PM=[[3,1],[4,1],[3,2],[4,2],[2,4],[3,4],[4,4],[5,4],[1,5],[2,5],[3,5],[4,5],[5,5],[6,5]],PL=[[5,2],[6,2],[4,3],[5,3],[6,3],[7,3],[4,4],[5,4],[6,4],[7,4],[3,6],[4,6],[5,6],[6,6],[7,6],[8,6],[2,7],[3,7],[4,7],[5,7],[6,7],[7,7],[8,7],[9,7],[2,8],[3,8],[4,8],[5,8],[6,8],[7,8],[8,8],[9,8]];
 function gen(){
- const W=P.w,a=new Array(W*H).fill(null),set=(x,y,c)=>{if(x>=0&&x<W&&y>=0&&y<H)a[y*W+x]=c},K='#000000',x1=W-1,p0=P.icon?13:0;
+ const mini=P.size=='mini';H=mini?8:12;
+ const W=P.w,a=new Array(W*H).fill(null),set=(x,y,c)=>{if(x>=0&&x<W&&y>=0&&y<H)a[y*W+x]=c},K='#000000',x1=W-1,p0=P.icon?(mini?9:13):0;
  const plate=(x0,e,flat)=>{for(let y=0;y<H;y++)for(let x=x0;x<=e;x++){let c;
-  if(y==0||y==H-1||x==x0||x==e)c=K;else if(y==10)c=P.dark;else if(y==1||y==9||x==x0+1||x==e-1)c=P.base;
+  if(y==0||y==H-1||x==x0||x==e)c=K;
+  else if(mini){const d=x-x0;c=y==6?P.dark:(flat||y<3)?P.mid:y==3?(d%4?P.mid:P.dark):y==4?(d%2?P.mid:P.dark):(d%2?P.dark:P.mid)}
+  else if(y==10)c=P.dark;else if(y==1||y==9||x==x0+1||x==e-1)c=P.base;
   else if(flat||y<4)c=P.mid;else if(y==4)c=(x-x0)%4?P.mid:P.dark;else if(y==5)c=(x-x0)%2?P.mid:P.dark;else if(y==6)c=(x-x0)%2?P.dark:P.mid;else c=P.dark;
   set(x,y,c)}};
- if(P.icon){plate(0,11,true);const lt=hex(rgb(P.base).map((v,i)=>v*.4+rgb(P.tc)[i]*.6)),M={D:lt,E:lt,L:lt,F:P.tc,G:P.tc,I:P.base,H:P.mid,J:P.mid,M:P.dark,A:K};
-  ICON.forEach((r,j)=>[...r].forEach((ch,i)=>{if(M[ch])set(2+i,2+j,M[ch])}))}
+ if(P.icon){plate(0,mini?7:11,true);(mini?PM:PL).forEach(([x,y])=>set(x,y,P.ic))}
  plate(p0,x1);
- const t=[...P.text.toUpperCase()].filter(c=>FONT[c]),sh=P.shadow?1:0,tw=t.reduce((s,c)=>s+FONT[c][0].length,0)+Math.max(0,t.length-1)*P.sp,sx=p0+Math.floor((x1-p0+1-tw-sh)/2)+P.tx;
- const dr=(ox,oy,c)=>{let cx=sx;t.forEach(ch=>{const g=FONT[ch];g.forEach((row,r)=>[...row].forEach((v,k)=>{if(v=='#'){const x=cx+k+ox,y=3+r+oy;if(x>p0&&x<x1&&y>0&&y<H-1)set(x,y,c)}}));cx+=g[0].length+P.sp})};
- if(P.shadow)dr(1,1,P.sc);dr(0,0,P.tc);
- for(const k in E){const[x,y]=k.split(',').map(Number);if(x<W)a[y*W+x]=E[k]=='x'?null:E[k]}
+ const t=[...P.text.toUpperCase()].filter(c=>FONT[c]),sh=P.shadow?1:0,tw=t.reduce((s,c)=>s+G(c)[0].length,0)+Math.max(0,t.length-1)*P.sp,sx=p0+Math.floor((x1-p0+1-tw-sh)/2)+P.tx,ty=mini?1:3;
+ const dr=(ox,oy,c)=>{let cx=sx;t.forEach(ch=>{const g=G(ch);g.forEach((row,r)=>[...row].forEach((v,k)=>{if(v=='#'){const x=cx+k+ox,y=ty+r+oy;if(x>p0&&x<x1&&y>0&&y<H-1)set(x,y,c)}}));cx+=g[0].length+P.sp})};
+ if(P.shadow)dr(0,1,P.sc);dr(0,0,P.tc);
+ for(const k in E){const[x,y]=k.split(',').map(Number);if(x<W&&y<H)a[y*W+x]=E[k]=='x'?null:E[k]}
  return a}
 
 function render(){
- if(P.auto){P.mid=der(P.base,.75);P.dark=der(P.base,.52);$('mid').value=P.mid;$('dark').value=P.dark}
+ if(P.auto){P.mid=der(P.base,.755);P.dark=der(P.base,.52);$('mid').value=P.mid;$('dark').value=P.dark}
  $('mid').disabled=$('dark').disabled=P.auto;
  const W=P.w,a=gen();off.width=W;off.height=H;const o=off.getContext('2d');o.clearRect(0,0,W,H);
  a.forEach((c,i)=>{if(c){o.fillStyle=c;o.fillRect(i%W,(i/W)|0,1,1)}});window._a=a;
@@ -177,18 +183,19 @@ function render(){
  const im=$('chatimg');im.src=off.toDataURL();im.width=W*2;im.height=H*2;
  $('undo').disabled=!Hs.length&&cur()==committed;$('redo').disabled=!Rs.length}
 
-function sync(){for(const k of['text','tx','sp','w','base','mid','dark','tc','sc'])$(k).value=P[k];for(const k of['auto','shadow','icon'])$(k).checked=P[k]}
+function sync(){document.querySelectorAll('#sizes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.size==P.size));for(const k of['text','tx','sp','w','base','mid','dark','tc','sc','ic'])$(k).value=P[k];for(const k of['auto','shadow','icon'])$(k).checked=P[k]}
 function read(){P.text=$('text').value;P.tx=+$('tx').value;P.sp=+$('sp').value;P.w=Math.max(30,Math.min(160,+$('w').value||74));
- for(const k of['base','tc','sc'])P[k]=$(k).value;if(!P.auto){P.mid=$('mid').value;P.dark=$('dark').value}
+ for(const k of['base','tc','sc','ic'])P[k]=$(k).value;if(!P.auto){P.mid=$('mid').value;P.dark=$('dark').value}
  P.auto=$('auto').checked;P.shadow=$('shadow').checked;P.icon=$('icon').checked}
 function commit(){const c=cur();if(c!=committed){Hs.push(committed);committed=c;Rs=[]}render()}
 function load(s){const o=JSON.parse(s);P=o.P;E=o.E;sync();render()}
 function undo(){commit();if(!Hs.length)return;Rs.push(committed);committed=Hs.pop();load(committed)}
 function redo(){if(!Rs.length)return;Hs.push(committed);committed=Rs.pop();load(committed)}
 
-for(const k of['text','tx','sp','w','base','mid','dark','tc','sc','auto','shadow','icon']){
+for(const k of['text','tx','sp','w','base','mid','dark','tc','sc','ic','auto','shadow','icon']){
  $(k).addEventListener('input',()=>{read();render()});$(k).addEventListener('change',()=>{read();commit()})}
 $('w').addEventListener('change',()=>{sync()});
+document.querySelectorAll('#sizes button').forEach(b=>b.onclick=()=>{const v=b.dataset.size;if(v==P.size)return;const m=v=='mini';P.size=v;P.w=m?65:74;P.tx=0;E={};P.sc='#000000';sync();commit()});
 $('pre').append(...PRESETS.map(([n,c])=>{const b=document.createElement('button');b.type='button';b.innerHTML=`<i style="background:${c}"></i>${n}`;
  b.onclick=()=>{P.base=c;P.auto=true;sync();commit()};return b}));
 document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{tool=b.dataset.tool;document.querySelectorAll('.tool').forEach(x=>x.setAttribute('aria-pressed',x==b))});
