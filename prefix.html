@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel Rank Generator</title>
+<style>
+:root{--bg:#f8f1e3;--hi:#ffffff;--lo:#dccdb0;--ink:#4a3424;--mut:#7a6350;--ac:#8b5a3c;--acink:#fff;--c1:#eadfc8;--c2:#fbf6ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--up:6px 6px 14px var(--lo),-6px -6px 14px var(--hi);--sm:3px 3px 7px var(--lo),-3px -3px 7px var(--hi);--in:inset 4px 4px 8px var(--lo),inset -4px -4px 8px var(--hi)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 48px}
+h1{font-size:28px;margin:0 0 6px;display:flex;align-items:center;gap:12px}
+.sub{margin:0 0 24px;color:var(--mut);max-width:60ch}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.logo{width:46px;height:46px;border-radius:14px;background:var(--bg);box-shadow:var(--sm);display:grid;place-items:center;color:var(--ac)}
+.logo .i{width:26px;height:26px}
+.grid{display:grid;grid-template-columns:350px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:1fr}}
+.card{background:var(--bg);box-shadow:var(--up);border-radius:24px;padding:20px;margin-bottom:24px}
+.card h2{font-size:18px;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+.card h2 .i{color:var(--ac)}
+label{display:block;font-size:14px;font-weight:600;margin:16px 0 8px}
+.card h2+label{margin-top:0}
+input[type=text],input[type=number],select{width:100%;padding:11px 14px;border:0;border-radius:14px;background:var(--bg);box-shadow:var(--in);color:var(--ink);font:inherit}
+input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:12px;border-radius:12px;background:var(--bg);box-shadow:var(--in);cursor:pointer;margin:8px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--ac);border:5px solid var(--bg);box-shadow:var(--sm)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ac);border:5px solid var(--bg);box-shadow:var(--sm)}
+input[type=range]::-moz-range-track{background:transparent}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;flex:none;width:26px;height:26px;margin:0;border-radius:9px;background:var(--bg);box-shadow:var(--in);cursor:pointer}
+input[type=checkbox]:checked::after{content:"";position:absolute;left:9px;top:3px;width:6px;height:13px;border:solid var(--ac);border-width:0 4px 4px 0;transform:rotate(45deg)}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch,input[type=color]::-moz-color-swatch{border:0;border-radius:8px}
+select{-webkit-appearance:none;appearance:none;padding-right:42px!important;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5a3c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:18px}
+input[type=text]:focus,input[type=number]:focus,select:focus{outline:2px solid var(--ac);outline-offset:2px}
+input[type=color]{width:56px;height:42px;padding:5px;border:0;border-radius:12px;background:var(--bg);box-shadow:var(--sm);cursor:pointer}
+input:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cf{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;margin:0}
+.chk{display:flex;gap:10px;align-items:center;font-size:14px;font-weight:500;margin:14px 0 0;cursor:pointer}
+.pre{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pre button{display:flex;align-items:center;gap:8px;padding:9px 10px;border:0;border-radius:12px;background:var(--bg);box-shadow:var(--sm);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.pre button:active{box-shadow:var(--in)}
+.pre i{width:16px;height:16px;border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 1px rgba(0,0,0,.3);flex:none}
+button{font:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 16px;border:0;border-radius:14px;background:var(--bg);box-shadow:var(--sm);color:var(--ink);cursor:pointer;font-weight:600;font-size:14px}
+.btn:active:not(:disabled){box-shadow:var(--in)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.pri{color:var(--ac)}
+.tool[aria-pressed=true]{box-shadow:var(--in);color:var(--ac)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.bar .sp{flex:1}
+.stage{overflow:auto;border-radius:16px;padding:16px;box-shadow:var(--in);background:repeating-conic-gradient(var(--c1) 0 25%,var(--c2) 0 50%) 0 0/20px 20px}
+canvas{display:block;image-rendering:pixelated;touch-action:none;cursor:crosshair;margin:0 auto}
+.chat{display:flex;align-items:center;gap:8px;background:#1d1b19;border-radius:14px;padding:12px 16px;color:#fff;font:700 15px/1 ui-monospace,Menlo,Consolas,monospace;margin-top:8px;overflow:auto;box-shadow:var(--in)}
+.chat img{image-rendering:pixelated;flex:none}
+.hint{font-size:14px;color:var(--mut);margin:14px 0 0}
+#msg{min-height:22px;font-size:14px;color:var(--ac);font-weight:600;margin-top:14px}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-text" viewBox="0 0 24 24"><path d="M4 7V5h16v2M12 5v14M9 19h6"/></symbol>
+<symbol id="i-pal" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.6 0 2-1.1 1.5-2.1-.6-1.2.2-2.4 1.6-2.4H17a4 4 0 0 0 4-4c0-5-4-9.5-9-9.5z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-era" viewBox="0 0 24 24"><path d="M4 15l8-9 7 6-7 8H8z"/><path d="M13 20h7"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M20.5 3.5a2.1 2.1 0 0 0-3 0L14 7l3 3 3.5-3.5a2.1 2.1 0 0 0 0-3zM13 8l-8 8-1 4 4-1 8-8"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></symbol>
+<symbol id="i-bin" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></symbol>
+<symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></symbol>
+</defs></svg>
+<div class="wrap">
+<h1><span class="logo"><svg class="i"><use href="#i-star"/></svg></span>Pixel Rank Generator</h1>
+<p class="sub">Buat badge rank bergaya pixel. Ganti tulisan dan warna, lalu rapikan kotak kecilnya kalau perlu.</p>
+<div class="grid">
+<aside>
+ <div class="card"><h2><svg class="i"><use href="#i-text"/></svg>Tulisan</h2>
+  <label for="text">Tulisan di badge</label><input id="text" type="text" maxlength="14" autocomplete="off">
+  <div class="cols">
+   <div><label for="tx">Geser kiri / kanan</label><input id="tx" type="range" min="-20" max="20" value="0"></div>
+   <div><label for="sp">Jarak antar huruf</label><input id="sp" type="range" min="0" max="3" value="1"></div>
+  </div>
+  <label for="w">Lebar gambar (tinggi selalu 12)</label><input id="w" type="number" min="30" max="160" value="74">
+  <label class="chk"><input id="icon" type="checkbox" checked> Tampilkan kotak gambar di kiri</label>
+ </div>
+ <div class="card"><h2><svg class="i"><use href="#i-pal"/></svg>Warna</h2>
+  <label>Pilih warna cepat</label><div class="pre" id="pre"></div>
+  <label for="base">Warna utama</label>
+  <div class="row"><input id="base" type="color"></div>
+  <label class="chk"><input id="auto" type="checkbox" checked> Warna lain ikut warna utama (otomatis)</label>
+  <div class="cols">
+   <div><label for="mid">Warna isi</label><input id="mid" type="color"></div>
+   <div><label for="dark">Warna bagian gelap</label><input id="dark" type="color"></div>
+   <div><label for="tc">Warna tulisan</label><input id="tc" type="color"></div>
+   <div><label for="sc">Warna bayangan tulisan</label><input id="sc" type="color"></div>
+  </div>
+  <label class="chk"><input id="shadow" type="checkbox" checked> Beri bayangan pada tulisan</label>
+ </div>
+</aside>
+<section>
+ <div class="card"><h2><svg class="i"><use href="#i-pen"/></svg>Gambar &amp; edit</h2>
+  <div class="bar">
+   <button class="btn tool" data-tool="pen" aria-pressed="true" title="Mewarnai kotak"><svg class="i"><use href="#i-pen"/></svg>Pensil</button>
+   <button class="btn tool" data-tool="erase" aria-pressed="false" title="Menghapus warna kotak"><svg class="i"><use href="#i-era"/></svg>Penghapus</button>
+   <button class="btn tool" data-tool="pick" aria-pressed="false" title="Ambil warna dari gambar"><svg class="i"><use href="#i-drop"/></svg>Pipet</button>
+   <label class="cf">Warna pensil <input id="pc" type="color" value="#ffffff"></label>
+  </div>
+  <div class="bar">
+   <button class="btn" id="undo" title="Batalkan langkah terakhir (Ctrl+Z)"><svg class="i"><use href="#i-undo"/></svg>Kembali</button>
+   <button class="btn" id="redo" title="Ulangi langkah (Ctrl+Y)"><svg class="i"><use href="#i-redo"/></svg>Maju</button>
+   <button class="btn" id="reset" title="Hapus semua coretan tanganmu"><svg class="i"><use href="#i-bin"/></svg>Hapus coretan</button>
+  </div>
+  <div class="bar">
+   <label class="cf">Perbesar tampilan <input id="zoom" type="range" min="4" max="24" value="12" style="width:150px"></label>
+   <label class="cf" style="cursor:pointer"><input id="grid" type="checkbox" checked> Garis kotak</label>
+  </div>
+  <div class="stage"><canvas id="cv" aria-label="Gambar badge"></canvas></div>
+  <p class="hint">Klik atau geser di gambar untuk mewarnai satu kotak kecil. Pakai pipet untuk mengambil warna yang sudah ada. Coretanmu tetap ada saat warna diganti, tapi bisa bergeser kalau tulisan diubah.</p>
+ </div>
+ <div class="card"><h2><svg class="i"><use href="#i-img"/></svg>Contoh di chat</h2>
+  <div class="chat"><img id="chatimg" alt="Contoh badge"><span>Steve&gt; halo semua</span></div>
+ </div>
+ <div class="card"><h2><svg class="i"><use href="#i-dl"/></svg>Simpan gambar</h2>
+  <div class="cols">
+   <div><label for="fn">Nama file</label><input id="fn" type="text" value="member"></div>
+   <div><label for="sc2">Ukuran versi HD</label><select id="sc2"><option value="2">2× lebih besar</option><option value="4">4× lebih besar</option><option value="8" selected>8× lebih besar</option><option value="16">16× lebih besar</option><option value="32">32× lebih besar</option><option value="64">64× lebih besar</option></select></div>
+  </div>
+  <div class="row" style="margin-top:18px">
+   <button class="btn pri" id="d1"><svg class="i"><use href="#i-dl"/></svg>Simpan ukuran asli</button>
+   <button class="btn pri" id="d2"><svg class="i"><use href="#i-dl"/></svg>Simpan versi HD</button>
+  </div>
+  <p class="hint">Ukuran asli dipakai untuk texture. Versi HD sama persis tapi lebih besar dan tetap tajam.</p>
+  <div id="msg" role="status"></div>
+ </div>
+</section>
+</div></div>
+<script>
+const $=i=>document.getElementById(i),H=12;
+const raw={A:'.##./#..#/####/#..#/#..#',B:'###./#..#/###./#..#/####',C:'.###/#.../#.../#.../.###',D:'###./#..#/#..#/#..#/###.',E:'###/#../##./#../###',F:'###/#../##./#../#..',G:'.###/#.../#.##/#..#/.###',H:'#..#/#..#/####/#..#/#..#',I:'###/.#./.#./.#./###',J:'..##/...#/...#/#..#/.##.',K:'#..#/#.#./##../#.#./#..#',L:'#../#../#../#../###',M:'#...#/##.##/#.#.#/#...#/#...#',N:'#..#/##.#/#.##/#..#/#..#',O:'.##./#..#/#..#/#..#/.##.',P:'###./#..#/###./#.../#...',Q:'.##./#..#/#..#/#.##/.###',R:'###./#..#/###./#.#./#..#',S:'.###/#.../.##./...#/###.',T:'###/.#./.#./.#./.#.',U:'#..#/#..#/#..#/#..#/.##.',V:'#...#/#...#/.#.#./.#.#./..#..',W:'#...#/#...#/#.#.#/##.##/#...#',X:'#...#/.#.#./..#../.#.#./#...#',Y:'#...#/.#.#./..#../..#../..#..',Z:'####/...#/.##./#.../####','0':'.##./#..#/#..#/#..#/.##.','1':'.#./##./.#./.#./###','2':'###./...#/.##./#.../####','3':'###./...#/.##./...#/###.','4':'#..#/#..#/####/...#/...#','5':'####/#.../###./...#/###.','6':'.##./#.../###./#..#/.##.','7':'####/...#/..#./.#../.#..','8':'.##./#..#/.##./#..#/.##.','9':'.##./#..#/.###/...#/.##.','-':'.../.../###/.../...','+':'.#./.#./###/.#./.#.','!':'#/#/#/./#','_':'.../.../.../.../###','[':'##/#./#./#./##',']':'##/.#/.#/.#/##',' ':'.../.../.../.../...'};
+raw['.']='././././#';
+const FONT=Object.fromEntries(Object.entries(raw).map(([k,v])=>[k,v.split('/')]));
+const rgb=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));
+const hex=a=>'#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+function hsl(h){const[r,g,b]=rgb(h).map(v=>v/255),M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2,d=M-m;let s=0,a=0;if(d){s=d/(1-Math.abs(2*l-1));a=M==r?((g-b)/d+6)%6:M==g?(b-r)/d+2:(r-g)/d+4}return[a*60,s,l]}
+function fromHsl(h,s,l){const c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2,a=[[c,x,0],[x,c,0],[0,c,x],[0,x,c],[x,0,c],[c,0,x]][Math.floor(h/60)%6];return hex(a.map(v=>(v+m)*255))}
+const der=(h,f)=>{const[a,s,l]=hsl(h);return fromHsl(a,s>.1?Math.min(1,s*1.1+.05):s,l*f)};
+const PRESETS=[['Silver','#D0D0D0'],['Kuning','#FFE24D'],['Cyan','#5CF0F0'],['Hijau','#6BFF6B'],['Merah','#FF6B6B'],['Ungu','#E68EFF'],['Biru muda','#86B8FF'],['Emas','#FFC933'],['Pink','#FF8FD0'],['Merah tua','#D44A4A'],['Hitam','#7A7A7A'],['Emerald','#3DDC84']];
+let P={w:74,text:'MEMBER',tx:0,sp:1,base:'#D0D0D0',mid:'#000000',dark:'#000000',auto:true,tc:'#FFFFFF',sc:'#000000',shadow:true,icon:true},E={};
+let Z=12,tool='pen',down=false,Hs=[],Rs=[],committed='';
+const cur=()=>JSON.stringify({P,E});
+const off=document.createElement('canvas'),cv=$('cv');
+
+const ICON=['..DEDD..','..DFFG..','..HIIHJ.','J.LLEEJ.','MGGFFFFM','MFFFFFFM','MAAAAAAM'];
+function gen(){
+ const W=P.w,a=new Array(W*H).fill(null),set=(x,y,c)=>{if(x>=0&&x<W&&y>=0&&y<H)a[y*W+x]=c},K='#000000',x1=W-1,p0=P.icon?13:0;
+ const plate=(x0,e,flat)=>{for(let y=0;y<H;y++)for(let x=x0;x<=e;x++){let c;
+  if(y==0||y==H-1||x==x0||x==e)c=K;else if(y==10)c=P.dark;else if(y==1||y==9||x==x0+1||x==e-1)c=P.base;
+  else if(flat||y<4)c=P.mid;else if(y==4)c=(x-x0)%4?P.mid:P.dark;else if(y==5)c=(x-x0)%2?P.mid:P.dark;else if(y==6)c=(x-x0)%2?P.dark:P.mid;else c=P.dark;
+  set(x,y,c)}};
+ if(P.icon){plate(0,11,true);const lt=hex(rgb(P.base).map((v,i)=>v*.4+rgb(P.tc)[i]*.6)),M={D:lt,E:lt,L:lt,F:P.tc,G:P.tc,I:P.base,H:P.mid,J:P.mid,M:P.dark,A:K};
+  ICON.forEach((r,j)=>[...r].forEach((ch,i)=>{if(M[ch])set(2+i,2+j,M[ch])}))}
+ plate(p0,x1);
+ const t=[...P.text.toUpperCase()].filter(c=>FONT[c]),sh=P.shadow?1:0,tw=t.reduce((s,c)=>s+FONT[c][0].length,0)+Math.max(0,t.length-1)*P.sp,sx=p0+Math.floor((x1-p0+1-tw-sh)/2)+P.tx;
+ const dr=(ox,oy,c)=>{let cx=sx;t.forEach(ch=>{const g=FONT[ch];g.forEach((row,r)=>[...row].forEach((v,k)=>{if(v=='#'){const x=cx+k+ox,y=3+r+oy;if(x>p0&&x<x1&&y>0&&y<H-1)set(x,y,c)}}));cx+=g[0].length+P.sp})};
+ if(P.shadow)dr(1,1,P.sc);dr(0,0,P.tc);
+ for(const k in E){const[x,y]=k.split(',').map(Number);if(x<W)a[y*W+x]=E[k]=='x'?null:E[k]}
+ return a}
+
+function render(){
+ if(P.auto){P.mid=der(P.base,.75);P.dark=der(P.base,.52);$('mid').value=P.mid;$('dark').value=P.dark}
+ $('mid').disabled=$('dark').disabled=P.auto;
+ const W=P.w,a=gen();off.width=W;off.height=H;const o=off.getContext('2d');o.clearRect(0,0,W,H);
+ a.forEach((c,i)=>{if(c){o.fillStyle=c;o.fillRect(i%W,(i/W)|0,1,1)}});window._a=a;
+ cv.width=W*Z;cv.height=H*Z;const c=cv.getContext('2d');c.imageSmoothingEnabled=false;c.drawImage(off,0,0,W*Z,H*Z);
+ if($('grid').checked&&Z>=6){c.strokeStyle='rgba(128,128,128,.35)';c.lineWidth=1;c.beginPath();for(let x=0;x<=W;x++){c.moveTo(x*Z+.5,0);c.lineTo(x*Z+.5,H*Z)}for(let y=0;y<=H;y++){c.moveTo(0,y*Z+.5);c.lineTo(W*Z,y*Z+.5)}c.stroke()}
+ const im=$('chatimg');im.src=off.toDataURL();im.width=W*2;im.height=H*2;
+ $('undo').disabled=!Hs.length&&cur()==committed;$('redo').disabled=!Rs.length}
+
+function sync(){for(const k of['text','tx','sp','w','base','mid','dark','tc','sc'])$(k).value=P[k];for(const k of['auto','shadow','icon'])$(k).checked=P[k]}
+function read(){P.text=$('text').value;P.tx=+$('tx').value;P.sp=+$('sp').value;P.w=Math.max(30,Math.min(160,+$('w').value||74));
+ for(const k of['base','tc','sc'])P[k]=$(k).value;if(!P.auto){P.mid=$('mid').value;P.dark=$('dark').value}
+ P.auto=$('auto').checked;P.shadow=$('shadow').checked;P.icon=$('icon').checked}
+function commit(){const c=cur();if(c!=committed){Hs.push(committed);committed=c;Rs=[]}render()}
+function load(s){const o=JSON.parse(s);P=o.P;E=o.E;sync();render()}
+function undo(){commit();if(!Hs.length)return;Rs.push(committed);committed=Hs.pop();load(committed)}
+function redo(){if(!Rs.length)return;Hs.push(committed);committed=Rs.pop();load(committed)}
+
+for(const k of['text','tx','sp','w','base','mid','dark','tc','sc','auto','shadow','icon']){
+ $(k).addEventListener('input',()=>{read();render()});$(k).addEventListener('change',()=>{read();commit()})}
+$('w').addEventListener('change',()=>{sync()});
+$('pre').append(...PRESETS.map(([n,c])=>{const b=document.createElement('button');b.type='button';b.innerHTML=`<i style="background:${c}"></i>${n}`;
+ b.onclick=()=>{P.base=c;P.auto=true;sync();commit()};return b}));
+document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{tool=b.dataset.tool;document.querySelectorAll('.tool').forEach(x=>x.setAttribute('aria-pressed',x==b))});
+$('undo').onclick=undo;$('redo').onclick=redo;
+$('reset').onclick=()=>{E={};commit()};
+$('zoom').oninput=e=>{Z=+e.target.value;render()};$('grid').onchange=render;
+addEventListener('keydown',e=>{if(e.target.type=='text'||e.target.type=='number')return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=='z'){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=='y'){e.preventDefault();redo()}});
+
+function paint(e){const r=cv.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*P.w),y=Math.floor((e.clientY-r.top)/r.height*H);
+ if(x<0||y<0||x>=P.w||y>=H)return;const k=x+','+y;
+ if(tool=='pick'){const c=window._a[y*P.w+x];if(c){$('pc').value=c.slice(0,7);tool='pen';document.querySelectorAll('.tool').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tool=='pen'))}return}
+ const v=tool=='pen'?$('pc').value:'x';if(E[k]!==v){E[k]=v;render()}}
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);down=true;paint(e)});
+cv.addEventListener('pointermove',e=>{if(down)paint(e)});
+const end=()=>{if(down){down=false;commit()}};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+
+const say=t=>{$('msg').textContent=t};
+async function save(sc){
+ const W=P.w,c=document.createElement('canvas');c.width=W*sc;c.height=H*sc;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(off,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,'image/png')),name=($('fn').value.trim().replace(/[^\w\-. ]/g,'')||'rank')+(sc>1?'@'+sc+'x':'')+'.png';
+ try{const d=window.claude?await claude.use('downloads'):null;
+  if(d){await d.save({filename:name,data:blob});say('Berhasil disimpan: '+name+' ('+c.width+'×'+c.height+' px)');return}}
+ catch(e){if(e&&e.code=='declined'){say('Tidak jadi disimpan.');return}}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);say('Berhasil disimpan: '+name+' ('+c.width+'×'+c.height+' px)')}
+$('d1').onclick=()=>save(1);$('d2').onclick=()=>save(+$('sc2').value);
+
+sync();Z=Math.max(4,Math.min(16,Math.floor((Math.min(innerWidth,760)-90)/P.w)||6));$('zoom').value=Z;render();committed=cur();
+</script></body></html>
