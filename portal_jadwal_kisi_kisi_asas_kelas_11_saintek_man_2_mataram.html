@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Jadwal & Kisi-Kisi ASAS 2026/2027 - XI SAINTEK | MAN 2 Mataram</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        madrasah: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .hero-pattern {
+            background-color: #064e3b;
+            background-image: radial-gradient(at 15% 15%, rgba(16, 185, 129, 0.25) 0px, transparent 50%),
+                              radial-gradient(at 85% 80%, rgba(245, 158, 11, 0.18) 0px, transparent 50%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-emerald-600 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+            <!-- Brand Logo & Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center text-white shadow-md shadow-emerald-900/20 border border-emerald-600/30 shrink-0">
+                    <i class="fa-solid fa-graduation-cap text-xl sm:text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-display font-extrabold text-base sm:text-lg tracking-tight text-slate-900">MAN 2 MATARAM</span>
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-desktop text-emerald-600"></i> CBT XI SAINTEK
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 hidden sm:block">Portal Resmi Jadwal CBT & Kisi-Kisi ASAS Ganjil T.P. 2026/2027 (SK Nomor 79 Tahun 2026)</p>
+                </div>
+            </div>
+
+            <!-- Mode Switcher (Siswa / Admin) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="btnModeSiswa" onclick="switchViewMode('student')" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-700 text-white shadow-sm">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Jadwal CBT & Kisi-Kisi</span>
+                </button>
+                <button id="btnModeAdmin" onclick="handleAdminAccess()" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300">
+                    <i class="fa-solid fa-cloud-arrow-up text-emerald-700"></i>
+                    <span>Upload Kisi-Kisi (Admin)</span>
+                    <span id="adminUnlockedBadge" class="hidden w-2 h-2 rounded-full bg-emerald-500"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner (Khusus CBT Kelas 11 Saintek) -->
+    <section class="hero-pattern text-white py-8 sm:py-10 px-4 sm:px-6 lg:px-8 border-b border-emerald-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="space-y-3 max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-800/80 border border-emerald-600/50 text-emerald-100 text-xs font-medium">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                        <span>Khusus TES CBT UTAMA • Kelas XI SAINTEK (11 Saintek 1, 2, 3 & 4)</span>
+                    </div>
+                    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+                        Jadwal Ujian CBT & Kisi-Kisi Materi ASAS <span class="text-amber-300">Kelas 11 Saintek</span>
+                    </h1>
+                    <p class="text-emerald-100/90 text-sm sm:text-base leading-relaxed">
+                        Jadwal resmi <strong>Tes CBT Utama (14 Mata Pelajaran, 7 Hari Ujian, 2 Mapel per Hari)</strong> khusus jurusan <strong>XI SAINTEK</strong> MAN 2 Mataram sesuai SK Nomor 79 Tahun 2026. Klik tombol <strong>"Buka Kisi-Kisi"</strong> pada masing-masing mata pelajaran untuk melihat materi dan mengunduh file kisi-kisi.
+                    </p>
+                </div>
+
+                <!-- Summary Stats Cards -->
+                <div class="grid grid-cols-3 gap-3 shrink-0">
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 sm:p-4">
+                        <div class="text-amber-300 text-xs font-semibold uppercase tracking-wider">Total Mapel CBT</div>
+                        <div class="text-2xl sm:text-3xl font-display font-extrabold mt-1">14 <span class="text-sm font-normal text-emerald-200">Mapel</span></div>
+                        <div class="text-[11px] text-emerald-200 mt-0.5">2 Mapel / Hari</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 sm:p-4">
+                        <div class="text-emerald-300 text-xs font-semibold uppercase tracking-wider">Durasi Ujian</div>
+                        <div class="text-2xl sm:text-3xl font-display font-extrabold mt-1">7 <span class="text-sm font-normal text-emerald-200">Hari</span></div>
+                        <div class="text-[11px] text-emerald-200 mt-0.5">26 Nov – 04 Des 2026</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 sm:p-4">
+                        <div class="text-sky-300 text-xs font-semibold uppercase tracking-wider">File Kisi-Kisi</div>
+                        <div class="text-2xl sm:text-3xl font-display font-extrabold mt-1" id="statUploadedFiles">0/14</div>
+                        <div class="text-[11px] text-emerald-200 mt-0.5" id="statKisiNote">14 Ringkasan Aktif</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Ruang Ujian Kelas 11 Saintek (Sesuai Lampiran Daftar Hadir SK) -->
+            <div class="mt-6 pt-5 border-t border-emerald-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-emerald-100">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-bold text-amber-300"><i class="fa-solid fa-door-open mr-1"></i>Ruang CBT XI Saintek:</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-900/90 border border-emerald-700"><strong>XI Saintek 1:</strong> Ruang 5 & 6</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-900/90 border border-emerald-700"><strong>XI Saintek 2:</strong> Ruang 33 & Ruang 34 (Tamu di 12 Kedinasan 1)</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-900/90 border border-emerald-700"><strong>XI Saintek 3:</strong> Ruang 7 & 8</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-900/90 border border-emerald-700"><strong>XI Saintek 4:</strong> Ruang 11 & 12</span>
+                </div>
+                <button onclick="openSupervisorInfoModal()" class="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold transition-all shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-id-badge"></i> Info Pengawas 11 Saintek 2 (Ruang 34)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ==================== VIEW 1: MODE SISWA (JADWAL CBT & KISI-KISI) ==================== -->
+        <div id="studentView" class="space-y-6">
+
+            <!-- Controls Bar: Day Filter Tabs, Search & View Layout Toggle -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Day Filter Tabs (Hari 1 s.d. Hari 7) -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 custom-scrollbar">
+                        <button onclick="setDayFilter('ALL')" id="tab-ALL" class="day-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-700 text-white shadow-sm">
+                            <i class="fa-solid fa-calendar-week mr-1.5"></i>Semua Hari (14 Mapel)
+                        </button>
+                        <button onclick="setDayFilter(1)" id="tab-1" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 1 • Kam, 26 Nov
+                        </button>
+                        <button onclick="setDayFilter(2)" id="tab-2" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 2 • Jum, 27 Nov
+                        </button>
+                        <button onclick="setDayFilter(3)" id="tab-3" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 3 • Sen, 30 Nov
+                        </button>
+                        <button onclick="setDayFilter(4)" id="tab-4" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 4 • Sel, 01 Des
+                        </button>
+                        <button onclick="setDayFilter(5)" id="tab-5" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 5 • Rab, 02 Des
+                        </button>
+                        <button onclick="setDayFilter(6)" id="tab-6" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 6 • Kam, 03 Des
+                        </button>
+                        <button onclick="setDayFilter(7)" id="tab-7" class="day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+                            Hari 7 • Jum, 04 Des
+                        </button>
+                    </div>
+
+                    <!-- Layout Switcher (Kartu Per Hari vs Tabel Lengkap) -->
+                    <div class="flex items-center gap-2 self-start lg:self-auto shrink-0">
+                        <span class="text-xs font-medium text-slate-500">Tampilan:</span>
+                        <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+                            <button onclick="setLayoutMode('timeline')" id="btnLayoutTimeline" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-emerald-800 shadow-sm">
+                                <i class="fa-solid fa-calendar-day mr-1"></i>Kartu per Hari (2 Sesi)
+                            </button>
+                            <button onclick="setLayoutMode('table')" id="btnLayoutTable" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900">
+                                <i class="fa-solid fa-table-list mr-1"></i>Tabel Ringkas CBT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search & Status Filter Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2 border-t border-slate-100">
+                    <div class="sm:col-span-7 lg:col-span-8 relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            oninput="renderSchedule()"
+                            placeholder="Cari mata pelajaran CBT (misal: Bahasa Indonesia, Biologi, Fisika), hari, atau nama penyusun..."
+                            class="w-full pl-10 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all"
+                        >
+                        <button id="btnClearSearch" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="sm:col-span-5 lg:col-span-4 flex items-center gap-2">
+                        <select id="filterKisiStatus" onchange="renderSchedule()" class="w-full py-2.5 px-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                            <option value="ALL">Semua Status Kisi-Kisi (14 Mapel)</option>
+                            <option value="WITH_FILE">Sudah Ada File Kisi-Kisi (Upload Admin)</option>
+                            <option value="NO_FILE">Belum Ada File Upload (Ringkasan Materi)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Schedule Container -->
+            <div id="scheduleContainer" class="space-y-6"></div>
+
+        </div>
+
+        <!-- ==================== VIEW 2: PANEL ADMIN (UPLOAD & KELOLA KISI-KISI CBT) ==================== -->
+        <div id="adminView" class="hidden space-y-6">
+            <!-- Admin Header Banner -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-emerald-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl shrink-0 border border-emerald-200">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h2 class="font-display text-lg sm:text-xl font-bold text-slate-900">Panel Admin Upload Kisi-Kisi CBT XI SAINTEK</h2>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">14 Mata Pelajaran CBT</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                            Unggah file kisi-kisi (PDF, Gambar JPG/PNG, TXT, atau DOCX) dan kelola pokok bahasan untuk ke-14 mata pelajaran Tes CBT Utama Kelas 11 Saintek.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 flex-wrap">
+                    <button onclick="generateAllSampleFiles()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Isi File Contoh Semua 14 Mapel
+                    </button>
+                    <button onclick="switchViewMode('student')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i> Lihat Jadwal Siswa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Grid: Upload Form (Left) & Subject Management Table (Right) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <!-- Left Column: Upload & Edit Kisi-Kisi Form -->
+                <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-5 self-start">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-up text-emerald-600"></i>
+                            <span>Form Upload Kisi-Kisi Mapel CBT</span>
+                        </h3>
+                        <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">XI SAINTEK</span>
+                    </div>
+
+                    <form id="adminUploadForm" onsubmit="saveAdminKisi(event)" class="space-y-4">
+                        <!-- Select Subject -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                1. Pilih Mata Pelajaran CBT (Urut Hari 1 s.d. Hari 7)
+                            </label>
+                            <select id="adminSelectSubject" onchange="populateAdminFormForSubject()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white">
+                            </select>
+                            <p id="adminSubjectMeta" class="text-xs text-slate-500 mt-1.5"></p>
+                        </div>
+
+                        <!-- File Drag & Drop Zone -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    2. Upload File Kisi-Kisi (PDF / Gambar / Dokumen)
+                                </label>
+                                <button type="button" onclick="attachDemoFileToForm()" class="text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline">
+                                    + Buat File Lembar Kisi-Kisi Contoh
+                                </button>
+                            </div>
+
+                            <div
+                                id="dropZone"
+                                onclick="document.getElementById('adminFileInput').click()"
+                                ondragover="handleDragOver(event)"
+                                ondragleave="handleDragLeave(event)"
+                                ondrop="handleFileDrop(event)"
+                                class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-5 text-center cursor-pointer transition-all bg-slate-50/70 hover:bg-emerald-50/40"
+                            >
+                                <input type="file" id="adminFileInput" onchange="handleFileSelect(event)" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.doc,.docx" class="hidden">
+                                <div id="dropZoneEmpty" class="space-y-2">
+                                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <div class="text-sm font-semibold text-slate-700">
+                                        Klik untuk memilih file kisi-kisi atau tarik file ke sini
+                                    </div>
+                                    <p class="text-xs text-slate-500">
+                                        Mendukung <strong>PDF, PNG, JPG, TXT, DOCX</strong> (Maks. 15 MB)
+                                    </p>
+                                </div>
+
+                                <!-- Selected File Preview Box -->
+                                <div id="dropZonePreview" class="hidden text-left bg-white p-3.5 rounded-xl border border-emerald-200 shadow-sm">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <div id="previewFileIcon" class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <p id="previewFileName" class="text-xs sm:text-sm font-bold text-slate-800 truncate"></p>
+                                                <p id="previewFileSize" class="text-[11px] text-slate-500"></p>
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="clearSelectedFile(event)" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold shrink-0">
+                                            <i class="fa-solid fa-trash-can mr-1"></i>Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pokok Bahasan / Ringkasan Materi Textarea -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                3. Pokok Bahasan / Kisi-Kisi Materi (Satu topik per baris)
+                            </label>
+                            <textarea
+                                id="adminTopicsInput"
+                                rows="5"
+                                placeholder="Tulis poin-poin kisi-kisi materi ujian di sini..."
+                                class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white custom-scrollbar"
+                            ></textarea>
+                        </div>
+
+                        <!-- Bentuk & Jumlah Soal + Catatan Guru -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                    Bentuk & Durasi CBT
+                                </label>
+                                <input
+                                    type="text"
+                                    id="adminExamFormatInput"
+                                    placeholder="Contoh: CBT • Pilihan Ganda"
+                                    class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                    Catatan Guru Penyusun
+                                </label>
+                                <input
+                                    type="text"
+                                    id="adminNotesInput"
+                                    placeholder="Catatan khusus untuk siswa..."
+                                    class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-2 flex items-center gap-2">
+                            <button type="submit" class="flex-1 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Simpan & Publikasikan Kisi-Kisi</span>
+                            </button>
+                            <button type="button" onclick="openKisiModal(document.getElementById('adminSelectSubject').value)" class="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition-all" title="Preview Tampilan Siswa">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Table of All 14 XI Saintek CBT Subjects -->
+                <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 flex flex-col">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-4">
+                        <div>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                                Daftar 14 Mata Pelajaran CBT Kelas XI Saintek
+                            </h3>
+                            <p class="text-xs text-slate-500">Urutan sesuai jadwal resmi SK (Hari 1 s.d. Hari 7, masing-masing 2 mata pelajaran).</p>
+                        </div>
+                        <button onclick="confirmResetAllFiles()" class="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold transition-all">
+                            <i class="fa-solid fa-rotate-left mr-1"></i>Reset Semua Upload
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto custom-scrollbar -mx-5 sm:mx-0 px-5 sm:px-0">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50">
+                                    <th class="py-3 px-3 rounded-tl-xl">No</th>
+                                    <th class="py-3 px-3">Mata Pelajaran CBT</th>
+                                    <th class="py-3 px-3">Hari & Jam Ujian</th>
+                                    <th class="py-3 px-3">Status File Kisi-Kisi</th>
+                                    <th class="py-3 px-3 text-right rounded-tr-xl">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody" class="divide-y divide-slate-100 text-xs sm:text-sm">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <span><strong>MAN 2 Mataram</strong> • Jalan Pendidikan No. 25 Mataram • ASAS T.P. 2026/2027</span>
+            </div>
+            <div>
+                Data Jadwal Resmi Kelas <strong>XI SAINTEK (11 Saintek 1–4)</strong> berdasarkan SK Kepala Madrasah Nomor 79 Tahun 2026
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL 1: VIEWER KISI-KISI MATERI & DOKUMEN ==================== -->
+    <div id="kisiModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white p-5 sm:p-6 flex items-start justify-between gap-4">
+                <div class="space-y-1.5">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-slate-950">TES CBT UTAMA</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/15 text-emerald-100">KELAS XI SAINTEK</span>
+                    </div>
+                    <h3 id="modalSubjectTitle" class="font-display text-xl sm:text-2xl font-extrabold tracking-tight">Nama Mata Pelajaran</h3>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-emerald-100/90">
+                        <span id="modalScheduleInfo"><i class="fa-regular fa-calendar mr-1.5 text-amber-300"></i>Kamis, 26 Nov 2026</span>
+                        <span id="modalTimeInfo"><i class="fa-regular fa-clock mr-1.5 text-amber-300"></i>07.30 - 09.30 WITA</span>
+                        <span id="modalTeacherInfo"><i class="fa-solid fa-chalkboard-user mr-1.5 text-amber-300"></i>Penyusun Soal</span>
+                    </div>
+                </div>
+                <button onclick="closeKisiModal()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all shrink-0">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Sub-Tabs (Pokok Bahasan vs File Dokumen Admin) -->
+            <div class="bg-slate-50 border-b border-slate-200 px-5 pt-3 flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchModalTab('topics')" id="modalTabTopics" class="px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-emerald-700 text-emerald-800 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Pokok Bahasan & Kisi-Kisi</span>
+                    </button>
+                    <button onclick="switchModalTab('file')" id="modalTabFile" class="px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>File Lampiran Kisi-Kisi</span>
+                        <span id="modalFileTabBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">0</span>
+                    </button>
+                </div>
+                <div class="pb-2 flex items-center gap-2">
+                    <button onclick="copyKisiText()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-all flex items-center gap-1.5">
+                        <i class="fa-regular fa-copy text-emerald-700"></i> Salin Kisi-Kisi
+                    </button>
+                    <button onclick="jumpToAdminUploadFromModal()" class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload / Edit (Admin)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar flex-1 space-y-5">
+
+                <!-- TAB CONTENT 1: POKOK BAHASAN & INDIKATOR MATERI -->
+                <div id="modalContentTopics" class="space-y-5">
+                    <!-- Quick Metadata Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Model & Bentuk Ujian</span>
+                            <p id="modalExamFormat" class="text-sm font-bold text-slate-800 mt-1">CBT • Pilihan Ganda & Uraian</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Sasaran Kelas</span>
+                            <p class="text-sm font-bold text-emerald-800 mt-1">XI Saintek 1, 2, 3, dan 4</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Guru Penyusun Soal (SK)</span>
+                            <p id="modalCompilerDetail" class="text-sm font-bold text-slate-800 mt-1">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Topics List -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-display font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-bullseye text-emerald-600"></i>
+                                <span>Daftar Pokok Bahasan & Indikator Materi ASAS</span>
+                            </h4>
+                            <span class="text-xs text-slate-500">Kurikulum Merdeka Kelas XI</span>
+                        </div>
+                        <ul id="modalTopicsList" class="space-y-2.5 pt-1"></ul>
+                    </div>
+
+                    <!-- Teacher Note Box -->
+                    <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-900">Catatan Persiapan & Pesan Guru Penyusun</h5>
+                            <p id="modalNotesText" class="text-xs sm:text-sm text-amber-950/90 mt-1 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT 2: FILE DOKUMEN KISI-KISI (UPLOAD ADMIN) -->
+                <div id="modalContentFile" class="hidden space-y-4">
+                    <!-- Populated dynamically via JS depending on whether file exists -->
+                    <div id="modalFileViewerContainer"></div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 border-t border-slate-200 px-5 py-3.5 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Portal Resmi XI Saintek MAN 2 Mataram</span>
+                <button onclick="closeKisiModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold transition-all">
+                    Tutup Jendela
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL KHUSUS: INFO PENGAWAS 11 SAINTEK 2 (RUANG 34) ==================== -->
+    <div id="supervisorModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-900 to-teal-900 text-white p-5 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-base sm:text-lg">Jadwal Pengawas Ruang 34</h3>
+                        <p class="text-xs text-emerald-200">Kelas 11 Saintek 2 (Absen 21-40) sebagai Tamu di 12 Kedinasan 1</p>
+                    </div>
+                </div>
+                <button onclick="closeSupervisorInfoModal()" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto custom-scrollbar space-y-3 text-xs sm:text-sm">
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 text-amber-900">
+                    <p class="font-bold mb-1"><i class="fa-solid fa-circle-info mr-1 text-amber-700"></i> Informasi Ruangan:</p>
+                    Siswa <strong>11 Saintek 2</strong> absen 21 sampai 40 menempati lokasi ujian di <strong>Ruang 34</strong> (Tuan rumah: 12 Kedinasan 1 F). Berikut adalah rincian pengawas per sesi ujian CBT Utama:
+                </div>
+
+                <div class="space-y-2">
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 1 • Kamis, 26 Nov 2026</span>
+                            <div class="text-slate-600">Bahasa Indonesia & Biologi</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Mariani, S.Hum<br><strong>Sesi 2:</strong> Khoirun Nasihin, Lc
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 2 • Jum'at, 27 Nov 2026</span>
+                            <div class="text-slate-600">Bhs Inggris & Fiqih</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Nurul In, S.Pd<br><strong>Sesi 2:</strong> Zahid Hidayatullah, S.Pd
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 3 • Senin, 30 Nov 2026</span>
+                            <div class="text-slate-600">Kimia & Sejarah</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Apoah, S.Ag<br><strong>Sesi 2:</strong> Rasyidi Hasbullah, S.Pd.I
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 4 • Selasa, 01 Des 2026</span>
+                            <div class="text-slate-600">Pancasila & Mulok (EFT)</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Hariantini, S.Pd<br><strong>Sesi 2:</strong> Fina Karismayanti, S.Pd
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 5 • Rabu, 02 Des 2026</span>
+                            <div class="text-slate-600">Matematika & Aqidah Akhlak</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Sakban Yadi, S.Pd<br><strong>Sesi 2:</strong> Hadi Pratama, S.PdI
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 6 • Kamis, 03 Des 2026</span>
+                            <div class="text-slate-600">Matematika (L) & SKI</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Nisha Apriani, S.Ag<br><strong>Sesi 2:</strong> Farrah Ayyun Taqiya, S.Pd.I
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <span class="font-bold text-emerald-800">Hari 7 • Jum'at, 04 Des 2026</span>
+                            <div class="text-slate-600">Qur'an Hadits & Fisika</div>
+                        </div>
+                        <div class="text-right text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                            <strong>Sesi 1:</strong> Hadi Pratama, S.PdI<br><strong>Sesi 2:</strong> Nisha Apriani, S.Ag
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-4 border-t border-slate-200 text-right">
+                <button onclick="closeSupervisorInfoModal()" class="px-5 py-2 rounded-xl bg-slate-800 text-white font-bold text-xs">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 2: LOGIN PIN ADMIN ==================== -->
+    <div id="pinModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg text-slate-900">Akses Panel Admin</h3>
+                        <p class="text-xs text-slate-500">Khusus Pengelola & Guru Kelas XI Saintek</p>
+                    </div>
+                </div>
+                <button onclick="closePinModal()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 text-xs text-emerald-900 flex items-center justify-between">
+                <span><i class="fa-solid fa-key mr-1.5 text-emerald-700"></i>PIN Admin Default: <strong>1234</strong></span>
+                <button type="button" onclick="instantAdminLogin()" class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold hover:bg-emerald-800 transition-all">
+                    Masuk Instan (1-Klik)
+                </button>
+            </div>
+
+            <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Masukkan PIN Admin</label>
+                    <input
+                        type="password"
+                        id="adminPinInput"
+                        placeholder="Ketik 1234"
+                        maxlength="8"
+                        class="w-full px-4 py-3 text-center tracking-widest font-display text-lg font-bold bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    >
+                    <p id="pinErrorMsg" class="hidden text-xs text-rose-600 font-semibold mt-1.5 text-center">
+                        PIN tidak sesuai. Gunakan PIN: 1234
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closePinModal()" class="w-1/3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold">
+                        Batal
+                    </button>
+                    <button type="submit" class="w-2/3 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold shadow-sm">
+                        Buka Panel Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 3: KONFIRMASI RESET ==================== -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <h3 id="confirmModalTitle" class="font-display font-bold text-lg text-slate-900">Konfirmasi Tindakan</h3>
+                    <p id="confirmModalDesc" class="text-xs sm:text-sm text-slate-600 mt-0.5">Apakah Anda yakin ingin melanjutkan?</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold">
+                    Batal
+                </button>
+                <button id="confirmModalActionBtn" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold">
+                    Ya, Lanjutkan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- ==================== APPLICATION JAVASCRIPT ==================== -->
+    <script>
+        /**
+         * DATA RESMI JADWAL TES CBT UTAMA & KISI-KISI ASAS KELAS 11 SAINTEK (XI SAINTEK 1, 2, 3, 4)
+         * Berdasarkan SK Kepala MAN 2 Mataram Nomor 79 Tahun 2026 (Halaman 4-5 & Halaman 8)
+         * HANYA MEMUAT TES CBT UTAMA (14 Mata Pelajaran, 7 Hari, 2 Mata Pelajaran per Hari)
+         * Urutan dibaca lurus dari atas ke bawah (2 mapel ganti hari) sesuai kolom KELAS XI -> SAINTEK.
+         */
+        const DEFAULT_SUBJECTS_XI_SAINTEK = [
+            // ================= HARI 1: Kamis, 26 November 2026 =================
+            {
+                id: 'cbt-01-bindo',
+                orderNo: 1,
+                dayNumber: 1,
+                name: 'Bahasa Indonesia',
+                category: 'CBT',
+                dayGroup: 'Hari 1 • Kamis, 26 November 2026',
+                dateLabel: 'Kamis, 26 Nov 2026',
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.30 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-book-open-reader',
+                compiler: 'Verweny Rochcy Maryati, M.Pd (XI Saintek 1–3) & Ahmad Supian Hariyadi, S.Pd. (XI Saintek 4)',
+                examFormat: 'CBT • Pilihan Ganda & Literasi Membaca (120 Menit)',
+                defaultTopics: [
+                    'Teks Argumentasi & Ketahanan Pangan Lokal: Ide Pokok, Fakta vs Opini, Kalimat Efektif, dan Kohesi/Koherensi',
+                    'Teks Berita & Literasi Informasi: Struktur Berita (Adiksimba), Kaidah Kebahasaan, dan Validitas Informasi',
+                    'Cerita Pendek (Cerpen) Berlatar Sejarah/Budaya: Unsur Intrinsik, Ekstrinsik, Nilai Moral, dan Majas',
+                    'Karya Ilmiah & Teks Eksplanasi: Sistematika Penulisan, Penulisan Kutipan, dan Daftar Pustaka Sesuai EYD V'
+                ],
+                defaultNotes: 'Hari Pertama Jam Ke-1 (07.30 - 09.30 WITA). Bacalah kutipan wacana dengan cermat untuk menemukan simpulan tersirat dan ketepatan kaidah kebahasaan.'
+            },
+            {
+                id: 'cbt-02-biologi',
+                orderNo: 2,
+                dayNumber: 1,
+                name: 'Biologi',
+                category: 'CBT',
+                dayGroup: 'Hari 1 • Kamis, 26 November 2026',
+                dateLabel: 'Kamis, 26 Nov 2026',
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.45 - 11.45 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-dna',
+                compiler: 'Muhammad Al Marwazi, S.Pd (XI Saintek 1–3) & Monica Rizki Hairy, S.Pd (XI Saintek 4)',
+                examFormat: 'CBT • Pilihan Ganda & Analisis Biologi (120 Menit)',
+                defaultTopics: [
+                    'Struktur dan Fungsi Sel: Komponen Kimiawi Sel, Perbedaan Organel Sel Hewan dan Sel Tumbuhan',
+                    'Mekanisme Transpor Membran: Difusi, Osmosis, Transpor Aktif, Endositosis, dan Eksositosis',
+                    'Struktur dan Fungsi Jaringan pada Tumbuhan (Meristem & Dewasa) serta Jaringan pada Hewan/Manusia',
+                    'Sistem Gerak pada Manusia: Struktur Tulang, Persendian, Mekanisme Kontraksi Otot, dan Kelainan Sistem Gerak',
+                    'Sistem Peredaran Darah: Komponen Darah, Golongan Darah, Pembekuan Darah, Jantung & Pembuluh Darah'
+                ],
+                defaultNotes: 'Hari Pertama Jam Ke-2 (09.45 - 11.45 WITA). Perhatikan gambar struktur organel sel, skema pembekuan darah, dan mekanisme transpor membran.'
+            },
+
+            // ================= HARI 2: Jum'at, 27 November 2026 =================
+            {
+                id: 'cbt-03-bing',
+                orderNo: 3,
+                dayNumber: 2,
+                name: 'Bahasa Inggris (Bhs Inggris)',
+                category: 'CBT',
+                dayGroup: "Hari 2 • Jum'at, 27 November 2026",
+                dateLabel: "Jum'at, 27 Nov 2026",
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.30 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-earth-americas',
+                compiler: 'Zuhratul Iman, S.Pd., M.Pd (XI Saintek 1–3) & Mahfuzan Indra K., S.Pd (XI Saintek 4)',
+                examFormat: 'CBT • Reading Comprehension & Grammar in Context (120 Menit)',
+                defaultTopics: [
+                    'Analytical & Hortatory Exposition Text: Thesis, Arguments, Reiteration/Recommendation, and Conjunctions',
+                    'Expressing Opinions, Agreement, and Disagreement in Academic & Daily Contexts',
+                    'Reading Comprehension Analysis: Main Idea, Specific Information, Inference, Reference, and Vocabulary',
+                    'Grammar Focus: Present Perfect Tense, Passive Voice in Scientific Context, and Conditional Sentences'
+                ],
+                defaultNotes: "Hari Kedua Jam Ke-1 (07.30 - 09.30 WITA). Fokus pada struktur teks Exposition dan inferensi makna kata (contextual meaning) dalam teks."
+            },
+            {
+                id: 'cbt-04-fiqih',
+                orderNo: 4,
+                dayNumber: 2,
+                name: 'Fiqih',
+                category: 'CBT',
+                dayGroup: "Hari 2 • Jum'at, 27 November 2026",
+                dateLabel: "Jum'at, 27 Nov 2026",
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.45 - 11.15 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-scale-balanced',
+                compiler: 'Rasyidi Hasbullah, S.Pd.I (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda (90 Menit)',
+                defaultTopics: [
+                    'Ketentuan Jinayat dalam Islam: Pengertian, Macam-macam Pembunuhan, Qishash, Diyat, dan Kaffarat',
+                    'Hukum Hudud: Ketentuan Syariat tentang Zina, Qadzaf, Mencuri (Sariqah), Hirabah, dan Minuman Keras (Khamr)',
+                    'Ketentuan Bughat (Pemberontakan): Pengertian, Status Hukum, dan Tahapan Penanganan Bughat',
+                    'Peradilan dalam Islam (Al-Qadha): Fungsi Peradilan, Syarat Hakim, Saksi, Bukti (Bayyinah), dan Sumpah'
+                ],
+                defaultNotes: "Hari Kedua Jam Ke-2 (09.45 - 11.15 WITA). Pahami hikmah pensyariatan hukum Jinayat dan Hudud serta perbedaan syarat wajib Qishash dan Diyat."
+            },
+
+            // ================= HARI 3: Senin, 30 November 2026 =================
+            {
+                id: 'cbt-05-kimia',
+                orderNo: 5,
+                dayNumber: 3,
+                name: 'Kimia',
+                category: 'CBT',
+                dayGroup: 'Hari 3 • Senin, 30 November 2026',
+                dateLabel: 'Senin, 30 Nov 2026',
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.30 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-flask-vial',
+                compiler: 'Erna Rofiqa, S.Pd (XI Saintek 1–3) & Islahul Umami, S.Pd (XI Saintek 4)',
+                examFormat: 'CBT • Pilihan Ganda Konsep & Perhitungan Kimia (120 Menit)',
+                defaultTopics: [
+                    'Senyawa Hidrokarbon & Minyak Bumi: Kekhasan Atom Karbon, Tata Nama Alkana/Alkena/Alkuna, Isomer, dan Fraksi Minyak Bumi',
+                    'Termokimia: Sistem & Lingkungan, Reaksi Eksoterm vs Endoterm, Perhitungan ΔH (Kalorimeter, Hukum Hess, ΔHf°, Energi Ikatan)',
+                    'Laju Reaksi: Konsep Laju Reaksi, Teori Tumbukan, Faktor-Faktor Penentu Laju, Persamaan Laju & Orde Reaksi',
+                    'Kesetimbangan Kimia: Kesetimbangan Dinamis, Tetapan Kesetimbangan (Kc dan Kp), serta Pergeseran Kesetimbangan (Asas Le Chatelier)'
+                ],
+                defaultNotes: 'Hari Ketiga Jam Ke-1 (07.30 - 09.30 WITA). Latih perhitungan perubahan entalpi (ΔH), penentuan orde reaksi dari data percobaan, serta nilai Kc dan Kp.'
+            },
+            {
+                id: 'cbt-06-sejarah',
+                orderNo: 6,
+                dayNumber: 3,
+                name: 'Sejarah',
+                category: 'CBT',
+                dayGroup: 'Hari 3 • Senin, 30 November 2026',
+                dateLabel: 'Senin, 30 Nov 2026',
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.45 - 11.15 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-landmark',
+                compiler: 'Juniatun Arni, S.Pd. (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda (90 Menit)',
+                defaultTopics: [
+                    'Penjelajahan Samudra, Kolonialisme, dan Imperialisme Barat di Nusantara (Portugis, Spanyol, VOC, Belanda, Inggris)',
+                    'Kebijakan Pemerintahan Kolonial (Sistem Tanam Paksa / Cultuurstelsel, Politik Pintu Terbuka, dan Politik Etis)',
+                    'Perlawanan Rakyat Nusantara terhadap Kolonialisme sebelum Abad ke-20 (Maluku, Diponegoro, Padri, Aceh, Lombok)',
+                    'Pergerakan Nasional Indonesia: Budi Utomo, Sarekat Islam, Indische Partij, Sumpah Pemuda 1928, dan Strategi Perjuangan'
+                ],
+                defaultNotes: 'Hari Ketiga Jam Ke-2 (09.45 - 11.15 WITA). Pahami kronologi perubahan strategi perjuangan dari perlawanan kedaerahan menuju organisasi pergerakan nasional.'
+            },
+
+            // ================= HARI 4: Selasa, 01 Desember 2026 =================
+            {
+                id: 'cbt-07-pancasila',
+                orderNo: 7,
+                dayNumber: 4,
+                name: 'Pendidikan Pancasila (Pend. Pancasila)',
+                category: 'CBT',
+                dayGroup: 'Hari 4 • Selasa, 01 Desember 2026',
+                dateLabel: 'Selasa, 01 Des 2026',
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.00 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-shield-halved',
+                compiler: 'Srijudin, S.Pd (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda & Studi Kasus Kewarganegaraan (90 Menit)',
+                defaultTopics: [
+                    'Keterkaitan Antarsila Pancasila sebagai Satu Kesatuan Utuh dan Implementasinya dalam Kehidupan Berbangsa',
+                    'Pancasila sebagai Ideologi Terbuka: Dimensi Idealitas, Normatif, dan Realitas menghadapi Tantangan Global',
+                    'Konstitusi dan Norma dalam UUD NRI Tahun 1945: Hierarki Peraturan Perundang-undangan di Indonesia',
+                    'Budaya Demokrasi Konstitusional serta Penyelesaian Sengketa/Konflik Sosial secara Damai'
+                ],
+                defaultNotes: 'Hari Keempat Jam Ke-1 (07.30 - 09.00 WITA). Perhatikan khusus kolom XI Saintek: Jam pertama adalah Pendidikan Pancasila, dilanjutkan Mulok (EFT) di jam kedua.'
+            },
+            {
+                id: 'cbt-08-mulok',
+                orderNo: 8,
+                dayNumber: 4,
+                name: 'Mulok (EFT - English for Tourism)',
+                category: 'CBT',
+                dayGroup: 'Hari 4 • Selasa, 01 Desember 2026',
+                dateLabel: 'Selasa, 01 Des 2026',
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.15 - 10.45 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-compass',
+                compiler: 'Fina Karismayanti, S.Pd (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda (90 Menit)',
+                defaultTopics: [
+                    'Hospitality & Tourism Communication: Welcoming Guests, Giving Directions, and Offering Assistance',
+                    'Describing Local Tourist Destinations in West Nusa Tenggara (Lombok & Sumbawa Cultural and Natural Heritage)',
+                    'Tour Guiding Expressions: Explaining Itineraries, Safety Rules, and Local Wisdom Etiquette',
+                    'Handling Reservations, Complaints, and Tourist Inquiries Professionally in English'
+                ],
+                defaultNotes: 'Hari Keempat Jam Ke-2 (09.15 - 10.45 WITA). Pelajari ungkapan sopan (polite expressions) dalam layanan kepariwisataan dan kosakata destinasi wisata NTB.'
+            },
+
+            // ================= HARI 5: Rabu, 02 Desember 2026 =================
+            {
+                id: 'cbt-09-matematika',
+                orderNo: 9,
+                dayNumber: 5,
+                name: 'Matematika',
+                category: 'CBT',
+                dayGroup: 'Hari 5 • Rabu, 02 Desember 2026',
+                dateLabel: 'Rabu, 02 Des 2026',
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.30 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-square-root-variable',
+                compiler: 'Hj. Bq. Zuhriatun, S.Si (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda & Pemecahan Masalah (120 Menit)',
+                defaultTopics: [
+                    'Komposisi Fungsi dan Fungsi Invers: Domain, Range, Sifat Komposisi (f o g)(x), dan Menentukan Invers Fungsi f⁻¹(x)',
+                    'Lingkaran: Sudut Pusat & Sudut Keliling, Garis Singgung Lingkaran, Panjang Busur, dan Luas Juring',
+                    'Matriks: Operasi Aljabar Matriks (Penjumlahan, Pengurangan, Perkalian), Determinan, dan Invers Matriks Ordo 2x2 & 3x3',
+                    'Penerapan Matriks pada Sistem Persamaan Linear Dua dan Tiga Variabel'
+                ],
+                defaultNotes: 'Hari Kelima Jam Ke-1 (07.30 - 09.30 WITA). Teliti tanda positif/negatif saat menghitung determinan dan invers matriks serta rumus komposisi fungsi.'
+            },
+            {
+                id: 'cbt-10-aqidah',
+                orderNo: 10,
+                dayNumber: 5,
+                name: 'Aqidah Akhlak',
+                category: 'CBT',
+                dayGroup: 'Hari 5 • Rabu, 02 Desember 2026',
+                dateLabel: 'Rabu, 02 Des 2026',
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.45 - 11.15 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-mosque',
+                compiler: 'Hj. Miftahul Ain, S.Ag., M.PdI (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda (90 Menit)',
+                defaultTopics: [
+                    'Sejarah Kemunculan dan Perkembangan Ilmu Kalam (Peristiwa Tahkim dan Persoalan Teologis)',
+                    'Pokok Ajaran Aliran-aliran Ilmu Kalam: Khawarij, Murji’ah, Syi’ah, Qadariyah, Jabariyah, Mu’tazilah, Asy’ariyah, dan Maturidiyah',
+                    'Menghindari Perilaku Tercela (Akhlak Madzmumah): Membunuh, Liwath, LGBT, Meminum Khamr, Judi, Mencuri, dan Durhaka kepada Orang Tua',
+                    'Adab Berpakaian, Berhias, Perjalanan (Safar), Bertamu, dan Menerima Tamu sesuai Syariat Islam'
+                ],
+                defaultNotes: 'Hari Kelima Jam Ke-2 (09.45 - 11.15 WITA). Pahami perbandingan pokok ajaran aliran Ilmu Kalam serta dalil larangan perilaku tercela.'
+            },
+
+            // ================= HARI 6: Kamis, 03 Desember 2026 =================
+            {
+                id: 'cbt-11-matematika-l',
+                orderNo: 11,
+                dayNumber: 6,
+                name: 'Matematika (L) / Tingkat Lanjut',
+                category: 'CBT',
+                dayGroup: 'Hari 6 • Kamis, 03 Desember 2026',
+                dateLabel: 'Kamis, 03 Des 2026',
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.30 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-calculator',
+                compiler: 'Eny Mustikawati, ST (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda Sains & Analisis Matematik (120 Menit)',
+                defaultTopics: [
+                    'Polinomial (Suku Banyak): Operasi Aljabar Polinomial, Metode Substitusi & Skema Horner, Teorema Sisa, dan Teorema Faktor',
+                    'Akar-akar Persamaan Polinomial serta Jumlah dan Hasil Kali Akar-akar (Teorema Vieta)',
+                    'Matriks & Transformasi Geometri Bidang: Translasi, Refleksi, Rotasi, Dilatasi, dan Komposisi Transformasi dengan Matriks',
+                    'Fungsi Trigonometri & Identitas Trigonometri Analitik'
+                ],
+                defaultNotes: 'Hari Keenam Jam Ke-1 (07.30 - 09.30 WITA). Kuasai penggunaan Skema Horner untuk pembagian polinomial dan matriks komposisi transformasi.'
+            },
+            {
+                id: 'cbt-12-ski',
+                orderNo: 12,
+                dayNumber: 6,
+                name: 'SKI (Sejarah Kebudayaan Islam)',
+                category: 'CBT',
+                dayGroup: 'Hari 6 • Kamis, 03 Desember 2026',
+                dateLabel: 'Kamis, 03 Des 2026',
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.45 - 11.15 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-scroll',
+                compiler: 'Farrah Ayyun Taqiya, S.Pd.I (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda (90 Menit)',
+                defaultTopics: [
+                    'Proses Lahirnya Daulah Abbasiyah, Tokoh Pendiri, dan Periodisasi Pemerintahan Bani Abbasiyah',
+                    'Perkembangan Ilmu Pengetahuan dan Peradaban Islam Masa Keemasan Abbasiyah (Baitul Hikmah, Tokoh Ilmuwan Sains & Agama)',
+                    'Faktor Internal dan Eksternal Kemunduran serta Runtuhnya Daulah Abbasiyah',
+                    'Sejarah Berdirinya, Kemajuan Peradaban, dan Kemunduran Tiga Kerajaan Besar Islam (Daulah Utsmani, Safawi, dan Mughal)'
+                ],
+                defaultNotes: 'Hari Keenam Jam Ke-2 (09.45 - 11.15 WITA). Kenali kontribusi ilmuwan muslim masa Abbasiyah serta kemajuan peradaban Daulah Utsmani, Safawi, dan Mughal.'
+            },
+
+            // ================= HARI 7: Jum'at, 04 Desember 2026 =================
+            {
+                id: 'cbt-13-qh',
+                orderNo: 13,
+                dayNumber: 7,
+                name: "Qur'an Hadits",
+                category: 'CBT',
+                dayGroup: "Hari 7 • Jum'at, 04 Desember 2026",
+                dateLabel: "Jum'at, 04 Des 2026",
+                session: 'Jam Ke-1 (Sesi 1)',
+                time: '07.30 - 09.00 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-book-quran',
+                compiler: 'Hadi Pratama, S.PdI (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda Ayat & Hadits (90 Menit)',
+                defaultTopics: [
+                    'Hakikat Penciptaan Manusia dan Tugasnya sebagai Khalifah di Bumi (QS. Al-Mu’minun: 12–14, QS. An-Nahl: 78, QS. Al-Baqarah: 30–32, QS. Adz-Dzariyat: 56)',
+                    'Hormat dan Patuh kepada Orang Tua serta Guru (QS. Al-Isra’: 23–24, QS. Luqman: 13–17, dan Hadits Terkait)',
+                    'Menghindari Pergaulan Bebas dan Perbuatan Keji/Zina (QS. Al-Isra’: 32, QS. An-Nur: 2, dan Hadits Riwayat Bukhari-Muslim)',
+                    'Kaidah Tajwid, Terjemah Mufradat Kunci, dan Kandungan Hukum Ayat Pilihan Kelas XI'
+                ],
+                defaultNotes: "Hari Ketujuh Jam Ke-1 (07.30 - 09.00 WITA). Hafalkan arti mufradat kunci, asbabun nuzul, dan kandungan ayat-ayat semester ganjil."
+            },
+            {
+                id: 'cbt-14-fisika',
+                orderNo: 14,
+                dayNumber: 7,
+                name: 'Fisika',
+                category: 'CBT',
+                dayGroup: "Hari 7 • Jum'at, 04 Desember 2026",
+                dateLabel: "Jum'at, 04 Des 2026",
+                session: 'Jam Ke-2 (Sesi 2)',
+                time: '09.15 - 11.15 WITA',
+                model: 'CBT Utama',
+                icon: 'fa-atom',
+                compiler: 'Eva Ernawati, S.Si (XI Saintek 1–4)',
+                examFormat: 'CBT • Pilihan Ganda & Analisis Fisika (120 Menit)',
+                defaultTopics: [
+                    'Vektor dan Kinematika Gerak (Gerak Lurus, Gerak Parabola, dan Gerak Melingkar)',
+                    'Dinamika Rotasi & Kesetimbangan Benda Tegar: Momen Gaya (Torsi), Momen Inersia, Momentum Sudut, dan Titik Berat Benda',
+                    'Elastisitas Bahan & Hukum Hooke: Tegangan, Regangan, Modulus Young, serta Susunan Pegas Seri-Paralel',
+                    'Fluida Statis & Fluida Dinamis: Tekanan Hidrostatis, Hukum Pascal, Hukum Archimedes, Persamaan Kontinuitas, dan Asas Bernoulli'
+                ],
+                defaultNotes: "Hari Ketujuh Jam Ke-2 (09.15 - 11.15 WITA). Kuasai analisis kesetimbangan benda tegar, perhitungan titik berat, dan aplikasi Hukum Archimedes & Bernoulli."
+            }
+        ];
+
+        // State Aplikasi
+        let currentViewMode = 'student'; // 'student' | 'admin'
+        let isAdminAuthenticated = false;
+        let currentDayFilter = 'ALL'; // 'ALL' | 1..7
+        let currentLayoutMode = 'timeline'; // 'timeline' | 'table'
+        let activeModalSubjectId = null;
+        let pendingFileUpload = null; // { name, size, type, dataUrl, uploadedAt }
+
+        // Key penyimpanan baru agar data jadwal lama otomatis terganti dengan urutan CBT v2 yang benar
+        const LOCAL_STORAGE_KEY = 'asas_2026_xi_saintek_cbt_fixed_v2';
+        const DB_NAME = 'MAN2_ASAS_XI_SAINTEK_CBT_V2_DB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'kisi_kisi_cbt_store';
+        let dbInstance = null;
+        let customKisiMap = {};
+
+        // ==================== INDEXEDDB & LOCALSTORAGE INITIALIZATION ====================
+        function initDatabase() {
+            return new Promise((resolve) => {
+                // Bersihkan storage versi lama agar tidak bentrok
+                try {
+                    localStorage.removeItem('MAN2_XI_SAINTEK_KISI_FALLBACK');
+                } catch (e) {}
+
+                if (!window.indexedDB) {
+                    loadFromLocalStorageFallback();
+                    resolve();
+                    return;
+                }
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME, { keyPath: 'subjectId' });
+                    }
+                };
+                request.onsuccess = (event) => {
+                    dbInstance = event.target.result;
+                    loadAllCustomKisiFromDB().then(resolve);
+                };
+                request.onerror = () => {
+                    loadFromLocalStorageFallback();
+                    resolve();
+                };
+            });
+        }
+
+        function loadAllCustomKisiFromDB() {
+            return new Promise((resolve) => {
+                if (!dbInstance) {
+                    loadFromLocalStorageFallback();
+                    resolve();
+                    return;
+                }
+                try {
+                    const tx = dbInstance.transaction(STORE_NAME, 'readonly');
+                    const store = tx.objectStore(STORE_NAME);
+                    const req = store.getAll();
+                    req.onsuccess = () => {
+                        const rows = req.result || [];
+                        customKisiMap = {};
+                        rows.forEach(item => {
+                            customKisiMap[item.subjectId] = item;
+                        });
+                        resolve();
+                    };
+                    req.onerror = () => {
+                        loadFromLocalStorageFallback();
+                        resolve();
+                    };
+                } catch (e) {
+                    loadFromLocalStorageFallback();
+                    resolve();
+                }
+            });
+        }
+
+        function saveSubjectToDB(subjectId, record) {
+            return new Promise((resolve) => {
+                customKisiMap[subjectId] = record;
+                saveToLocalStorageFallback();
+                if (!dbInstance) {
+                    resolve();
+                    return;
+                }
+                try {
+                    const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    store.put(record);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => resolve();
+                } catch (e) {
+                    resolve();
+                }
+            });
+        }
+
+        function deleteSubjectFromDB(subjectId) {
+            return new Promise((resolve) => {
+                delete customKisiMap[subjectId];
+                saveToLocalStorageFallback();
+                if (!dbInstance) {
+                    resolve();
+                    return;
+                }
+                try {
+                    const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    store.delete(subjectId);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => resolve();
+                } catch (e) {
+                    resolve();
+                }
+            });
+        }
+
+        function clearAllDB() {
+            return new Promise((resolve) => {
+                customKisiMap = {};
+                try {
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                } catch (e) {}
+                if (!dbInstance) {
+                    resolve();
+                    return;
+                }
+                try {
+                    const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    store.clear();
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => resolve();
+                } catch (e) {
+                    resolve();
+                }
+            });
+        }
+
+        function loadFromLocalStorageFallback() {
+            try {
+                const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (raw) customKisiMap = JSON.parse(raw);
+            } catch (e) {
+                customKisiMap = {};
+            }
+        }
+
+        function saveToLocalStorageFallback() {
+            try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(customKisiMap));
+            } catch (e) {
+                // Jika kuota localStorage penuh karena file besar, IndexedDB tetap menyimpannya
+            }
+        }
+
+        // Helper mendapatkan data lengkap suatu mata pelajaran (gabungan default + custom admin)
+        function getSubjectData(subjectId) {
+            const base = DEFAULT_SUBJECTS_XI_SAINTEK.find(s => s.id === subjectId);
+            if (!base) return null;
+            const custom = customKisiMap[subjectId];
+            return {
+                ...base,
+                topics: (custom && Array.isArray(custom.topics) && custom.topics.length > 0) ? custom.topics : base.defaultTopics,
+                examFormat: (custom && custom.examFormat) ? custom.examFormat : base.examFormat,
+                notes: (custom && custom.notes) ? custom.notes : base.defaultNotes,
+                uploadedFile: (custom && custom.uploadedFile) ? custom.uploadedFile : null,
+                updatedAt: (custom && custom.updatedAt) ? custom.updatedAt : null
+            };
+        }
+
+        // ==================== RENDER SCHEDULE (MODE SISWA - HANYA CBT) ====================
+        function updateStatsHeader() {
+            let uploadedCount = 0;
+            DEFAULT_SUBJECTS_XI_SAINTEK.forEach(s => {
+                if (customKisiMap[s.id] && customKisiMap[s.id].uploadedFile) {
+                    uploadedCount++;
+                }
+            });
+            document.getElementById('statUploadedFiles').textContent = `${uploadedCount}/14`;
+            document.getElementById('statKisiNote').textContent = uploadedCount > 0
+                ? `${uploadedCount} File + 14 Ringkasan`
+                : '14 Ringkasan Materi Aktif';
+        }
+
+        function setDayFilter(day) {
+            currentDayFilter = day;
+            document.querySelectorAll('.day-tab').forEach(btn => {
+                btn.className = 'day-tab px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-700 hover:bg-slate-200';
+            });
+            const activeBtn = document.getElementById(`tab-${day}`);
+            if (activeBtn) {
+                activeBtn.className = 'day-tab px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-700 text-white shadow-sm';
+            }
+            renderSchedule();
+        }
+
+        function setLayoutMode(mode) {
+            currentLayoutMode = mode;
+            const btnTimeline = document.getElementById('btnLayoutTimeline');
+            const btnTable = document.getElementById('btnLayoutTable');
+            if (mode === 'timeline') {
+                btnTimeline.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-emerald-800 shadow-sm';
+                btnTable.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900';
+            } else {
+                btnTable.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-emerald-800 shadow-sm';
+                btnTimeline.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-slate-900';
+            }
+            renderSchedule();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            renderSchedule();
+        }
+
+        function renderSchedule() {
+            updateStatsHeader();
+            const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            const statusFilter = document.getElementById('filterKisiStatus').value;
+            const clearBtn = document.getElementById('btnClearSearch');
+            clearBtn.classList.toggle('hidden', query.length === 0);
+
+            const allSubjects = DEFAULT_SUBJECTS_XI_SAINTEK.map(s => getSubjectData(s.id));
+
+            // Filter berdasarkan Hari, Status File Kisi-Kisi, dan Kata Kunci Pencarian
+            const filtered = allSubjects.filter(item => {
+                if (currentDayFilter !== 'ALL' && item.dayNumber !== Number(currentDayFilter)) return false;
+
+                if (statusFilter === 'WITH_FILE' && !item.uploadedFile) return false;
+                if (statusFilter === 'NO_FILE' && item.uploadedFile) return false;
+
+                if (query) {
+                    const hay = `${item.name} ${item.dayGroup} ${item.dateLabel} ${item.compiler} ${item.session} ${item.time} ${item.topics.join(' ')}`.toLowerCase();
+                    if (!hay.includes(query)) return false;
+                }
+                return true;
+            });
+
+            const container = document.getElementById('scheduleContainer');
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-slate-800">Jadwal CBT Tidak Ditemukan</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
+                            Tidak ada mata pelajaran CBT Kelas XI Saintek yang cocok dengan filter atau pencarian Anda.
+                        </p>
+                        <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 transition-all">
+                            Tampilkan Semua 14 Mapel CBT
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Mode 2: Tabel Ringkas CBT (Urut No 1 s.d. 14, 2 Mapel per Hari)
+            if (currentLayoutMode === 'table') {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="bg-slate-50 border-b border-slate-200 px-5 py-3.5 flex items-center justify-between flex-wrap gap-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-table-list text-emerald-700"></i>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-slate-900">Tabel Urutan Jadwal Tes CBT Utama — Kelas XI SAINTEK</h3>
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">2 Mata Pelajaran / Hari</span>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/70">
+                                        <th class="py-3.5 px-4">Hari / Tanggal</th>
+                                        <th class="py-3.5 px-4">Sesi & Waktu (WITA)</th>
+                                        <th class="py-3.5 px-4">Mata Pelajaran (XI SAINTEK)</th>
+                                        <th class="py-3.5 px-4">Guru Penyusun Soal (SK)</th>
+                                        <th class="py-3.5 px-4">Status Kisi-Kisi</th>
+                                        <th class="py-3.5 px-4 text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                                    ${filtered.map(item => {
+                                        const hasFile = !!item.uploadedFile;
+                                        return `
+                                            <tr class="hover:bg-emerald-50/40 transition-colors">
+                                                <td class="py-3.5 px-4 font-bold text-slate-900 whitespace-nowrap">
+                                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold">
+                                                        Hari ${item.dayNumber} • ${item.dateLabel}
+                                                    </span>
+                                                </td>
+                                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                                    <div class="font-bold text-emerald-800">${item.session}</div>
+                                                    <div class="text-xs text-slate-500">${item.time}</div>
+                                                </td>
+                                                <td class="py-3.5 px-4">
+                                                    <div class="flex items-center gap-2.5">
+                                                        <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                                                            <i class="fa-solid ${item.icon}"></i>
+                                                        </div>
+                                                        <span class="font-display font-bold text-slate-900">${item.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="py-3.5 px-4 text-xs text-slate-600 max-w-xs">${item.compiler}</td>
+                                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                                    ${hasFile ? `
+                                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                                            <i class="fa-solid fa-file-circle-check text-emerald-600"></i> File (${getFileExtBadge(item.uploadedFile.name)})
+                                                        </span>
+                                                    ` : `
+                                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-sky-50 text-sky-800 border border-sky-200">
+                                                            <i class="fa-solid fa-list-check text-sky-600"></i> ${item.topics.length} Topik Materi
+                                                        </span>
+                                                    `}
+                                                </td>
+                                                <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                                                    <div class="inline-flex items-center gap-1.5">
+                                                        <button onclick="openKisiModal('${item.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-sm transition-all">
+                                                            <i class="fa-solid fa-book-open mr-1"></i>Buka Kisi-Kisi
+                                                        </button>
+                                                        <button onclick="quickAdminUploadForSubject('${item.id}')" class="p-1.5 rounded-xl bg-slate-100 hover:bg-emerald-100 text-slate-600 hover:text-emerald-800 border border-slate-200 text-xs transition-all" title="Upload File Kisi-Kisi (Admin)">
+                                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Mode 1 (Default): Kartu Per Hari (Hari 1 s.d. Hari 7, masing-masing 2 Mapel berdampingan)
+            const groups = [];
+            filtered.forEach(item => {
+                let g = groups.find(grp => grp.dayNumber === item.dayNumber);
+                if (!g) {
+                    g = { dayNumber: item.dayNumber, dayGroup: item.dayGroup, dateLabel: item.dateLabel, items: [] };
+                    groups.push(g);
+                }
+                g.items.push(item);
+            });
+
+            container.innerHTML = groups.map(group => {
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+                        <!-- Group Day Header -->
+                        <div class="bg-gradient-to-r from-slate-50 via-emerald-50/40 to-slate-50 border-b border-slate-200 px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white font-display font-extrabold text-sm flex items-center justify-center shadow-sm shrink-0">
+                                    H-${group.dayNumber}
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">TES CBT UTAMA • KELAS XI SAINTEK</div>
+                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-slate-900">${group.dayGroup}</h3>
+                                </div>
+                            </div>
+                            <span class="self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold border bg-emerald-100 text-emerald-800 border-emerald-300">
+                                <i class="fa-solid fa-desktop mr-1"></i>${group.items.length} Sesi Ujian CBT
+                            </span>
+                        </div>
+
+                        <!-- 2 Cards per Day (Sesi 1 & Sesi 2) -->
+                        <div class="p-4 sm:p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${group.items.map(item => buildSubjectCardHTML(item)).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buildSubjectCardHTML(item) {
+            const hasFile = !!item.uploadedFile;
+
+            const statusBadge = hasFile
+                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <i class="fa-solid fa-file-circle-check text-emerald-600"></i> File Kisi-Kisi (${getFileExtBadge(item.uploadedFile.name)})
+                   </span>`
+                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-sky-50 text-sky-800 border border-sky-200">
+                        <i class="fa-solid fa-list-check text-sky-600"></i> Ringkasan Materi Tersedia
+                   </span>`;
+
+            return `
+                <div class="group rounded-2xl border border-slate-200 hover:border-emerald-500/80 bg-white p-4 sm:p-5 transition-all hover:shadow-md flex flex-col justify-between gap-4">
+                    <div class="space-y-3">
+                        <!-- Top Badges Row -->
+                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold border bg-emerald-50 text-emerald-800 border-emerald-200">
+                                <i class="fa-regular fa-clock mr-1"></i>${item.session} • ${item.time}
+                            </span>
+                            ${statusBadge}
+                        </div>
+
+                        <!-- Subject Title & Icon -->
+                        <div class="flex items-start gap-3.5 pt-1">
+                            <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg shrink-0 font-bold">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Mapel CBT #${item.orderNo} • XI SAINTEK</div>
+                                <h4 class="font-display font-extrabold text-base sm:text-lg text-slate-900 group-hover:text-emerald-800 transition-colors leading-snug">
+                                    ${item.name}
+                                </h4>
+                                <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                                    <span><i class="fa-regular fa-calendar text-slate-400 mr-1"></i>${item.dateLabel}</span>
+                                    <span>•</span>
+                                    <span class="font-semibold text-emerald-700">${item.model}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Compiler & Preview of Topics -->
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 space-y-1.5">
+                            <div class="text-[11px] text-slate-500 flex items-start gap-1.5">
+                                <i class="fa-solid fa-user-pen text-emerald-700 mt-0.5"></i>
+                                <span>Penyusun Soal: <strong class="text-slate-700">${item.compiler}</strong></span>
+                            </div>
+                            <div class="text-xs text-slate-600 line-clamp-2">
+                                <span class="font-semibold text-slate-700">Kisi-Kisi:</span> ${item.topics.slice(0, 2).join(' • ')}...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Actions Footer -->
+                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button
+                            onclick="openKisiModal('${item.id}')"
+                            class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                        >
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>Buka Kisi-Kisi (${item.topics.length} Topik)</span>
+                        </button>
+                        <button
+                            onclick="quickAdminUploadForSubject('${item.id}')"
+                            title="Upload / Edit File Kisi-Kisi (Admin)"
+                            class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-800 border border-slate-200 text-xs font-semibold transition-all flex items-center gap-1"
+                        >
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span class="hidden sm:inline">Upload</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterKisiStatus').value = 'ALL';
+            setDayFilter('ALL');
+        }
+
+        function getFileExtBadge(filename) {
+            if (!filename) return 'FILE';
+            const ext = filename.split('.').pop().toUpperCase();
+            return ext.length <= 5 ? ext : 'FILE';
+        }
+
+        function formatBytes(bytes) {
+            if (!bytes || bytes === 0) return '0 KB';
+            const k = 1024;
+            if (bytes < k) return bytes + ' B';
+            const kb = (bytes / k).toFixed(1);
+            if (bytes < k * k) return kb + ' KB';
+            return (bytes / (k * k)).toFixed(2) + ' MB';
+        }
+
+        // ==================== MODAL KISI-KISI VIEWER ====================
+        function openKisiModal(subjectId, defaultTab = 'topics') {
+            const item = getSubjectData(subjectId);
+            if (!item) return;
+            activeModalSubjectId = subjectId;
+
+            document.getElementById('modalCategoryBadge').textContent = item.category === 'PRAKTIK' ? 'UJIAN PRAKTIK / PENUGASAN' : `TES CBT UTAMA • ${item.session.toUpperCase()}`;
+            document.getElementById('modalSubjectTitle').textContent = item.name;
+            document.getElementById('modalScheduleInfo').innerHTML = `<i class="fa-regular fa-calendar mr-1.5 text-amber-300"></i>${item.dayGroup}`;
+            document.getElementById('modalTimeInfo').innerHTML = `<i class="fa-regular fa-clock mr-1.5 text-amber-300"></i>${item.time}`;
+            document.getElementById('modalTeacherInfo').innerHTML = `<i class="fa-solid fa-chalkboard-user mr-1.5 text-amber-300"></i>${item.compiler}`;
+
+            document.getElementById('modalExamFormat').textContent = item.examFormat;
+            document.getElementById('modalCompilerDetail').textContent = item.compiler;
+            document.getElementById('modalNotesText').textContent = item.notes;
+
+            // Render Topics List
+            const topicsListEl = document.getElementById('modalTopicsList');
+            topicsListEl.innerHTML = item.topics.map((t, idx) => `
+                <li class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-700 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+                    <span class="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">${escapeHtml(t)}</span>
+                </li>
+            `).join('');
+
+            // Update File Tab Badge & Viewer
+            const fileBadge = document.getElementById('modalFileTabBadge');
+            if (item.uploadedFile) {
+                fileBadge.textContent = getFileExtBadge(item.uploadedFile.name);
+                fileBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-600 text-white';
+            } else {
+                fileBadge.textContent = 'Belum Ada';
+                fileBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-600';
+            }
+
+            renderModalFileViewer(item);
+
+            document.getElementById('kisiModal').classList.remove('hidden');
+            switchModalTab(defaultTab);
+        }
+
+        function renderModalFileViewer(item) {
+            const container = document.getElementById('modalFileViewerContainer');
+            const file = item.uploadedFile;
+
+            if (!file) {
+                container.innerHTML = `
+                    <div class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-200/70 text-slate-500 flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-regular fa-folder-open"></i>
+                        </div>
+                        <div class="space-y-1 max-w-md mx-auto">
+                            <h4 class="font-display font-bold text-base text-slate-800">Belum Ada File Dokumen yang Diupload Admin</h4>
+                            <p class="text-xs sm:text-sm text-slate-500">
+                                Siswa dapat mempelajari poin-poin kisi-kisi pada tab <strong>Pokok Bahasan & Kisi-Kisi</strong>. Jika Anda adalah Admin/Guru, silakan unggah file PDF/Gambar kisi-kisi untuk mata pelajaran <strong>${escapeHtml(item.name)}</strong>.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-center gap-2.5 flex-wrap">
+                            <button onclick="switchModalTab('topics')" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-100">
+                                <i class="fa-solid fa-list-check mr-1.5"></i>Lihat Pokok Bahasan
+                            </button>
+                            <button onclick="jumpToAdminUploadFromModal()" class="px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 shadow-sm">
+                                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>Upload File Kisi-Kisi (Admin)
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Build preview according to file type
+            let previewHTML = '';
+            const mime = (file.type || '').toLowerCase();
+            const lowerName = (file.name || '').toLowerCase();
+
+            if (mime.includes('image/') || lowerName.endsWith('.png') || lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg') || lowerName.endsWith('.webp')) {
+                previewHTML = `
+                    <div class="bg-slate-900 rounded-2xl p-3 flex items-center justify-center overflow-auto max-h-[55vh]">
+                        <img src="${file.dataUrl}" alt="${escapeHtml(file.name)}" class="max-w-full h-auto rounded-xl shadow-lg">
+                    </div>
+                `;
+            } else if (mime.includes('pdf') || lowerName.endsWith('.pdf')) {
+                previewHTML = `
+                    <div class="w-full h-[55vh] rounded-2xl overflow-hidden border border-slate-300 bg-slate-100">
+                        <iframe src="${file.dataUrl}" class="w-full h-full" title="Preview PDF Kisi-Kisi"></iframe>
+                    </div>
+                `;
+            } else if (mime.includes('text/') || lowerName.endsWith('.txt')) {
+                const decodedText = decodeDataUrlText(file.dataUrl);
+                previewHTML = `
+                    <div class="bg-slate-900 text-emerald-100 font-mono text-xs sm:text-sm p-4 rounded-2xl overflow-auto max-h-[50vh] whitespace-pre-wrap leading-relaxed border border-slate-700">${escapeHtml(decodedText)}</div>
+                `;
+            } else {
+                previewHTML = `
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-2">
+                        <i class="fa-solid fa-file-word text-4xl text-sky-600"></i>
+                        <p class="text-sm font-bold text-slate-800">File Dokumen Siap Diunduh</p>
+                        <p class="text-xs text-slate-500">Format file <strong>${escapeHtml(file.name)}</strong> dapat langsung diunduh ke perangkat Anda melalui tombol Unduh di bawah.</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-700 text-white flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-slate-900 truncate">${escapeHtml(file.name)}</p>
+                            <p class="text-xs text-slate-500">Ukuran: ${formatBytes(file.size)} • Diunggah: ${file.uploadedAt || 'Baru saja'}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="${file.dataUrl}" download="${escapeHtml(file.name)}" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-download"></i> Unduh File Kisi-Kisi
+                        </a>
+                    </div>
+                </div>
+                ${previewHTML}
+            `;
+        }
+
+        function decodeDataUrlText(dataUrl) {
+            try {
+                const base64 = dataUrl.split(',')[1];
+                return decodeURIComponent(escape(atob(base64)));
+            } catch (e) {
+                return 'Tidak dapat menampilkan pratinjau teks. Silakan klik tombol Unduh File.';
+            }
+        }
+
+        function switchModalTab(tab) {
+            const tabTopics = document.getElementById('modalTabTopics');
+            const tabFile = document.getElementById('modalTabFile');
+            const contentTopics = document.getElementById('modalContentTopics');
+            const contentFile = document.getElementById('modalContentFile');
+
+            if (tab === 'topics') {
+                tabTopics.className = 'px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-emerald-700 text-emerald-800 transition-all flex items-center gap-2';
+                tabFile.className = 'px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2';
+                contentTopics.classList.remove('hidden');
+                contentFile.classList.add('hidden');
+            } else {
+                tabFile.className = 'px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-emerald-700 text-emerald-800 transition-all flex items-center gap-2';
+                tabTopics.className = 'px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2';
+                contentFile.classList.remove('hidden');
+                contentTopics.classList.add('hidden');
+            }
+        }
+
+        function closeKisiModal() {
+            document.getElementById('kisiModal').classList.add('hidden');
+        }
+
+        function copyKisiText() {
+            if (!activeModalSubjectId) return;
+            const item = getSubjectData(activeModalSubjectId);
+            if (!item) return;
+
+            const text = [
+                `KISI-KISI MATERI ASAS GANJIL 2026/2027 - MAN 2 MATARAM`,
+                `Kelas: XI SAINTEK`,
+                `Mata Pelajaran: ${item.name}`,
+                `Jadwal: ${item.dayGroup} (${item.time})`,
+                `Penyusun Soal: ${item.compiler}`,
+                `Bentuk Ujian: ${item.examFormat}`,
+                ``,
+                `POKOK BAHASAN / KISI-KISI:`,
+                ...item.topics.map((t, i) => `${i + 1}. ${t}`),
+                ``,
+                `Catatan: ${item.notes}`
+            ].join('\n');
+
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+
+            showToast(`Ringkasan kisi-kisi ${item.name} berhasil disalin!`, 'success');
+        }
+
+        // ==================== ADMIN AUTH & VIEW SWITCHING ====================
+        function switchViewMode(mode) {
+            currentViewMode = mode;
+            const studentView = document.getElementById('studentView');
+            const adminView = document.getElementById('adminView');
+            const btnSiswa = document.getElementById('btnModeSiswa');
+            const btnAdmin = document.getElementById('btnModeAdmin');
+
+            if (mode === 'student') {
+                studentView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                btnSiswa.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-700 text-white shadow-sm';
+                btnAdmin.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300';
+                renderSchedule();
+            } else {
+                studentView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                btnAdmin.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-700 text-white shadow-sm';
+                btnSiswa.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300';
+                renderAdminPanel();
+            }
+        }
+
+        function handleAdminAccess(targetSubjectId = null) {
+            if (isAdminAuthenticated) {
+                switchViewMode('admin');
+                if (targetSubjectId) {
+                    document.getElementById('adminSelectSubject').value = targetSubjectId;
+                    populateAdminFormForSubject();
+                }
+                return;
+            }
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('pinErrorMsg').classList.add('hidden');
+            document.getElementById('pinModal').dataset.targetSubject = targetSubjectId || '';
+            document.getElementById('pinModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+        }
+
+        function closePinModal() {
+            document.getElementById('pinModal').classList.add('hidden');
+        }
+
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('adminPinInput').value.trim();
+            if (pin === '1234') {
+                instantAdminLogin();
+            } else {
+                document.getElementById('pinErrorMsg').classList.remove('hidden');
+            }
+        }
+
+        function instantAdminLogin() {
+            isAdminAuthenticated = true;
+            document.getElementById('adminUnlockedBadge').classList.remove('hidden');
+            const targetSubject = document.getElementById('pinModal').dataset.targetSubject;
+            closePinModal();
+            switchViewMode('admin');
+            if (targetSubject) {
+                document.getElementById('adminSelectSubject').value = targetSubject;
+                populateAdminFormForSubject();
+            }
+            showToast('Berhasil masuk ke Panel Admin Kisi-Kisi XI Saintek.', 'success');
+        }
+
+        function quickAdminUploadForSubject(subjectId) {
+            handleAdminAccess(subjectId);
+        }
+
+        function jumpToAdminUploadFromModal() {
+            const subjId = activeModalSubjectId;
+            closeKisiModal();
+            handleAdminAccess(subjId);
+        }
+
+        // ==================== PANEL ADMIN LOGIC ====================
+        function initAdminSubjectDropdown() {
+            const select = document.getElementById('adminSelectSubject');
+            select.innerHTML = DEFAULT_SUBJECTS_XI_SAINTEK.map(s => {
+                return `<option value="${s.id}">${s.orderNo}. ${s.name} — [${s.dateLabel} • ${s.time}]</option>`;
+            }).join('');
+        }
+
+        function renderAdminPanel() {
+            updateStatsHeader();
+            populateAdminFormForSubject();
+            renderAdminTable();
+        }
+
+        function populateAdminFormForSubject() {
+            const select = document.getElementById('adminSelectSubject');
+            const subjectId = select.value || DEFAULT_SUBJECTS_XI_SAINTEK[0].id;
+            const item = getSubjectData(subjectId);
+            if (!item) return;
+
+            document.getElementById('adminSubjectMeta').innerHTML = `
+                <i class="fa-regular fa-calendar mr-1 text-emerald-700"></i><strong>${item.dayGroup}</strong> (${item.time}) • Penyusun: <strong>${item.compiler}</strong>
+            `;
+            document.getElementById('adminTopicsInput').value = item.topics.join('\n');
+            document.getElementById('adminExamFormatInput').value = item.examFormat;
+            document.getElementById('adminNotesInput').value = item.notes;
+
+            pendingFileUpload = item.uploadedFile ? { ...item.uploadedFile } : null;
+            updateDropZoneUI();
+        }
+
+        function updateDropZoneUI() {
+            const emptyBox = document.getElementById('dropZoneEmpty');
+            const previewBox = document.getElementById('dropZonePreview');
+
+            if (!pendingFileUpload) {
+                emptyBox.classList.remove('hidden');
+                previewBox.classList.add('hidden');
+                document.getElementById('adminFileInput').value = '';
+            } else {
+                emptyBox.classList.add('hidden');
+                previewBox.classList.remove('hidden');
+                document.getElementById('previewFileName').textContent = pendingFileUpload.name;
+                document.getElementById('previewFileSize').textContent = `${formatBytes(pendingFileUpload.size)} • Siap disimpan`;
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.add('border-emerald-600', 'bg-emerald-50');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.remove('border-emerald-600', 'bg-emerald-50');
+        }
+
+        function handleFileDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.remove('border-emerald-600', 'bg-emerald-50');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                processUploadedFile(e.dataTransfer.files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            if (e.target.files && e.target.files[0]) {
+                processUploadedFile(e.target.files[0]);
+            }
+        }
+
+        function processUploadedFile(file) {
+            if (file.size > 15 * 1024 * 1024) {
+                showToast('Ukuran file melebihi batas 15 MB.', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const nowStr = new Date().toLocaleDateString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+                pendingFileUpload = {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type || 'application/octet-stream',
+                    dataUrl: ev.target.result,
+                    uploadedAt: nowStr
+                };
+                updateDropZoneUI();
+                showToast(`File "${file.name}" berhasil dipilih. Klik Simpan untuk mempublikasikan.`, 'info');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearSelectedFile(e) {
+            if (e) e.stopPropagation();
+            pendingFileUpload = null;
+            updateDropZoneUI();
+        }
+
+        // Generator File Gambar Lembar Kisi-Kisi Resmi (Canvas -> PNG DataURL) agar Admin bisa mencoba fitur upload 1-klik
+        function createSampleKisiImageFile(item) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 900;
+            canvas.height = 1150;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Header Banner
+            ctx.fillStyle = '#064e3b';
+            ctx.fillRect(0, 0, canvas.width, 165);
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 18px sans-serif';
+            ctx.fillText('KEMENTERIAN AGAMA REPUBLIK INDONESIA • MAN 2 MATARAM', 45, 50);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 28px sans-serif';
+            ctx.fillText('LEMBAR KISI-KISI ASESMEN SUMATIF AKHIR SEMESTER', 45, 92);
+
+            ctx.fillStyle = '#a7f3d0';
+            ctx.font = '18px sans-serif';
+            ctx.fillText('TAHUN PELAJARAN 2026/2027 • KHUSUS KELAS XI SAINTEK (11 SAINTEK 1-4)', 45, 130);
+
+            // Metadata Box
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(45, 195, 810, 175);
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(45, 195, 810, 175);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 24px sans-serif';
+            ctx.fillText(`Mata Pelajaran : ${item.name}`, 65, 238);
+
+            ctx.font = '18px sans-serif';
+            ctx.fillStyle = '#334155';
+            ctx.fillText(`Jadwal Ujian     : ${item.dayGroup} (${item.time})`, 65, 275);
+            ctx.fillText(`Guru Penyusun : ${item.compiler}`, 65, 310);
+            ctx.fillText(`Bentuk Ujian    : ${item.examFormat}`, 65, 345);
+
+            // Topics Title
+            ctx.fillStyle = '#065f46';
+            ctx.font = 'bold 22px sans-serif';
+            ctx.fillText('POKOK BAHASAN & INDIKATOR MATERI UJIAN:', 45, 425);
+
+            let y = 470;
+            item.topics.forEach((topic, idx) => {
+                ctx.fillStyle = '#ecfdf5';
+                ctx.fillRect(45, y - 28, 810, 78);
+                ctx.strokeStyle = '#a7f3d0';
+                ctx.strokeRect(45, y - 28, 810, 78);
+
+                ctx.fillStyle = '#047857';
+                ctx.font = 'bold 18px sans-serif';
+                ctx.fillText(`${idx + 1}.`, 62, y + 5);
+
+                ctx.fillStyle = '#0f172a';
+                ctx.font = '17px sans-serif';
+                const words = topic.split(' ');
+                let line = '';
+                let lineY = y + 2;
+                words.forEach(w => {
+                    const testLine = line + w + ' ';
+                    if (ctx.measureText(testLine).width > 730) {
+                        ctx.fillText(line, 95, lineY);
+                        line = w + ' ';
+                        lineY += 24;
+                    } else {
+                        line = testLine;
+                    }
+                });
+                ctx.fillText(line, 95, lineY);
+                y += 96;
+            });
+
+            // Footer Note
+            ctx.fillStyle = '#fffbeb';
+            ctx.fillRect(45, 970, 810, 110);
+            ctx.strokeStyle = '#fde68a';
+            ctx.strokeRect(45, 970, 810, 110);
+
+            ctx.fillStyle = '#92400e';
+            ctx.font = 'bold 17px sans-serif';
+            ctx.fillText('Catatan Persiapan Siswa XI Saintek:', 65, 1005);
+            ctx.font = '16px sans-serif';
+            ctx.fillText(item.notes.substring(0, 95), 65, 1035);
+            if (item.notes.length > 95) {
+                ctx.fillText(item.notes.substring(95, 190), 65, 1060);
+            }
+
+            const dataUrl = canvas.toDataURL('image/png');
+            const cleanName = item.name.replace(/[^a-zA-Z0-9]/g, '_');
+            return {
+                name: `Kisi_Kisi_ASAS_XI_Saintek_${cleanName}.png`,
+                size: Math.round(dataUrl.length * 0.75),
+                type: 'image/png',
+                dataUrl: dataUrl,
+                uploadedAt: new Date().toLocaleDateString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                })
+            };
+        }
+
+        function attachDemoFileToForm() {
+            const subjectId = document.getElementById('adminSelectSubject').value;
+            const item = getSubjectData(subjectId);
+            if (!item) return;
+            pendingFileUpload = createSampleKisiImageFile(item);
+            updateDropZoneUI();
+            showToast(`File lembar kisi-kisi contoh untuk ${item.name} siap disimpan!`, 'info');
+        }
+
+        async function saveAdminKisi(e) {
+            e.preventDefault();
+            const subjectId = document.getElementById('adminSelectSubject').value;
+            const rawTopics = document.getElementById('adminTopicsInput').value;
+            const topics = rawTopics.split('\n').map(t => t.trim()).filter(Boolean);
+            const examFormat = document.getElementById('adminExamFormatInput').value.trim();
+            const notes = document.getElementById('adminNotesInput').value.trim();
+
+            if (topics.length === 0) {
+                showToast('Harap isi minimal 1 pokok bahasan kisi-kisi.', 'error');
+                return;
+            }
+
+            const record = {
+                subjectId,
+                topics,
+                examFormat,
+                notes,
+                uploadedFile: pendingFileUpload,
+                updatedAt: new Date().toISOString()
+            };
+
+            await saveSubjectToDB(subjectId, record);
+            renderAdminTable();
+            updateStatsHeader();
+
+            const subj = getSubjectData(subjectId);
+            showToast(`Kisi-kisi "${subj.name}" berhasil disimpan & dipublikasikan!`, 'success');
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            const selectedId = document.getElementById('adminSelectSubject').value;
+
+            tbody.innerHTML = DEFAULT_SUBJECTS_XI_SAINTEK.map(s => {
+                const item = getSubjectData(s.id);
+                const isSelected = item.id === selectedId;
+                const hasFile = !!item.uploadedFile;
+
+                return `
+                    <tr class="${isSelected ? 'bg-emerald-50/70' : 'hover:bg-slate-50'} transition-colors">
+                        <td class="py-3 px-3 font-bold text-slate-500">${item.orderNo}</td>
+                        <td class="py-3 px-3">
+                            <div class="font-bold text-slate-900">${item.name}</div>
+                            <div class="text-[11px] text-slate-500">${item.compiler}</div>
+                        </td>
+                        <td class="py-3 px-3">
+                            <div class="font-semibold text-slate-800">Hari ${item.dayNumber} • ${item.dateLabel}</div>
+                            <div class="text-[11px] text-emerald-700 font-medium">${item.session} (${item.time})</div>
+                        </td>
+                        <td class="py-3 px-3">
+                            ${hasFile ? `
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                    <i class="fa-solid fa-check-circle text-emerald-600"></i>
+                                    <span class="truncate max-w-[140px]">${escapeHtml(item.uploadedFile.name)}</span>
+                                </div>
+                            ` : `
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
+                                    <i class="fa-regular fa-file"></i> Belum Ada File
+                                </span>
+                            `}
+                        </td>
+                        <td class="py-3 px-3 text-right whitespace-nowrap">
+                            <div class="inline-flex items-center gap-1.5">
+                                <button
+                                    onclick="selectSubjectInAdmin('${item.id}')"
+                                    class="px-2.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-all"
+                                >
+                                    <i class="fa-solid fa-pen-to-square mr-1"></i>Pilih / Upload
+                                </button>
+                                <button
+                                    onclick="openKisiModal('${item.id}', '${hasFile ? 'file' : 'topics'}')"
+                                    class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-all"
+                                    title="Lihat Kisi-Kisi"
+                                >
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                ${hasFile ? `
+                                    <button
+                                        onclick="removeSingleSubjectFile('${item.id}')"
+                                        class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold transition-all"
+                                        title="Hapus File Upload"
+                                    >
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function selectSubjectInAdmin(subjectId) {
+            const select = document.getElementById('adminSelectSubject');
+            select.value = subjectId;
+            populateAdminFormForSubject();
+            renderAdminTable();
+            document.getElementById('adminUploadForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function removeSingleSubjectFile(subjectId) {
+            await deleteSubjectFromDB(subjectId);
+            populateAdminFormForSubject();
+            renderAdminTable();
+            updateStatsHeader();
+            showToast('File lampiran kisi-kisi berhasil dihapus & dikembalikan ke default.', 'info');
+        }
+
+        async function generateAllSampleFiles() {
+            for (const s of DEFAULT_SUBJECTS_XI_SAINTEK) {
+                const item = getSubjectData(s.id);
+                const sampleFile = createSampleKisiImageFile(item);
+                await saveSubjectToDB(s.id, {
+                    subjectId: s.id,
+                    topics: item.topics,
+                    examFormat: item.examFormat,
+                    notes: item.notes,
+                    uploadedFile: sampleFile,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+            populateAdminFormForSubject();
+            renderAdminTable();
+            updateStatsHeader();
+            showToast('14 File Lembar Kisi-Kisi CBT Kelas XI Saintek berhasil digenerate!', 'success');
+        }
+
+        // ==================== CONFIRMATION MODAL & TOAST ====================
+        function confirmResetAllFiles() {
+            const modal = document.getElementById('confirmModal');
+            document.getElementById('confirmModalTitle').textContent = 'Reset Semua File Upload Kisi-Kisi?';
+            document.getElementById('confirmModalDesc').textContent = 'Semua file dokumen kisi-kisi yang telah diupload akan dihapus dan dikembalikan ke ringkasan kisi-kisi bawaan Kelas XI Saintek.';
+            const btn = document.getElementById('confirmModalActionBtn');
+            btn.onclick = async () => {
+                await clearAllDB();
+                closeConfirmModal();
+                populateAdminFormForSubject();
+                renderAdminTable();
+                updateStatsHeader();
+                showToast('Seluruh data kisi-kisi berhasil direset ke pengaturan awal.', 'info');
+            };
+            modal.classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+
+            const styles = {
+                success: 'bg-emerald-900 text-white border-emerald-700',
+                error: 'bg-rose-900 text-white border-rose-700',
+                info: 'bg-slate-900 text-white border-slate-700'
+            };
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-exclamation text-rose-400',
+                info: 'fa-circle-info text-amber-400'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${styles[type] || styles.success}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.success} text-base shrink-0"></i>
+                <span class="flex-1">${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3400);
+        }
+
+        function escapeHtml(str) {
+        function openSupervisorInfoModal() {
+            document.getElementById('supervisorModal').classList.remove('hidden');
+        }
+
+        function closeSupervisorInfoModal() {
+            document.getElementById('supervisorModal').classList.add('hidden');
+        }
+
+        // ==================== INITIALIZE ON LOAD ====================
+        window.addEventListener('DOMContentLoaded', async () => {
+            initAdminSubjectDropdown();
+            await initDatabase();
+            renderSchedule();
+        });
+    </script>
+</body>
+</html>
